@@ -15,5 +15,4 @@
 ## Yara
  - create review page seen by reviewer (a filled-in application form)
  - create applicant entity list page seen by reviewer
- - write algorithm to decide final decision based on reviews and status
  - create applicant status page / homepage
