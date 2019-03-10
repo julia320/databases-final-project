@@ -3,7 +3,10 @@
     Application Form
   </title>
   <style>
-    
+    div {
+      margin: 70px;
+      border: 1px solid #4CAF50;
+    }
   </style>
   <body>
     <h1> Application Form </h1>
@@ -12,14 +15,14 @@
       
       Test Scores: <br>
       GRE<br>
-      Verbal<input type="text" name="verbal"><br>
-      Quantitative<input type="text" name="quantitative"><br>
-      Year of exam<input type="text" name="year"><br><br>
+      Verbal <div><input type="text" name="verbal"></div><br>
+      Quantitative <div><input type="text" name="quantitative"></div><br>
+      Year of exam <div><input type="text" name="year"></div><br><br>
       GRE advanced <br>
-      Score<input type="text" name="advScore"><br>
-      Subject<input type="text" name="subject"><br><br>
-      TOEFL Score<input type="text" name="toefl"><br>
-      Year of exam<input type="text" name="advYear"><br><br>
+      Score <div><input type="text" name="advScore"></div><br>
+      Subject <div><input type="text" name="subject"></div><br><br>
+      TOEFL Score <div><input type="text" name="toefl"></div><br>
+      Year of exam <div><input type="text" name="advYear"></div><br><br>
 
 
       
