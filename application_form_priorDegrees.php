@@ -18,12 +18,10 @@
   <body>
     
     <form method="post">
-      Degree Type <span><input list="type" name="type">
-      <datalist id="type">
-        <option value="MS">
-        <option value="BS">
-        <option value="BA">
-      </datalist></span>
+      Degree Type <br>
+      <input type="radio" name="type" value="MS" checked> MS<br>
+      <input type="radio" name="type" value="BS"> BS<br>
+      <input type="radio" name="type" value="BA"> BA <br>
       GPA <span><input type="text" name="gpa"></span><br>
       Year <span><input type="text" name="year"></span><br>
       University<span><input type="text" name="university"></span><br><br>
