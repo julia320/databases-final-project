@@ -13,7 +13,6 @@
     <form method="post">
       What degree are you applying for? (MS/PhD) <input type="text" name="degreeType"><br><br>
       
-      Test Scores: <br>
       GRE<br>
       Verbal <span><input type="text" name="verbal"></span><br>
       Quantitative <span><input type="text" name="quantitative"></span><br>
@@ -24,6 +23,8 @@
       TOEFL Score <span><input type="text" name="toefl"></span><br>
       Year of exam <span><input type="text" name="advYear"></span><br><br>
 
+      Areas of Interest <span><input type="text" name="aoi"></span><br>
+      Experience <span><input type="text" name="experience"></span><br>
 
       
     </form>
