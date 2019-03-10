@@ -1,14 +1,19 @@
 <html>
+  
   <title>
     Application Form
   </title>
+  
   <style>
     span {
       position: absolute;
       left: 140px;
     }
+    body{line-height: 1.6;}
   </style>
+  
   <body>
+    
     <h1> Application Form </h1>
     <form method="post">
       What degree are you applying for? (MS/PhD) <input type="text" name="degreeType"><br><br>
@@ -24,11 +29,8 @@
       Year of exam <span><input type="text" name="advYear"></span><br><br>
 
       Areas of Interest <span><input type="text" name="aoi"></span><br>
-      Experience <span><input type="text" name="experience"></span><br>
-
-      
+      Experience <span><input type="text" name="experience"></span>
     </form>
       
   </body>
 </html>
-
