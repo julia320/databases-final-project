@@ -4,7 +4,8 @@
   </title>
   <style>
     div {
-      margin-right: 70px;
+      margin-left: 50px;
+      background-color: lightblue;
     }
   </style>
   <body>
