@@ -26,6 +26,7 @@
       Year <span><input type="text" name="year"></span><br>
       University<span><input type="text" name="university"></span><br><br>
       
+      <!-- make it go at bottom of page -->
       <input type="submit" name="submit" value="Submit"> 
     </form>
    
