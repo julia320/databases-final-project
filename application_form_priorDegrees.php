@@ -19,7 +19,7 @@
     
     <form method="post">
       Degree Type <span><input list="browsers" name="type">
-      <datalist id="browsers">
+      <datalist id="type">
         <option value="MS">
         <option value="BS">
         <option value="BA">
