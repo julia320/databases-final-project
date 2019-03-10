@@ -28,6 +28,23 @@
       
       <input type="submit" name="submit" value="Submit"> 
     </form>
+   
+    <form method="post">
+      <input type="submit" name="another" value="Add Another Degree"><br>
+      <?php
+        if (isset($_POST["another"])){
+          $form = '<hr><form method="post">
+                   Degree Type <br>
+                   <input type="radio" name="type" value="MS" checked> MS<br>
+                   <input type="radio" name="type" value="BS"> BS<br>
+                   <input type="radio" name="type" value="BA"> BA <br>
+                   GPA <span><input type="text" name="gpa"></span><br>
+                   Year <span><input type="text" name="year"></span><br>
+                   University<span><input type="text" name="university"></span>></form>';
+          echo $form;
+        }
+      ?>
+    </form>
       
   </body>
 </html>
