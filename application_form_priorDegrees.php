@@ -18,7 +18,7 @@
   <body>
     
     <form method="post">
-      Degree type (MS,BS, or BA)<span><input type="text" name="type"></span><br>
+      Degree type <br>(MS,BS, or BA)<span><input type="text" name="type"></span><br>
       GPA <span><input type="text" name="gpa"></span><br>
       Year <span><input type="text" name="year"></span><br>
       University<span><input type="text" name="university"></span><br><br>
