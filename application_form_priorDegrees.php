@@ -18,8 +18,8 @@
   <body>
     
     <form method="post">
-      Degree Type <span><input list="degrees" name="type">
-      <datalist id="degrees">
+      Degree Type <span><input list="type" name="type">
+      <datalist id="type">
         <option value="MS">
         <option value="BS">
         <option value="BA">
