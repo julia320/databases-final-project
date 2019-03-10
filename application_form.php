@@ -12,10 +12,10 @@
     body{line-height: 1.6;}
   </style>
   
+   <h1> Application Form </h1>
+   <h3> Page 1: Academic Info </h3><br>
+  
   <body>
-    
-    <h1> Application Form </h1><br>
-    <h3> Page 1: Academic Info </h3><br>
     
     <form method="post">
       What degree are you applying for? (MS/PhD) <input type="text" name="degreeType"><br><br>
