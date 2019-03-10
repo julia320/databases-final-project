@@ -5,7 +5,7 @@
   <style>
     span {
       position: absolute;
-      left: 70px;
+      left: 140px;
     }
   </style>
   <body>
