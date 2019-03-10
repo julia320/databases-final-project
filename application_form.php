@@ -4,7 +4,8 @@
   </title>
   <style>
     span {
-      margin-left: 50px;
+      position: absolute;
+      left: 70px;
     }
   </style>
   <body>
