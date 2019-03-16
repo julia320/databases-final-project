@@ -14,7 +14,7 @@ CREATE TABLE users (
   role varchar(3),
   fname char(15),
   lname char(15),
-  username varchar(10),
+  username varchar(20),
   password varchar(20),
   userID int(8),
   PRIMARY KEY (userID)
@@ -48,7 +48,7 @@ CREATE TABLE rec_letter  (
   lname char(15),
   email varchar(30),
   institution varchar(30),
-  uid int(8),
+  uid int,
   recID int,
   PRIMARY KEY (email),
   FOREIGN KEY (uid) REFERENCES users(userID)
@@ -58,7 +58,7 @@ CREATE TABLE rec_review (
   rating int,
   generic boolean,
   credible boolean,
-  uid int(8),
+  uid int,
   recID int,
   PRIMARY KEY (recID),
   FOREIGN KEY (uid) REFERENCES users(userID)
@@ -81,14 +81,14 @@ CREATE TABLE prior_degrees (
   gpa float,
   year int(4),
   university varchar(30),
-  uid int(8),
-  type char(3),
-  PRIMARY KEY (type, uid),
+  uid int,
+  deg_type char(3),
+  PRIMARY KEY (deg_type, uid),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
 CREATE TABLE application_info (
-  uid int(8),
+  uid int,
   status int,
   comments varchar(100),
   rating int,
@@ -104,14 +104,14 @@ CREATE TABLE application_info (
 -- insert admissions committee and first applicant
 INSERT INTO users VALUES 
 	-- Systems Administrator
-	("SA", "Sarah", "Hoffman", "shoffman", "admin123", 00000001),
+	("SA", "Sarah", "Hoffman", "shoffman", "admin123", 1),
 	-- Graduate Secretary
-	("GS", "John", "Lipton", "john_lipton", "password7", 00000002),
+	("GS", "John", "Lipton", "john_lipton", "password7", 2),
 	-- Faculty Reviewer
-	("FR", "Jennifer", "Clare", "jenclare", "mypetsname", 00000003),
+	("FR", "Jennifer", "Clare", "jenclare", "mypetsname", 3),
 	-- Chair of Admissions Comm
-	("CAC", "Mike", "Myers", "myers", "123456", 00000004),
+	("CAC", "Mike", "Myers", "myers", "123456", 4),
 	-- Applicant
-	("A", "Adrian", "Peters", "apeters", "plsletmein", 00000005);
+	("A", "Adrian", "Peters", "apeters", "plsletmein", 5);
 
 -- all other tables will be blank until application is submitted
