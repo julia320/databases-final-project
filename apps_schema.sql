@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS users CASCADE;
 
 -- create the tables
 CREATE TABLE users (
-  role varchar(10),
+  role varchar(3),
   fname char(15),
   lname char(15),
   username varchar(10),
@@ -101,7 +101,17 @@ CREATE TABLE application_info (
 );
 
 
--- insert data into the tables
+-- insert admissions committee and first applicant
 INSERT INTO users VALUES 
-	(),
-	();
+	-- Systems Administrator
+	("SA", "Sarah", "Hoffman", "shoffman", "admin123", 00000001),
+	-- Graduate Secretary
+	("GS", "John", "Lipton", "john_lipton", "password7", 00000002),
+	-- Faculty Reviewer
+	("FR", "Jennifer", "Clare", "jenclare", "mypetsname", 00000003),
+	-- Chair of Admissions Comm
+	("CAC", "Mike", "Myers", "myers", "123456", 00000004),
+	-- Applicant
+	("A", "Adrian", "Peters", "apeters", "plsletmein", 00000005);
+
+-- all other tables will be blank until application is submitted
