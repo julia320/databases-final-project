@@ -11,28 +11,28 @@ DROP TABLE IF EXISTS users CASCADE;
 
 -- create the tables
 CREATE TABLE users (
-  role varchar(3),
-  fname char(15),
-  lname char(15),
-  username varchar(20),
-  password varchar(20),
-  email varchar(50),
-  userID int(8),
+  role varchar(3) NOT NULL,
+  fname char(15) NOT NULL,
+  lname char(15) NOT NULL,
+  username varchar(20) NOT NULL,
+  password varchar(20) NOT NULL,
+  email varchar(50) NOT NULL,
+  userID int(8) NOT NULL,
   PRIMARY KEY (userID)
 );
 
 CREATE TABLE personal_info (
-  finame char(15),
-  lname char(15),
-  uid int(8),
-  address varchar(50),
-  ssn int(9),
+  fname char(15) NOT NULL,
+  lname char(15) NOT NULL,
+  uid int(8) NOT NULL,
+  address varchar(50) NOT NULL,
+  ssn int(9) NOT NULL,
   PRIMARY KEY (uid),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
 CREATE TABLE academic_info (
-  uid int(8),
+  uid int(8) NOT NULL,
   degreeType char(3),
   AOI varchar(30),
   experience varchar(100),
@@ -45,12 +45,12 @@ CREATE TABLE academic_info (
 );
 
 CREATE TABLE rec_letter  (
-  fname char(15),
-  lname char(15),
-  email varchar(30),
-  institution varchar(30),
-  uid int,
-  recID int,
+  fname char(15) NOT NULL,
+  lname char(15) NOT NULL,
+  email varchar(30) NOT NULL,
+  institution varchar(30) NOT NULL,
+  uid int(8) NOT NULL,
+  recID int NOT NULL,
   PRIMARY KEY (email),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
@@ -59,7 +59,7 @@ CREATE TABLE rec_review (
   rating int,
   generic boolean,
   credible boolean,
-  uid int,
+  uid int(8) NOT NULL,
   recID int,
   PRIMARY KEY (recID),
   FOREIGN KEY (uid) REFERENCES users(userID)
@@ -73,7 +73,7 @@ CREATE TABLE gre (
   subject varchar(15),
   toefl int,
   advYear int,
-  uid int,
+  uid int(8) NOT NULL,
   PRIMARY KEY (uid),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
@@ -82,15 +82,15 @@ CREATE TABLE prior_degrees (
   gpa float,
   year int(4),
   university varchar(30),
-  uid int,
+  uid int(8) NOT NULL,
   deg_type char(3),
   PRIMARY KEY (deg_type, uid),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
 CREATE TABLE application_info (
-  uid int,
-  status int,
+  uid int(8) NOT NULL,
+  status int NOT NULL,
   comments varchar(100),
   rating int,
   deficiency varchar(20),
