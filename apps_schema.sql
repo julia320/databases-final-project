@@ -16,6 +16,7 @@ CREATE TABLE users (
   lname char(15),
   username varchar(20),
   password varchar(20),
+  email varchar(50),
   userID int(8),
   PRIMARY KEY (userID)
 );
@@ -104,14 +105,14 @@ CREATE TABLE application_info (
 -- insert admissions committee and first applicant
 INSERT INTO users VALUES 
 	-- Systems Administrator
-	("SA", "Sarah", "Hoffman", "shoffman", "admin123", 1),
+	("SA", "Sarah", "Hoffman", "shoffman", "admin123", "sarah_hoffman@apps.edu", 1),
 	-- Graduate Secretary
-	("GS", "John", "Lipton", "john_lipton", "password7", 2),
+	("GS", "John", "Lipton", "john_lipton", "password7", "liptonj@gmail.com", 2),
 	-- Faculty Reviewer
-	("FR", "Jennifer", "Clare", "jenclare", "mypetsname", 3),
+	("FR", "Jennifer", "Clare", "jenclare", "mypetsname", "jenclare@gmail.com", 3),
 	-- Chair of Admissions Comm
-	("CAC", "Mike", "Myers", "myers", "123456", 4),
+	("CAC", "Mike", "Myers", "myers", "123456", "mmyers@aol.com", 4),
 	-- Applicant
-	("A", "Adrian", "Peters", "apeters", "plsletmein", 5);
+	("A", "Adrian", "Peters", "apeters", "plsletmein", "apeters@verizon.net", 5);
 
 -- all other tables will be blank until application is submitted
