@@ -22,7 +22,7 @@
     
     //field validations
     $appYearTest = $_POST["appYear"];
-    if (!preg_match("/^[0-9]+$/i",$appYearTest)) {
+    if (!preg_match("/^[0-9]+$/i",$appYearTest) && !empty($_POST["appYear"])) {
       $appYearErr = "Not a valid date"; 
     }
     
