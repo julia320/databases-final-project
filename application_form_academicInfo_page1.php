@@ -65,8 +65,7 @@
       <input type="radio" name="degreeType" value="MS" > MS<br>
       <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
   
-      Year <span><input type="text" name="appYear">  
-      <span class="error"><?php echo $appYearErr;?></span></span><br>
+      Year <span><input type="text" name="appYear"> <span class="error"><?php echo $appYearErr;?></span></span><br>
       
       Semester <br>
       <input type="radio" name="semester" value="fall"> Fall<br>
