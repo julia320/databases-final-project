@@ -9,11 +9,13 @@
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
   }
+
+  $somethingEmpty = "";
   
   if (isset($_POST['submit'])){
     //make sure all the data was entered properly
     if(count(array_filter($_POST))!=count($_POST)){
-      echo '<span class="error">Something is empty</span>';
+      $somethingEmpty = "One or more fields are missing";
     }
   }
   
@@ -71,7 +73,9 @@
       Areas of Interest <span><input type="text" name="aoi"></span><br>
       Experience <span><input type="text" name="experience"></span><br>
       
-      <div class="bottomCentered"><input type="submit" name="submit" value="Submit"></div> 
+      <div class="bottomCentered"><input type="submit" name="submit" value="Submit">
+      <span class="error">$somethingEmpty</span></div>
+      
     </form>
       
   </body>
