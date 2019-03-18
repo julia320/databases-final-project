@@ -10,6 +10,12 @@
       left: 140px;
     }
     body{line-height: 1.6;}
+    .bottomCentered{
+       position: fixed;   
+       text-align: center;
+       bottom: 30px;
+       width: 100%;
+    }
   </style>
   
    <h1> Application Form </h1>
@@ -33,7 +39,7 @@
       Areas of Interest <span><input type="text" name="aoi"></span><br>
       Experience <span><input type="text" name="experience"></span><br>
       
-      <input type="submit" name="submit" value="Submit"> 
+      <div class="bottomCentered"><input type="submit" name="submit" value="Submit"></div> 
     </form>
       
   </body>
