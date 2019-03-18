@@ -65,7 +65,7 @@
       <input type="radio" name="degreeType" value="MS" > MS<br>
       <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
   
-      Year <span class="field">><input type="text" name="appYear"><span class="error">
+      Year <span class="field"><input type="text" name="appYear"><span class="error">
       <?php echo " " . $appYearErr;?></span></span><br>
       
       Semester <br>
@@ -74,9 +74,9 @@
       <input type="radio" name="semester" value="summer"> Summer<br><br>
       
       GRE: <br>
-      Verbal <span class="field">><input type="text" name="verbal"></span><br>
-      Quantitative <span><input type="text" name="quantitative"></span><br>
-      Year of exam <span><input type="text" name="year"></span><br><br>
+      Verbal <span class="field"><input type="text" name="verbal"></span><br>
+      Quantitative <span class="field"><input type="text" name="quantitative"></span><br>
+      Year of exam <span class="field"><input type="text" name="year"></span><br><br>
       GRE advanced: <br>
       Score <span class="field"><input type="text" name="advScore"></span><br>
       Subject <span class="field"><input type="text" name="subject"></span><br><br>
