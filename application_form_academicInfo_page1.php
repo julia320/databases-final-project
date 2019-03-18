@@ -23,7 +23,7 @@
   
   <body>
     
-      <form id="mainform" action="application_form_priorDegrees.php" method="post">
+      <form id="mainform" action="application_form_priorDegrees_page2.php" method="post">
       What degree are you applying for? (MS/PhD) <input type="text" name="degreeType"><br><br>
       
       GRE: <br>
