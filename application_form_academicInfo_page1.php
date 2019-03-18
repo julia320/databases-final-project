@@ -12,6 +12,7 @@
 
   //HANDLE FORM VALIDATION
   $somethingEmpty = "";
+  $appYearErr = "";
   if (isset($_POST['submit'])){
     
     //make sure all the data was entered properly
@@ -19,6 +20,11 @@
       $somethingEmpty = "One or more fields are missing";
     }
     
+    //field validations
+    $appYearTest = $_POST["appYear"];
+    if (!preg_match("/^[0-9]+$/i",$appYearTest)) {
+      $appYearErr = "Not a valid date"; 
+    }
     
   }
  
