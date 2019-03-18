@@ -37,6 +37,8 @@
     $subjectTest = $_POST["subject"];
     $toeflTest = $_POST["toefl"];
     $advYearTest = $_POST["advYear"];
+    $aoiTest = $_POST["aoi"];
+    $experienceTest = $_POST["exerience"];
     
     if (!preg_match("/^[0-9]+$/i",$appYearTest) && !empty($_POST["appYear"])) {
       $appYearErr = "Not a valid date"; 
@@ -61,6 +63,12 @@
     }
     if (!preg_match("/^[0-9]+$/i",$advYearTest) && !empty($_POST["advYear"])) {
       $appYearErr = "Not a valid date"; 
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$aoiTest) && !empty($_POST["aoi"])) {
+      $aoiErr = "Only letters, numbers, and white space allowed"; 
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$experienceTest) && !empty($_POST["experience"])) {
+      $experienceErr = "Only letters, numbers, and white space allowed"; 
     }
   }
  
@@ -101,8 +109,8 @@
       <input type="radio" name="degreeType" value="MS" > MS<br>
       <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
   
-      Year <span class="field"><input type="text" name="appYear"><span class="error">
-      <?php echo " " . $appYearErr;?></span></span><br>
+      Year <span class="field"><input type="text" name="appYear">
+      <span class="error"><?php echo " " . $appYearErr;?></span></span><br>
       
       Semester <br>
       <input type="radio" name="semester" value="fall"> Fall<br>
@@ -110,17 +118,26 @@
       <input type="radio" name="semester" value="summer"> Summer<br><br>
       
       GRE: <br>
-      Verbal <span class="field"><input type="text" name="verbal"></span><br>
-      Quantitative <span class="field"><input type="text" name="quantitative"></span><br>
-      Year of exam <span class="field"><input type="text" name="year"></span><br><br>
+      Verbal <span class="field"><input type="text" name="verbal">
+      <span class="error"><?php echo " " . $verbalErr;?></span></span><br>
+      Quantitative <span class="field"><input type="text" name="quantitative">
+      <span class="error"><?php echo " " . $quantitativeErr;?></span></span><br>
+      Year of exam <span class="field"><input type="text" name="year">
+      <span class="error"><?php echo " " . $yearErr;?></span></span><br><br>
       GRE advanced: <br>
-      Score <span class="field"><input type="text" name="advScore"></span><br>
-      Subject <span class="field"><input type="text" name="subject"></span><br><br>
-      TOEFL Score <span class="field"><input type="text" name="toefl"></span><br>
-      Year of exam <span class="field"><input type="text" name="advYear"></span><br><br>
+      Score <span class="field"><input type="text" name="advScore">
+      <span class="error"><?php echo " " . $advScoreErr;?></span></span><br>
+      Subject <span class="field"><input type="text" name="subject">
+      <span class="error"><?php echo " " . $subjectErr;?></span></span><br><br>
+      TOEFL Score <span class="field"><input type="text" name="toefl">
+      <span class="error"><?php echo " " . $toeflErr;?></span></span><br>
+      Year of exam <span class="field"><input type="text" name="advYear">
+      <span class="error"><?php echo " " . $advYearErr;?></span></span><br><br>
 
-      Areas of Interest <span class="field"><input type="text" name="aoi"></span><br>
-      Experience <span class="field"><input type="text" name="experience"></span><br>
+      Areas of Interest <span class="field"><input type="text" name="aoi">
+      <span class="error"><?php echo " " . $aoiErr;?></span></span><br>
+      Experience <span class="field"><input type="text" name="experience">
+      <span class="error"><?php echo " " . $experienceErr;?></span></span><br>
       
       <div class="bottomCentered"><input type="submit" name="submit" value="Submit">
       <span class="error"><?php echo $somethingEmpty;?></span></div>
