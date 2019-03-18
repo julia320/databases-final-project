@@ -57,8 +57,8 @@
     $advYear; 
     $aoi; 
     $experience;
-    $degreeType = $_Post["degreeType"];
-    $semester = $_Post["semester"];
+    $degreeType = $_POST["degreeType"];
+    $semester = $_POST["semester"];
       
     if (!preg_match("/^[0-9]+$/i",$appYearTest) && !empty($_POST["appYear"])) {
       $appYearErr = "Not a valid date";
