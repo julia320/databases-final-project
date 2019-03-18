@@ -10,14 +10,19 @@
     die("Connection failed: " . mysqli_connect_error());
   }
 
+  //HANDLE FORM VALIDATION
   $somethingEmpty = "";
-  
   if (isset($_POST['submit'])){
+    
     //make sure all the data was entered properly
     if(count(array_filter($_POST))!=count($_POST)){
       $somethingEmpty = "One or more fields are missing";
     }
+    
+    
   }
+ 
+  
   
 
 ?>
