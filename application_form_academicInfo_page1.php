@@ -25,7 +25,7 @@
     
     <form id="mainform" action="application_form_priorDegrees_page2.php" method="post">
      
-      What degree are you applying for?
+      What degree are you applying for? <br>
       <input type="radio" name="degreeType" value="MS" > MS<br>
       <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
   
