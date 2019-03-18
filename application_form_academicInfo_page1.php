@@ -47,16 +47,16 @@
     $aoiTest = $_POST["aoi"];
     $experienceTest = $_POST["exerience"];
     
-    $appYear;
-    $verbal;
-    $quantitative;
-    $year;
-    $advScore; 
-    $subject; 
-    $toefl; 
-    $advYear; 
-    $aoi; 
-    $experience;
+    $appYear= "";
+    $verbal= "";
+    $quantitative= "";
+    $year= "";
+    $advScore= ""; 
+    $subject= ""; 
+    $toefl= ""; 
+    $advYear= ""; 
+    $aoi= ""; 
+    $experience= "";
     $degreeType = $_POST["degreeType"];
     $semester = $_POST["semester"];
       
@@ -69,7 +69,6 @@
     if (!preg_match("/^[0-9]+$/i",$verbalTest) && !empty($_POST["verbal"])) {
       $verbalErr = "Not a valid score";
       $dataReady = false;
-    }
     } else{
       $verbal = $verbalTest;
     }
@@ -136,10 +135,6 @@
     }
     
   }
- 
-  
-  
-
 ?>
 
 <html>
