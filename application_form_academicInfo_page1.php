@@ -1,3 +1,15 @@
+<?php
+ // connect to mysql
+ $servername = "localhost";
+ $user = "TheSpookyLlamas";
+ $pass = "TSL_jjy_2019";
+ $dbname = "TheSpookyLlamas";
+ $conn = mysqli_connect($servername, $user, $pass, $dbname);
+ // Check connection
+ if (!$conn) {
+   die("Connection failed: " . mysqli_connect_error());
+ }
+?>
 <html>
   
   <title>
@@ -23,7 +35,7 @@
   
   <body>
     
-    <form id="mainform" action="application_form_priorDegrees_page2.php" method="post">
+    <form id="mainform" <!--action="application_form_priorDegrees_page2.php"--> method="post">
      
       What degree are you applying for? <br>
       <input type="radio" name="degreeType" value="MS" > MS<br>
