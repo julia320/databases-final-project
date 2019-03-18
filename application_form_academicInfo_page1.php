@@ -23,11 +23,14 @@
   
   <body>
     
-      <form id="mainform" action="application_form_priorDegrees_page2.php" method="post">
-      What degree are you applying for? (MS/PhD) <input type="text" name="degreeType"><br><br>
-      
+    <form id="mainform" action="application_form_priorDegrees_page2.php" method="post">
+     
+      What degree are you applying for?
+      <input type="radio" name="degreeType" value="MS" > MS<br>
+      <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
+  
       Semester <br>
-      <input type="radio" name="semester" value="fall" checked> Fall<br>
+      <input type="radio" name="semester" value="fall"> Fall<br>
       <input type="radio" name="semester" value="spring"> Spring<br>
       <input type="radio" name="semester" value="summer"> Summer<br>
       Year <span><input type="text" name="appYear"></span><br><br>
