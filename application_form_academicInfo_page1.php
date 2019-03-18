@@ -1,15 +1,25 @@
 <?php
- // connect to mysql
- $servername = "localhost";
- $user = "TheSpookyLlamas";
- $pass = "TSL_jjy_2019";
- $dbname = "TheSpookyLlamas";
- $conn = mysqli_connect($servername, $user, $pass, $dbname);
- // Check connection
- if (!$conn) {
-   die("Connection failed: " . mysqli_connect_error());
- }
+  // connect to mysql
+  $servername = "localhost";
+  $user = "TheSpookyLlamas";
+  $pass = "TSL_jjy_2019";
+  $dbname = "TheSpookyLlamas";
+  $conn = mysqli_connect($servername, $user, $pass, $dbname);
+  // Check connection
+  if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+  }
+  
+  if (isset($_POST['submit'])){
+    //make sure all the data was entered properly
+    if(count(array_filter($_POST))!=count($_POST)){
+      echo '<span class="error">Something is empty</span>';
+    }
+  }
+  
+
 ?>
+
 <html>
   
   <title>
@@ -28,6 +38,7 @@
        bottom: 30px;
        width: 100%;
     }
+    .error {color: #FF0000;}
   </style>
   
    <h1> Application Form </h1>
