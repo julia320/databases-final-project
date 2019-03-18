@@ -74,7 +74,7 @@
       Experience <span><input type="text" name="experience"></span><br>
       
       <div class="bottomCentered"><input type="submit" name="submit" value="Submit">
-      <span class="error">$somethingEmpty</span></div>
+      <span class="error"><?php echo $somethingEmpty;?></span></div>
       
     </form>
       
