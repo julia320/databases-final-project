@@ -7,9 +7,15 @@
   <style>
     span {
       position: absolute;
-      left: 140px;
+      left: 160px;
     }
     body{line-height: 1.6;}
+    .bottomCentered{
+       position: fixed;   
+       text-align: center;
+       bottom: 30px;
+       width: 100%;
+    }
   </style>
   
    <h1> Application Form </h1>
@@ -24,10 +30,24 @@
       <h3>Recommendation Letter One(required)</h3>
       First name <span><input type="text" name="fname"></span><br>
       Last name <span><input type="text" name="lname"></span><br>
-      Institution/affiliation <input type="text" name="institution"></span><br>
-      email <input type="text" name="email"></span><br>
+      Institution/affiliation <span><input type="text" name="institution"></span><br>
+      email <span><input type="text" name="email"></span><br>
       
-      <input type="submit" name="submit" value="Submit"> 
+      <hr>     
+      <h3>Recommendation Letter Two(optional)</h3>
+      First name <span><input type="text" name="fname2"></span><br>
+      Last name <span><input type="text" name="lname2"></span><br>
+      Institution/affiliation <span><input type="text" name="institution2"></span><br>
+      email <span><input type="text" name="email2"></span><br>
+      
+      <hr>     
+      <h3>Recommendation Letter Three(optional)</h3>
+      First name <span><input type="text" name="fname3"></span><br>
+      Last name <span><input type="text" name="lname3"></span><br>
+      Institution/affiliation <span><input type="text" name="institution3"></span><br>
+      email <span><input type="text" name="email3"></span><br><br>
+      
+      <div class="bottomCentered"><input type="submit" name="submit" value="Submit"></div> 
     </form>
       
   </body>
