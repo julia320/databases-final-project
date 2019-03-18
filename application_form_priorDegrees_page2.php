@@ -26,7 +26,7 @@
     <form id="mainform" action="application_form_recommendation_page3.php" method="post">
       <h3>Degree One (required)</h3>
       Degree Type <br>
-      <input type="radio" name="type" value="MS" checked> MS<br>
+      <input type="radio" name="type" value="MS"> MS<br>
       <input type="radio" name="type" value="BS"> BS<br>
       <input type="radio" name="type" value="BA"> BA <br>
       GPA <span><input type="text" name="gpa"></span><br>
@@ -36,7 +36,7 @@
       <hr>     
       <h3>Degree Two (optional)</h3>
       Degree Type <br>
-      <input type="radio" name="type2" value="MS" checked> MS<br>
+      <input type="radio" name="type2" value="MS"> MS<br>
       <input type="radio" name="type2" value="BS"> BS<br>
       <input type="radio" name="type2" value="BA"> BA <br>
       GPA <span><input type="text" name="gpa2"></span><br>
@@ -46,7 +46,7 @@
       <hr>
       <h3>Degree Three (optional)</h3>
       Degree Type <br>
-      <input type="radio" name="type3" value="MS" checked> MS<br>
+      <input type="radio" name="type3" value="MS"> MS<br>
       <input type="radio" name="type3" value="BS"> BS<br>
       <input type="radio" name="type3" value="BA"> BA <br>
       GPA <span><input type="text" name="gpa3"></span><br>
@@ -56,7 +56,7 @@
       <hr>
       <h3>Degree Four (optional)</h3>
       Degree Type <br>
-      <input type="radio" name="type4" value="MS" checked> MS<br>
+      <input type="radio" name="type4" value="MS"> MS<br>
       <input type="radio" name="type4" value="BS"> BS<br>
       <input type="radio" name="type4" value="BA"> BA <br>
       GPA <span><input type="text" name="gpa4"></span><br>
