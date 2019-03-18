@@ -13,7 +13,7 @@
   </style>
   
    <h1> Application Form </h1>
-   <h3> Page 1: Academic Info </h3><br>
+   <h2> Page 1: Academic Info </h2><br>
   
   <body>
     
