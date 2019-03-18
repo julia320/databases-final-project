@@ -26,6 +26,12 @@
       <form id="mainform" action="application_form_priorDegrees_page2.php" method="post">
       What degree are you applying for? (MS/PhD) <input type="text" name="degreeType"><br><br>
       
+      Semester <br>
+      <input type="radio" name="semester" value="Fall" checked> MS<br>
+      <input type="radio" name="semester" value="Spring"> BS<br>
+      <input type="radio" name="semester" value="Summer"> BS<br>
+      Year <span><input type="text" name="appYear"></span><br>
+      
       GRE: <br>
       Verbal <span><input type="text" name="verbal"></span><br>
       Quantitative <span><input type="text" name="quantitative"></span><br>
