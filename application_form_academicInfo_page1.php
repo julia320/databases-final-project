@@ -1,4 +1,9 @@
 <?php
+  session_start(); 
+  /*Important variable that will be used later to determine 
+  if we're ready to move to the next page of the application */
+  $done = false;
+
   // connect to mysql
   $servername = "localhost";
   $user = "TheSpookyLlamas";
@@ -22,10 +27,12 @@
   $advYearErr = "";
 
   if (isset($_POST['submit'])){
+    $dataReady = true;
     
     //make sure all the data was entered properly
     if(count(array_filter($_POST))!=count($_POST)){
       $somethingEmpty = "One or more fields are missing";
+      $dataReady = false;
     }
     
     //field validations:
@@ -40,36 +47,95 @@
     $aoiTest = $_POST["aoi"];
     $experienceTest = $_POST["exerience"];
     
+    $appYear;
+    $verbal;
+    $quantitative;
+    $year;
+    $advScore; 
+    $subject; 
+    $toefl; 
+    $advYear; 
+    $aoi; 
+    $experience;
+    $degreeType = $_Post["degreeType"];
+    $semester = $_Post["semester"];
+      
     if (!preg_match("/^[0-9]+$/i",$appYearTest) && !empty($_POST["appYear"])) {
-      $appYearErr = "Not a valid date"; 
+      $appYearErr = "Not a valid date";
+      $dataReady = false;
+    } else{
+      $appYear = $appYearTest;
     }
     if (!preg_match("/^[0-9]+$/i",$verbalTest) && !empty($_POST["verbal"])) {
-      $verbalErr = "Not a valid score"; 
+      $verbalErr = "Not a valid score";
+      $dataReady = false;
+    }
+    } else{
+      $verbal = $verbalTest;
     }
     if (!preg_match("/^[0-9]+$/i",$quantitativeTest) && !empty($_POST["quantitative"])) {
-      $quantitativeErr = "Not a valid score"; 
-    }
+      $quantitativeErr = "Not a valid score";
+      $dataReady = false;
+    } else{
+      $quantitative = $quantitativeTest;
+    } 
     if (!preg_match("/^[0-9]+$/i",$yearTest) && !empty($_POST["year"])) {
-      $yearErr = "Not a valid date"; 
+      $yearErr = "Not a valid date";
+      $dataReady = false;
+    } else{
+      $year = $yearTest;
     }
     if (!preg_match("/^[0-9]+$/i",$advScoreTest) && !empty($_POST["advScore"])) {
-      $advScoreErr = "Not a valid score"; 
+      $advScoreErr = "Not a valid score";
+      $dataReady = false;
+    } else{
+      $advScore = $advScoreTest;
     }
     if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$subjectTest) && !empty($_POST["subject"])) {
-      $subjectErr = "Not a valid subject - only letters, numbers, and white space allowed"; 
+      $subjectErr = "Not a valid subject - only letters, numbers, and white space allowed";
+      $dataReady = false;
+    } else{
+      $subject = $subjectest;
     }
     if (!preg_match("/^[0-9]+$/i",$toeflTest) && !empty($_POST["toefl"])) {
-      $toeflErr = "Not a valid score"; 
+      $toeflErr = "Not a valid score";
+      $dataReady = false;
+    } else{
+      $toefl = $toeflTest;
     }
     if (!preg_match("/^[0-9]+$/i",$advYearTest) && !empty($_POST["advYear"])) {
-      $advYearErr = "Not a valid date"; 
+      $advYearErr = "Not a valid date";
+      $dataReady = false;
+    } else{
+      $advYear = $advYearTest;
     }
     if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$aoiTest) && !empty($_POST["aoi"])) {
-      $aoiErr = "Only letters, numbers, and white space allowed"; 
+      $aoiErr = "Only letters, numbers, and white space allowed";
+      $dataReady = false;
+    } else{
+      $aoi = $aoiTest;
     }
     if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$experienceTest) && !empty($_POST["experience"])) {
-      $experienceErr = "Only letters, numbers, and white space allowed"; 
+      $experienceErr = "Only letters, numbers, and white space allowed";
+      $dataReady = false;
+    } else{
+      $experience = $experienceTest;
     }
+    
+    //Insert into database 
+    if ($dataReady == true){
+      $sql = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
+              VALUES('-1', $degreeType', '$aoi', '$experience', '$semester', '$year')";
+          $result = mysqli_query($conn, $sql) or die ("************* SQL FAILED *************");
+          //Check	if query was successful	
+          if ($result)	{	
+            //Account created - we are ready back to webstore and be logged in
+            $done = true;
+            echo "DATA ADDED";
+          }
+          
+    }
+    
   }
  
   
@@ -106,16 +172,16 @@
     <form id="mainform" method="post">
      
       What degree are you applying for? <br>
-      <input type="radio" name="degreeType" value="MS" > MS<br>
+      <input type="radio" name="degreeType" value="Mas" > MS<br>
       <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
   
       Year <span class="field"><input type="text" name="appYear">
       <span class="error"><?php echo " " . $appYearErr;?></span></span><br>
       
       Semester <br>
-      <input type="radio" name="semester" value="fall"> Fall<br>
-      <input type="radio" name="semester" value="spring"> Spring<br>
-      <input type="radio" name="semester" value="summer"> Summer<br><br>
+      <input type="radio" name="semester" value='Fa'> Fall<br>
+      <input type="radio" name="semester" value='Sp'> Spring<br>
+      <input type="radio" name="semester" value="Su"> Summer<br><br>
       
       GRE: <br>
       Verbal <span class="field"><input type="text" name="verbal">
