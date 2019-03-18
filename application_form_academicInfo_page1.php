@@ -29,11 +29,11 @@
       <input type="radio" name="degreeType" value="MS" > MS<br>
       <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
   
-      Year <span><input type="text" name="appYear"></span><br><br>
+      Year <span><input type="text" name="appYear"></span><br>
       Semester <br>
       <input type="radio" name="semester" value="fall"> Fall<br>
       <input type="radio" name="semester" value="spring"> Spring<br>
-      <input type="radio" name="semester" value="summer"> Summer<br>
+      <input type="radio" name="semester" value="summer"> Summer<br><br>
       
       GRE: <br>
       Verbal <span><input type="text" name="verbal"></span><br>
