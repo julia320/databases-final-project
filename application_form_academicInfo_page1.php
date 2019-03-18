@@ -44,25 +44,25 @@
       $appYearErr = "Not a valid date"; 
     }
     if (!preg_match("/^[0-9]+$/i",$verbalTest) && !empty($_POST["verbal"])) {
-      $appYearErr = "Not a valid score"; 
+      $verbalErr = "Not a valid score"; 
     }
     if (!preg_match("/^[0-9]+$/i",$quantitativeTest) && !empty($_POST["quantitative"])) {
-      $appYearErr = "Not a valid score"; 
+      $quantitativeErr = "Not a valid score"; 
     }
     if (!preg_match("/^[0-9]+$/i",$yearTest) && !empty($_POST["year"])) {
-      $appYearErr = "Not a valid date"; 
+      $yearErr = "Not a valid date"; 
     }
     if (!preg_match("/^[0-9]+$/i",$advScoreTest) && !empty($_POST["advScore"])) {
-      $appYearErr = "Not a valid score"; 
+      $advScoreErr = "Not a valid score"; 
     }
     if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$subjectTest) && !empty($_POST["subject"])) {
-      $appYearErr = "Not a valid subject - only letters, numbers, and white space allowed"; 
+      $subjectErr = "Not a valid subject - only letters, numbers, and white space allowed"; 
     }
     if (!preg_match("/^[0-9]+$/i",$toeflTest) && !empty($_POST["toefl"])) {
-      $appYearErr = "Not a valid score"; 
+      $toeflErr = "Not a valid score"; 
     }
     if (!preg_match("/^[0-9]+$/i",$advYearTest) && !empty($_POST["advYear"])) {
-      $appYearErr = "Not a valid date"; 
+      $advYearErr = "Not a valid date"; 
     }
     if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$aoiTest) && !empty($_POST["aoi"])) {
       $aoiErr = "Only letters, numbers, and white space allowed"; 
