@@ -40,7 +40,7 @@
   </title>
   
   <style>
-    span {
+    .field {
       position: absolute;
       left: 140px;
     }
@@ -65,7 +65,8 @@
       <input type="radio" name="degreeType" value="MS" > MS<br>
       <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
   
-      Year <span><input type="text" name="appYear"><div class="error"><?php echo " " . $appYearErr;?></div></span><br>
+      Year <span class="field">><input type="text" name="appYear"><span class="error">
+      <?php echo " " . $appYearErr;?></span></span><br>
       
       Semester <br>
       <input type="radio" name="semester" value="fall"> Fall<br>
@@ -73,17 +74,17 @@
       <input type="radio" name="semester" value="summer"> Summer<br><br>
       
       GRE: <br>
-      Verbal <span><input type="text" name="verbal"></span><br>
+      Verbal <span class="field">><input type="text" name="verbal"></span><br>
       Quantitative <span><input type="text" name="quantitative"></span><br>
       Year of exam <span><input type="text" name="year"></span><br><br>
       GRE advanced: <br>
-      Score <span><input type="text" name="advScore"></span><br>
-      Subject <span><input type="text" name="subject"></span><br><br>
-      TOEFL Score <span><input type="text" name="toefl"></span><br>
-      Year of exam <span><input type="text" name="advYear"></span><br><br>
+      Score <span class="field"><input type="text" name="advScore"></span><br>
+      Subject <span class="field"><input type="text" name="subject"></span><br><br>
+      TOEFL Score <span class="field"><input type="text" name="toefl"></span><br>
+      Year of exam <span class="field"><input type="text" name="advYear"></span><br><br>
 
-      Areas of Interest <span><input type="text" name="aoi"></span><br>
-      Experience <span><input type="text" name="experience"></span><br>
+      Areas of Interest <span class="field"><input type="text" name="aoi"></span><br>
+      Experience <span class="field"><input type="text" name="experience"></span><br>
       
       <div class="bottomCentered"><input type="submit" name="submit" value="Submit">
       <span class="error"><?php echo $somethingEmpty;?></span></div>
