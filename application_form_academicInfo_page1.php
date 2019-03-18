@@ -27,10 +27,10 @@
       What degree are you applying for? (MS/PhD) <input type="text" name="degreeType"><br><br>
       
       Semester <br>
-      <input type="radio" name="semester" value="Fall" checked> MS<br>
-      <input type="radio" name="semester" value="Spring"> BS<br>
-      <input type="radio" name="semester" value="Summer"> BS<br>
-      Year <span><input type="text" name="appYear"></span><br>
+      <input type="radio" name="semester" value="fall" checked> Fall<br>
+      <input type="radio" name="semester" value="spring"> Spring<br>
+      <input type="radio" name="semester" value="summer"> Summer<br>
+      Year <span><input type="text" name="appYear"></span><br><br>
       
       GRE: <br>
       Verbal <span><input type="text" name="verbal"></span><br>
