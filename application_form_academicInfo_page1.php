@@ -47,80 +47,80 @@
     $aoiTest = $_POST["aoi"];
     $experienceTest = $_POST["exerience"];
     
-//     $appYear;
-//     $verbal;
-//     $quantitative;
-//     $year;
-//     $advScore; 
-//     $subject; 
-//     $toefl; 
-//     $advYear; 
-//     $aoi; 
-//     $experience;
-//     $degreeType = $_Post["degreeType"];
-//     $semester = $_Post["semester"];
+    $appYear;
+    $verbal;
+    $quantitative;
+    $year;
+    $advScore; 
+    $subject; 
+    $toefl; 
+    $advYear; 
+    $aoi; 
+    $experience;
+    $degreeType = $_Post["degreeType"];
+    $semester = $_Post["semester"];
       
-//     if (!preg_match("/^[0-9]+$/i",$appYearTest) && !empty($_POST["appYear"])) {
-//       $appYearErr = "Not a valid date";
-//       $dataReady = false;
-//     } else{
-//       $appYear = $appYearTest;
-//     }
-//     if (!preg_match("/^[0-9]+$/i",$verbalTest) && !empty($_POST["verbal"])) {
-//       $verbalErr = "Not a valid score";
-//       $dataReady = false;
-//     }
-//     } else{
-//       $verbal = $verbalTest;
-//     }
-//     if (!preg_match("/^[0-9]+$/i",$quantitativeTest) && !empty($_POST["quantitative"])) {
-//       $quantitativeErr = "Not a valid score";
-//       $dataReady = false;
-//     } else{
-//       $quantitative = $quantitativeTest;
-//     } 
-//     if (!preg_match("/^[0-9]+$/i",$yearTest) && !empty($_POST["year"])) {
-//       $yearErr = "Not a valid date";
-//       $dataReady = false;
-//     } else{
-//       $year = $yearTest;
-//     }
-//     if (!preg_match("/^[0-9]+$/i",$advScoreTest) && !empty($_POST["advScore"])) {
-//       $advScoreErr = "Not a valid score";
-//       $dataReady = false;
-//     } else{
-//       $advScore = $advScoreTest;
-//     }
-//     if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$subjectTest) && !empty($_POST["subject"])) {
-//       $subjectErr = "Not a valid subject - only letters, numbers, and white space allowed";
-//       $dataReady = false;
-//     } else{
-//       $subject = $subjectest;
-//     }
-//     if (!preg_match("/^[0-9]+$/i",$toeflTest) && !empty($_POST["toefl"])) {
-//       $toeflErr = "Not a valid score";
-//       $dataReady = false;
-//     } else{
-//       $toefl = $toeflTest;
-//     }
-//     if (!preg_match("/^[0-9]+$/i",$advYearTest) && !empty($_POST["advYear"])) {
-//       $advYearErr = "Not a valid date";
-//       $dataReady = false;
-//     } else{
-//       $advYear = $advYearTest;
-//     }
-//     if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$aoiTest) && !empty($_POST["aoi"])) {
-//       $aoiErr = "Only letters, numbers, and white space allowed";
-//       $dataReady = false;
-//     } else{
-//       $aoi = $aoiTest;
-//     }
-//     if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$experienceTest) && !empty($_POST["experience"])) {
-//       $experienceErr = "Only letters, numbers, and white space allowed";
-//       $dataReady = false;
-//     } else{
-//       $experience = $experienceTest;
-//     }
+    if (!preg_match("/^[0-9]+$/i",$appYearTest) && !empty($_POST["appYear"])) {
+      $appYearErr = "Not a valid date";
+      $dataReady = false;
+    } else{
+      $appYear = $appYearTest;
+    }
+    if (!preg_match("/^[0-9]+$/i",$verbalTest) && !empty($_POST["verbal"])) {
+      $verbalErr = "Not a valid score";
+      $dataReady = false;
+    }
+    } else{
+      $verbal = $verbalTest;
+    }
+    if (!preg_match("/^[0-9]+$/i",$quantitativeTest) && !empty($_POST["quantitative"])) {
+      $quantitativeErr = "Not a valid score";
+      $dataReady = false;
+    } else{
+      $quantitative = $quantitativeTest;
+    } 
+    if (!preg_match("/^[0-9]+$/i",$yearTest) && !empty($_POST["year"])) {
+      $yearErr = "Not a valid date";
+      $dataReady = false;
+    } else{
+      $year = $yearTest;
+    }
+    if (!preg_match("/^[0-9]+$/i",$advScoreTest) && !empty($_POST["advScore"])) {
+      $advScoreErr = "Not a valid score";
+      $dataReady = false;
+    } else{
+      $advScore = $advScoreTest;
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$subjectTest) && !empty($_POST["subject"])) {
+      $subjectErr = "Not a valid subject - only letters, numbers, and white space allowed";
+      $dataReady = false;
+    } else{
+      $subject = $subjecTest;
+    }
+    if (!preg_match("/^[0-9]+$/i",$toeflTest) && !empty($_POST["toefl"])) {
+      $toeflErr = "Not a valid score";
+      $dataReady = false;
+    } else{
+      $toefl = $toeflTest;
+    }
+    if (!preg_match("/^[0-9]+$/i",$advYearTest) && !empty($_POST["advYear"])) {
+      $advYearErr = "Not a valid date";
+      $dataReady = false;
+    } else{
+      $advYear = $advYearTest;
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$aoiTest) && !empty($_POST["aoi"])) {
+      $aoiErr = "Only letters, numbers, and white space allowed";
+      $dataReady = false;
+    } else{
+      $aoi = $aoiTest;
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$experienceTest) && !empty($_POST["experience"])) {
+      $experienceErr = "Only letters, numbers, and white space allowed";
+      $dataReady = false;
+    } else{
+      $experience = $experienceTest;
+    }
     
     //Insert into database 
     if ($dataReady == true){
