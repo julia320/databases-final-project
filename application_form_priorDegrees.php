@@ -18,12 +18,12 @@
     }
   </style>
 
-   <h1> Application Form </h1>
-   <h2> Page 2: Prior Degrees </h2>
+  <h1> Application Form </h1>
+  <h2> Page 2: Prior Degrees </h2>
   
-   <body>
-     <!--change form method to page 3-->
-     <form id="mainform" action="application_form_recomendation.php" method="post">
+  <body>
+    <!--change form method to page 3-->
+    <form id="mainform" action="application_form_recomendation.php" method="post">
       <h3>Degree One (required)</h3>
       Degree Type <br>
       <input type="radio" name="type" value="MS" checked> MS<br>
