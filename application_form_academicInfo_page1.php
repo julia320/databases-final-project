@@ -13,6 +13,14 @@
   //HANDLE FORM VALIDATION
   $somethingEmpty = "";
   $appYearErr = "";
+  $verbalErr = "";
+  $quantitativeErr = "";
+  $yearErr = "";
+  $advScoreErr = "";
+  $subjectErr = "";
+  $toeflErr = "";
+  $advYearErr = "";
+
   if (isset($_POST['submit'])){
     
     //make sure all the data was entered properly
@@ -20,12 +28,40 @@
       $somethingEmpty = "One or more fields are missing";
     }
     
-    //field validations
+    //field validations:
     $appYearTest = $_POST["appYear"];
+    $verbalTest = $_POST["verbal"];
+    $quantitativeTest = $_POST["quantitative"];
+    $yearTest =  $_POST["year"];
+    $advScoreTest = $_POST["advScore"];
+    $subjectTest = $_POST["subject"];
+    $toeflTest = $_POST["toefl"];
+    $advYearTest = $_POST["advYear"];
+    
     if (!preg_match("/^[0-9]+$/i",$appYearTest) && !empty($_POST["appYear"])) {
       $appYearErr = "Not a valid date"; 
     }
-    
+    if (!preg_match("/^[0-9]+$/i",$verbalTest) && !empty($_POST["verbal"])) {
+      $appYearErr = "Not a valid score"; 
+    }
+    if (!preg_match("/^[0-9]+$/i",$quantitativeTest) && !empty($_POST["quantitative"])) {
+      $appYearErr = "Not a valid score"; 
+    }
+    if (!preg_match("/^[0-9]+$/i",$yearTest) && !empty($_POST["year"])) {
+      $appYearErr = "Not a valid date"; 
+    }
+    if (!preg_match("/^[0-9]+$/i",$advScoreTest) && !empty($_POST["advScore"])) {
+      $appYearErr = "Not a valid score"; 
+    }
+    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$subjectTest) && !empty($_POST["subject"])) {
+      $appYearErr = "Not a valid subject - only letters, numbers, and white space allowed"; 
+    }
+    if (!preg_match("/^[0-9]+$/i",$toeflTest) && !empty($_POST["toefl"])) {
+      $appYearErr = "Not a valid score"; 
+    }
+    if (!preg_match("/^[0-9]+$/i",$advYearTest) && !empty($_POST["advYear"])) {
+      $appYearErr = "Not a valid date"; 
+    }
   }
  
   
