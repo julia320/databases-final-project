@@ -34,8 +34,8 @@
    <h2> Page 1: Academic Info </h2><br>
   
   <body>
-    
-    <form id="mainform" <!--action="application_form_priorDegrees_page2.php"--> method="post">
+    <!--action="application_form_priorDegrees_page2.php"-->
+    <form id="mainform" method="post">
      
       What degree are you applying for? <br>
       <input type="radio" name="degreeType" value="MS" > MS<br>
