@@ -162,7 +162,7 @@
       $lname = $temp['lname'];
       
       //fill in personal_info table
-      $sql1 = "INSERT INTO personal_info VALUES('$fname', '$lname', " . "$_SESSION['id']" . ", '$address', '$ssn')";
+      $sql1 = "INSERT INTO personal_info VALUES('$fname', '$lname', " . "$_SESSION['id']" . ", '$address', $ssn)";
       $result1 = mysqli_query($conn, $sql1) or die ("************* 2nd SQL FAILED *************");
       
       //fill in academic_info table
