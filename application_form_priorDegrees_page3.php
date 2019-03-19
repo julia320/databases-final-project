@@ -19,7 +19,7 @@
   </style>
 
   <h1> Application Form </h1>
-  <h2> Page 2: Prior Degrees </h2>
+  <h2> Page 3: Prior Degrees </h2>
   
   <body>
     <!--change form method to page 3-->
