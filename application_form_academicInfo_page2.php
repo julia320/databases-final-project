@@ -146,7 +146,7 @@
     
     //If the data was successfuly added to database, move to page 2
     if ($done){
-        header("Location:application_form_priorDegrees_page3.php"); 
+        header("Location:application_form_priorDegrees_page2.php"); 
         exit;
       }
     
@@ -175,7 +175,7 @@
   </style>
   
    <h1> Application Form </h1>
-   <h2> Page 2: Academic Info </h2><br>
+   <h2> Page 1: Personal and Academic Information </h2><br>
   
   <body>
     <!--action="application_form_priorDegrees_page2.php"-->
