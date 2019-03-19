@@ -175,7 +175,7 @@
   </style>
   
    <h1> Application Form </h1>
-   <h2> Page 1: Academic Info </h2><br>
+   <h2> Page 2: Academic Info </h2><br>
   
   <body>
     <!--action="application_form_priorDegrees_page2.php"-->
