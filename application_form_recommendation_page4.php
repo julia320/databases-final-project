@@ -19,7 +19,7 @@
   </style>
   
    <h1> Application Form </h1>
-   <h2> Page 3: Recommendation Letter </h2>
+   <h2> Page 4: Recommendation Letter </h2>
    Enter the contact information of the person who will provide your recommendation letter.<br>
    We will reach out to this person and ask for their letter. <br>
    You can see the status of your recommendation letter on your homepage.
