@@ -146,7 +146,7 @@
     
     //If the data was successfuly added to database, move to page 2
     if ($done){
-        header("Location:application_form_priorDegrees_page2.php"); 
+        header("Location:application_form_priorDegrees_page3.php"); 
         exit;
       }
     
