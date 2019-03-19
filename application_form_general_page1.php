@@ -17,6 +17,10 @@
 
   //HANDLE FORM VALIDATION
   $somethingEmpty = "";
+
+  $addressErr = "";
+  $ssnErr = "";
+
   $appYearErr = "";
   $verbalErr = "";
   $quantitativeErr = "";
@@ -30,7 +34,6 @@
 
   if (isset($_POST['submit'])){
     $dataReady = true;
-   
     
     ////////////////////////////////////////////////////////////////////////
     //FORM VALIDATIONS
@@ -42,6 +45,9 @@
       $dataReady = false;
     }
     
+    $addressTest = $_POST["address"];
+    $ssnTest = $_POST["ssn"];
+    
     $appYearTest = $_POST["appYear"];
     $verbalTest = $_POST["verbal"];
     $quantitativeTest = $_POST["quantitative"];
@@ -52,6 +58,9 @@
     $advYearTest = $_POST["advYear"];
     $aoiTest = $_POST["aoi"];
     $experienceTest = $_POST["experience"];
+    
+    $address= "";
+    $ssn = "";
     
     $appYear= "";
     $verbal= "";
@@ -65,7 +74,19 @@
     $experience= "";
     $degreeType = $_POST["degreeType"];
     $semester = $_POST["semester"];
-      
+     
+    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$addressTest) && !empty($_POST["address"])) {
+      $addressErr = "Only letters, numbers, and white space allowed";
+      $dataReady = false;
+    } else{
+      $address = $addressTest;
+    }
+    if (!preg_match("/^[0-9]+$/i",$ssnTest) && !empty($_POST["ssn"])) {
+      $ssnErr = "Not a valid social security number";
+      $dataReady = false;
+    } else{
+      $ssn = $ssnTest;
+    }
     if (!preg_match("/^[0-9]+$/i",$appYearTest) && !empty($_POST["appYear"])) {
       $appYearErr = "Not a valid date";
       $dataReady = false;
@@ -131,13 +152,23 @@
     
     //Insert into database 
     if ($dataReady == true){
-      //Test query. Not permenant
-      //$sql = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
-      //        VALUES(2, '$degreeType', '$aoi', '$experience', '$semester', $year)";
-      $sql = "SELECT * FROM users";
-      $result = mysqli_query($conn, $sql) or die ("************* SQL FAILED *************");
+      //use session id to extract fname and last name.
+      $sql = "SELECT fname, lname FROM users WHERE userId = '$_SESSION['id']'";
+      $result = mysqli_query($conn, $sql) or die ("************* 1st SQL FAILED *************");
+      $temp = mysql_fetch_array($result);
+      $fname = $temp['fname'];
+      $lname = $temp['lname'];
+      
+      //fill in personal_info table
+      $sql1 = "INSERT INTO personal_info VALUES('$fname', '$lname', $_SESSION['id'], '$address', '$ssn')";
+      $result1 = mysqli_query($conn, $sql1) or die ("************* 2nd SQL FAILED *************");
+      
+      //fill in academic_info table
+      $sql1 = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
+              VALUES($_SESSION['id'], '$degreeType', '$aoi', '$experience', '$semester', $year)";
+      $result2 = mysqli_query($conn, $sql2) or die ("************* 3rd SQL FAILED *************");
       //Check if query was successful	
-      if ($result)	{	
+      if ($result1 && $result2)	{	
         //Account created - we are ready back to webstore and be logged in
         $done = true;
         echo "DATA ADDED";
@@ -180,7 +211,14 @@
   <body>
     <!--action="application_form_priorDegrees_page2.php"-->
     <form id="mainform" method="post">
-     
+      
+      Address (If you are and international student, enter country name. Otherwise, enter city, state, zip) <br>
+      <span class="field"><input type="text" name="address">
+      <span class="error"><?php echo " " . $addressErr;?></span></span><br>
+      SSN <span class="field"><input type="text" name="ssn">
+      <span class="error"><?php echo " " . $ssnErr;?></span></span><br> 
+      <hr>
+      
       What degree are you applying for? <br>
       <input type="radio" name="degreeType" value="Mas" > MS<br>
       <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
