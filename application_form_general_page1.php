@@ -1,5 +1,7 @@
 <?php
   session_start(); 
+  //Temporary id for testing
+  $_SESSION['id'] = 99;
   /*Important variable that will be used later to determine 
   if we're ready to move to the next page of the application */
   $done = false;
