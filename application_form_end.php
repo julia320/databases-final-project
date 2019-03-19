@@ -18,7 +18,6 @@
     }
   </style>
   
-   <h1> Complete </h1>
    <h2> You Have Completed Your Application </h2>
    
   <body>
