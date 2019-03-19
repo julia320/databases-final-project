@@ -153,11 +153,11 @@
     //Insert into database 
     if ($dataReady == true){
       //use session id to extract fname and last name.
-      $sql = "SELECT fname, lname FROM users WHERE userId = '$_SESSION['id']'";
-      $result = mysqli_query($conn, $sql) or die ("************* 1st SQL FAILED *************");
-      $temp = mysql_fetch_array($result);
-      $fname = $temp['fname'];
-      $lname = $temp['lname'];
+//       $sql = "SELECT fname, lname FROM users WHERE userId = '$_SESSION['id']'";
+//       $result = mysqli_query($conn, $sql) or die ("************* 1st SQL FAILED *************");
+//       $temp = mysql_fetch_array($result);
+//       $fname = $temp['fname'];
+//       $lname = $temp['lname'];
       
       //fill in personal_info table
       $sql1 = "INSERT INTO personal_info VALUES('$fname', '$lname', $_SESSION['id'], '$address', '$ssn')";
@@ -167,12 +167,10 @@
       $sql1 = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
               VALUES($_SESSION['id'], '$degreeType', '$aoi', '$experience', '$semester', $year)";
       $result2 = mysqli_query($conn, $sql2) or die ("************* 3rd SQL FAILED *************");
-      //Check if query was successful	
-      if ($result1 && $result2)	{	
-        //Account created. We are ready back to webstore and be logged in
-        $done = true;
-        echo "DATA ADDED";
-      }    
+      
+      // If we made it here,  we're done
+      $done = true;
+      echo "DATA ADDED";
     }
     
     //If the data was successfuly added to database, move to page 2
