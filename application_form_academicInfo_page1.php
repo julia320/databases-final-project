@@ -30,14 +30,18 @@
 
   if (isset($_POST['submit'])){
     $dataReady = true;
+   
     
-    //make sure all the data was entered properly
+    ////////////////////////////////////////////////////////////////////////
+    //FORM VALIDATIONS
+    ////////////////////////////////////////////////////////////////////////
+    
+    //make sure nothing's empty
     if(count(array_filter($_POST))!=count($_POST)){
       $somethingEmpty = "One or more fields are missing";
       $dataReady = false;
     }
     
-    //field validations:
     $appYearTest = $_POST["appYear"];
     $verbalTest = $_POST["verbal"];
     $quantitativeTest = $_POST["quantitative"];
@@ -122,9 +126,12 @@
     } else{
       $experience = $experienceTest;
     }
+    ////////////////////////////////////////////////////////////////////////
+    
     
     //Insert into database 
     if ($dataReady == true){
+      //Test query. Not permenant
       $sql = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
               VALUES(2, '$degreeType', '$aoi', '$experience', '$semester', $year)";
       $result = mysqli_query($conn, $sql) or die ("************* SQL FAILED *************");
@@ -135,6 +142,12 @@
         echo "DATA ADDED";
       }    
     }
+    
+    //If the data was successfuly added to database, move to page 2
+    if ($done){
+        header("Location:application_form_priorDegrees_page2.php"); 
+        exit;
+      }
     
   }
 ?>
