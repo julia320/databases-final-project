@@ -132,8 +132,9 @@
     //Insert into database 
     if ($dataReady == true){
       //Test query. Not permenant
-      $sql = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
-              VALUES(2, '$degreeType', '$aoi', '$experience', '$semester', $year)";
+      //$sql = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
+      //        VALUES(2, '$degreeType', '$aoi', '$experience', '$semester', $year)";
+      $sql = "SELECT * FROM users";
       $result = mysqli_query($conn, $sql) or die ("************* SQL FAILED *************");
       //Check if query was successful	
       if ($result)	{	
