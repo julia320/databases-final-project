@@ -153,11 +153,11 @@
     //Insert into database 
     if ($dataReady == true){
       //use session id to extract fname and last name.
-//       $sql = "SELECT fname, lname FROM users WHERE userId = '$_SESSION['id']'";
-//       $result = mysqli_query($conn, $sql) or die ("************* 1st SQL FAILED *************");
-//       $temp = mysql_fetch_array($result);
-//       $fname = $temp['fname'];
-//       $lname = $temp['lname'];
+      $sql = "SELECT fname, lname FROM users WHERE userId = $_SESSION['id']";
+      $result = mysqli_query($conn, $sql) or die ("************* 1st SQL FAILED *************");
+      $temp = mysql_fetch_array($result);
+      $fname = $temp['fname'];
+      $lname = $temp['lname'];
       
       //fill in personal_info table
       $sql1 = "INSERT INTO personal_info VALUES('$fname', '$lname', $_SESSION['id'], '$address', '$ssn')";
@@ -170,7 +170,6 @@
       
       // If we made it here,  we're done
       $done = true;
-      echo "DATA ADDED";
     }
     
     //If the data was successfuly added to database, move to page 2
