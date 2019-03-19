@@ -47,7 +47,7 @@
     $toeflTest = $_POST["toefl"];
     $advYearTest = $_POST["advYear"];
     $aoiTest = $_POST["aoi"];
-    $experienceTest = $_POST["exerience"];
+    $experienceTest = $_POST["experience"];
     
     $appYear= "";
     $verbal= "";
