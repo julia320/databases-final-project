@@ -169,7 +169,7 @@
       $result2 = mysqli_query($conn, $sql2) or die ("************* 3rd SQL FAILED *************");
       //Check if query was successful	
       if ($result1 && $result2)	{	
-        //Account created - we are ready back to webstore and be logged in
+        //Account created. We are ready back to webstore and be logged in
         $done = true;
         echo "DATA ADDED";
       }    
