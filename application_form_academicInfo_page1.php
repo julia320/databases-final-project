@@ -125,7 +125,7 @@
     
     //Insert into database 
     if ($dataReady == true){
-      $uid = 99;
+      $uid = 1;
       $sql = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
               VALUES('$uid', $degreeType', '$aoi', '$experience', '$semester', '$year')";
       $result = mysqli_query($conn, $sql) or die ("************* SQL FAILED *************");
