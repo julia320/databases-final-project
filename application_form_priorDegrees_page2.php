@@ -22,8 +22,7 @@
   <h2> Page 2: Prior Degrees </h2>
   
   <body>
-    <!--change form method to page 3-->
-    <form id="mainform" action="application_form_recommendation_page3.php" method="post">
+    <form id="mainform" method="post">
       <h3>Degree One (required)</h3>
       Degree Type <br>
       <input type="radio" name="type" value="MS"> MS<br>
