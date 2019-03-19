@@ -25,6 +25,8 @@
   $subjectErr = "";
   $toeflErr = "";
   $advYearErr = "";
+  $aoiErr = "";
+  $experienceErr = "";
 
   if (isset($_POST['submit'])){
     $dataReady = true;
