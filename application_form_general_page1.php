@@ -153,7 +153,7 @@
     //Insert into database 
      if ($dataReady == true){
        //use session id to extract fname and last name.
-       $sql = "SELECT fname, lname FROM users WHERE userId =" . $_SESSION['id'];
+       $sql = "SELECT fname, lname FROM users WHERE userID =" . $_SESSION['id'];
        $result = mysqli_query($conn, $sql) or die ("************* 1st SQL FAILED *************");
        $value = mysqli_fetch_object($result);
        $fname = $value->fname;
