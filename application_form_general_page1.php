@@ -152,25 +152,26 @@
     
     //Insert into database 
      if ($dataReady == true){
-         //use session id to extract fname and last name.
+       //use session id to extract fname and last name.
        $sql = "SELECT fname, lname FROM users WHERE userId =" . $_SESSION['id'];
        $result = mysqli_query($conn, $sql) or die ("************* 1st SQL FAILED *************");
-       $temp = mysql_fetch_array($result);
-       $fname = $temp['fname'];
-       $lname = $temp['lname'];
+       $value = mysqli_fetch_object($result);
+       $fname = $value->fname;
+       $lname = $value->lname;
 
        //fill in personal_info table
-       $sql1 = "INSERT INTO personal_info VALUES('$fname', '$lname'," . $_SESSION['id'].", '$address', $ssn)";
+       $sql1 = "INSERT INTO personal_info VALUES('$fname', '$lname'," . $_SESSION['id'].", '$address'," . $ssn . ")";
        $result1 = mysqli_query($conn, $sql1) or die ("************* 2nd SQL FAILED *************");
 
        //fill in academic_info table
        $sql2 = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
-               VALUES(".$_SESSION['id'].", '$degreeType', '$aoi', '$experience', '$semester', $year)";
+               VALUES(".$_SESSION['id'].", '$degreeType', '$aoi', '$experience', '$semester'," . $year . ")";
        $result2 = mysqli_query($conn, $sql2) or die ("************* 3rd SQL FAILED *************");
 
        // If we made it here,  we're done
        $done = true;
      }
+
     
     //If the data was successfuly added to database, move to page 2
     if ($done){
