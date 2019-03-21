@@ -250,13 +250,14 @@
       <hr>
       
       <h3> Recomendation Letter </h3>
-      Enter the contact information of the person who will provide your recommendation letter.<br>
+      <i>Enter the contact information of the person who will provide your recommendation letter.<br>
       We will reach out to this person and ask for their letter. <br>
-      You can see the status of your recommendation letter on your homepage.
-      First name <span><input type="text" name="fname"></span><br>
-      Last name <span><input type="text" name="lname"></span><br>
-      Institution/affiliation <span><input type="text" name="institution"></span><br>
-      email <span><input type="text" name="email"></span><br>
+      You can see the status of your recommendation letter on your homepage.</i> <br><br>
+      First name <span class="field"><input type="text" name="fname"></span><br>
+      Last name <span class="field"><input type="text" name="lname"></span><br>
+      Institution <span class="field"><input type="text" name="institution"></span><br>
+      Email <span class="field"><input type="text" name="email"></span><br>
+
       
       <div class="bottomCentered"><input type="submit" name="submit" value="Submit">
       <span class="error"><?php echo $somethingEmpty;?></span></div>
