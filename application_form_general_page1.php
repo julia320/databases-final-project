@@ -182,7 +182,7 @@
       $institution = $institutionTest;
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      $emailErr = "Invalid email size";
+      $emailErr = "Invalid email";
       $dataReady = false;
     } else{
       $email = $emailTest;
