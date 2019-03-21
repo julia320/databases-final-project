@@ -64,10 +64,10 @@
     $aoiTest = $_POST["aoi"];
     $experienceTest = $_POST["experience"];
     
-    $fnameRecTest = "";
-    $lnameRecTest = "";
-    $institutionTest = "";
-    $emailTest = "";
+    $fnameRecTest = $_POST["fnameRec"];
+    $lnameRecTest = $_POST["lnameRec"];
+    $institutionTest = $_POST["institution"];
+    $emailTest = $_POST["email"];
     
     $address= "";
     $ssn = "";
@@ -181,7 +181,7 @@
     } else{
       $institution = $institutionTest;
     }
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($emailTest, FILTER_VALIDATE_EMAIL) && !empty($_POST["email"])) {
       $emailErr = "Invalid email";
       $dataReady = false;
     } else{
@@ -192,26 +192,30 @@
     
     
     //Insert into database 
-     if ($dataReady == true){
-       //use session id to extract fname and last name.
-       $sql = "SELECT fname, lname FROM users WHERE userID =" . $_SESSION['id'];
-       $result = mysqli_query($conn, $sql) or die ("************* 1st SQL FAILED *************");
-       $value = mysqli_fetch_object($result);
-       $fname = $value->fname;
-       $lname = $value->lname;
+    if ($dataReady == true){
+      //use session id to extract fname and last name.
+      $sql = "SELECT fname, lname FROM users WHERE userID =" . $_SESSION['id'];
+      $result = mysqli_query($conn, $sql) or die ("************* 1st SQL FAILED *************");
+      $value = mysqli_fetch_object($result);
+      $fname = $value->fname;
+      $lname = $value->lname;
 
-       //fill in personal_info table
-       $sql1 = "INSERT INTO personal_info VALUES('$fname', '$lname'," . $_SESSION['id'].", '$address'," . $ssn . ")";
-       $result1 = mysqli_query($conn, $sql1) or die ("************* 2nd SQL FAILED *************");
+      //fill in personal_info table
+      $sql1 = "INSERT INTO personal_info VALUES('$fname', '$lname'," . $_SESSION['id'].", '$address'," . $ssn . ")";
+      $result1 = mysqli_query($conn, $sql1) or die ("************* 2nd SQL FAILED *************");
 
-       //fill in academic_info table
-       $sql2 = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
-               VALUES(".$_SESSION['id'].", '$degreeType', '$aoi', '$experience', '$semester'," . $year . ")";
-       $result2 = mysqli_query($conn, $sql2) or die ("************* 3rd SQL FAILED *************");
-
-       // If we made it here,  we're done
-       $done = true;
-     }
+      //fill in academic_info table
+      $sql2 = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
+              VALUES(".$_SESSION['id'].", '$degreeType', '$aoi', '$experience', '$semester'," . $year . ")";
+      $result2 = mysqli_query($conn, $sql2) or die ("************* 3rd SQL FAILED *************");
+      
+      //fill in rec_letter table
+      $sql3 = "INSERT INTO rec_letter VALUES ('$fnameRec', '$lnameRec', '$email', '$institution'," . $_SESSION['id'] . ")";
+      $result3 = mysqli_query($conn, $sql3) or die ("************* 4rd SQL FAILED *************");
+       
+      // If we made it here,  we're done
+      $done = true;
+    }
 
     
     //If the data was successfuly added to database, move to page 2
