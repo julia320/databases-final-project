@@ -181,8 +181,8 @@
     } else{
       $institution = $institutionTest;
     }
-    if (!preg_match("/^[a-zA-Z ]+$/i",$emailTest) && !empty($_POST["email"])) {
-      $emailErr = "Only letters, and white space allowed";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $emailErr = "Invalid email size";
       $dataReady = false;
     } else{
       $email = $emailTest;
