@@ -32,6 +32,11 @@
   $aoiErr = "";
   $experienceErr = "";
 
+  $fnameRecErr = "";
+  $lnameRecErr = "";
+  $institutionErr = "";
+  $emailErr = "";
+
   if (isset($_POST['submit'])){
     $dataReady = true;
     
@@ -59,6 +64,11 @@
     $aoiTest = $_POST["aoi"];
     $experienceTest = $_POST["experience"];
     
+    $fnameRecTest = "";
+    $lnameRecTest = "";
+    $institutionTest = "";
+    $emailTest = "";
+    
     $address= "";
     $ssn = "";
     
@@ -74,6 +84,11 @@
     $experience= "";
     $degreeType = $_POST["degreeType"];
     $semester = $_POST["semester"];
+    
+    $fnameRec = "";
+    $lnameRec = "";
+    $institution = "";
+    $email = "";
      
     if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$addressTest) && !empty($_POST["address"])) {
       $addressErr = "Only letters, numbers, and white space allowed";
@@ -147,6 +162,32 @@
     } else{
       $experience = $experienceTest;
     }
+    
+    if (!preg_match("/^[a-zA-Z ]+$/i",$fnameRecTest) && !empty($_POST["fnameRec"])) {
+      $fnameRecErr = "Only letters, and white space allowed";
+      $dataReady = false;
+    } else{
+      $fnameRec = $fnameRecTest;
+    }
+    if (!preg_match("/^[a-zA-Z ]+$/i",$lnameRecTest) && !empty($_POST["lnameRec"])) {
+      $lnameRecErr = "Only letters, and white space allowed";
+      $dataReady = false;
+    } else{
+      $lnameRec = $lnameRecTest;
+    }
+    if (!preg_match("/^[a-zA-Z ]+$/i",$institutionTest) && !empty($_POST["institution"])) {
+      $institutionErr = "Only letters, and white space allowed";
+      $dataReady = false;
+    } else{
+      $institution = $institutionTest;
+    }
+    if (!preg_match("/^[a-zA-Z ]+$/i",$emailTest) && !empty($_POST["email"])) {
+      $emailErr = "Only letters, and white space allowed";
+      $dataReady = false;
+    } else{
+      $email = $emailTest;
+    }
+    
     ////////////////////////////////////////////////////////////////////////
     
     
@@ -253,11 +294,15 @@
       <i>Enter the contact information of the person who will provide your recommendation letter.<br>
       We will reach out to this person and ask for their letter. <br>
       You can see the status of your recommendation letter on your homepage.</i> <br><br>
-      First name <span class="field"><input type="text" name="fname"></span><br>
-      Last name <span class="field"><input type="text" name="lname"></span><br>
-      Institution <span class="field"><input type="text" name="institution"></span><br>
-      Email <span class="field"><input type="text" name="email"></span><br>
-
+      First name <span class="field"><input type="text" name="fnameRec">
+      <span class="error"><?php echo " " . $fnameRecErr;?></span></span><br>
+      Last name <span class="field"><input type="text" name="lnameRec">
+      <span class="error"><?php echo " " . $lnameRecErr;?></span></span><br>
+      Institution <span class="field"><input type="text" name="institution">
+      <span class="error"><?php echo " " . $institutionErr;?></span></span><br>
+      Email <span class="field"><input type="text" name="email">
+      <span class="error"><?php echo " " . $emailErr;?></span></span><br>
+      <br><br>
       
       <div class="bottomCentered"><input type="submit" name="submit" value="Submit">
       <span class="error"><?php echo $somethingEmpty;?></span></div>
