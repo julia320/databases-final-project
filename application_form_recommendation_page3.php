@@ -27,7 +27,7 @@
   <body>
     
     <form id="mainform" action="application_form_end.php" method="post">
-      <h3>Recommendation Letter One(required)</h3>
+      <h3>Recommendation Letter (required)</h3>
       First name <span><input type="text" name="fname"></span><br>
       Last name <span><input type="text" name="lname"></span><br>
       Institution/affiliation <span><input type="text" name="institution"></span><br>
