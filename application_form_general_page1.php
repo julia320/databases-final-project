@@ -150,19 +150,12 @@
     } else{
       $advYear = $advYearTest;
     }
-    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$aoiTest) && !empty($_POST["aoi"])) {
-      $aoiErr = "Only letters, numbers, and white space allowed";
-      $dataReady = false;
-    } else{
+    if (!empty($_POST["aoi"])) {
       $aoi = $aoiTest;
     }
-    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$experienceTest) && !empty($_POST["experience"])) {
-      $experienceErr = "Only letters, numbers, and white space allowed";
-      $dataReady = false;
-    } else{
+    if (!empty($_POST["experience"])) {
       $experience = $experienceTest;
     }
-    
     if (!preg_match("/^[a-zA-Z ]+$/i",$fnameRecTest) && !empty($_POST["fnameRec"])) {
       $fnameRecErr = "Only letters, and white space allowed";
       $dataReady = false;
@@ -210,7 +203,8 @@
       $result2 = mysqli_query($conn, $sql2) or die ("************* 3rd SQL FAILED *************");
       
       //fill in rec_letter table
-      $sql3 = "INSERT INTO rec_letter VALUES ('$fnameRec', '$lnameRec', '$email', '$institution'," . $_SESSION['id'] . ")";
+      //BROKEN
+      $sql3 = "INSERT INTO rec_letter VALUES('$fnameRec', '$lnameRec', '$email', '$institution'," . $_SESSION['id'] . ")";
       $result3 = mysqli_query($conn, $sql3) or die ("************* 4rd SQL FAILED *************");
        
       // If we made it here,  we're done
@@ -288,10 +282,8 @@
       <span class="error"><?php echo " " . $toeflErr;?></span></span><br>
       Year of exam <span class="field"><input type="text" name="advYear">
       <span class="error"><?php echo " " . $advYearErr;?></span></span><br><br>
-      Areas of Interest <span class="field"><input type="text" name="aoi">
-      <span class="error"><?php echo " " . $aoiErr;?></span></span><br>
-      Experience <span class="field"><input type="text" name="experience">
-      <span class="error"><?php echo " " . $experienceErr;?></span></span><br>
+      Areas of Interest <span class="field"><input type="text" name="aoi"></span><br>
+      Experience <span class="field"><input type="text" name="experience"></span><br>
       <hr>
       
       <h3> Recomendation Letter </h3>
