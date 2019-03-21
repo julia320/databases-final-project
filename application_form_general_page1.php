@@ -204,12 +204,12 @@
   </style>
   
    <h1> Application Form </h1>
-   <h2> Page 1: Personal and Academic Information </h2><br>
+   
   
   <body>
     <!--action="application_form_priorDegrees_page2.php"-->
     <form id="mainform" method="post">
-      
+      <h3> Personal Information </h3>
       Address <!--(If you are and international student, enter country name. Otherwise, enter city, state, zip) <br> -->
       <span class="field"><input type="text" name="address">
       <span class="error"><?php echo " " . $addressErr;?></span></span><br>
@@ -217,18 +217,16 @@
       <span class="error"><?php echo " " . $ssnErr;?></span></span><br> 
       <hr>
       
+      <h3> Academic Information </h3>
       What degree are you applying for? <br>
       <input type="radio" name="degreeType" value="Mas" > MS<br>
       <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
-  
       Year <span class="field"><input type="text" name="appYear">
-      <span class="error"><?php echo " " . $appYearErr;?></span></span><br>
-      
+      <span class="error"><?php echo " " . $appYearErr;?></span></span><br> 
       Semester <br>
       <input type="radio" name="semester" value="Fa"> Fall<br>
       <input type="radio" name="semester" value="Sp"> Spring<br>
       <input type="radio" name="semester" value="Su"> Summer<br><br>
-      
       GRE: <br>
       Verbal <span class="field"><input type="text" name="verbal">
       <span class="error"><?php echo " " . $verbalErr;?></span></span><br>
@@ -245,11 +243,20 @@
       <span class="error"><?php echo " " . $toeflErr;?></span></span><br>
       Year of exam <span class="field"><input type="text" name="advYear">
       <span class="error"><?php echo " " . $advYearErr;?></span></span><br><br>
-
       Areas of Interest <span class="field"><input type="text" name="aoi">
       <span class="error"><?php echo " " . $aoiErr;?></span></span><br>
       Experience <span class="field"><input type="text" name="experience">
       <span class="error"><?php echo " " . $experienceErr;?></span></span><br>
+      <hr>
+      
+      <h3> Recomendation Letter </h3>
+      Enter the contact information of the person who will provide your recommendation letter.<br>
+      We will reach out to this person and ask for their letter. <br>
+      You can see the status of your recommendation letter on your homepage.
+      First name <span><input type="text" name="fname"></span><br>
+      Last name <span><input type="text" name="lname"></span><br>
+      Institution/affiliation <span><input type="text" name="institution"></span><br>
+      email <span><input type="text" name="email"></span><br>
       
       <div class="bottomCentered"><input type="submit" name="submit" value="Submit">
       <span class="error"><?php echo $somethingEmpty;?></span></div>
