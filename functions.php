@@ -1,8 +1,8 @@
 <?php
 
 //connect
+$mysqli = new mysqli("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
 
-include_once "conn.php";
 
 //validate if data is in database
 
