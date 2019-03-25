@@ -1,5 +1,5 @@
 -- erase anything that is already there
-DROP TABLE IF EXISTS application_info CASCADE;
+DROP TABLE IF EXISTS app_review CASCADE;
 DROP TABLE IF EXISTS gre CASCADE;
 DROP TABLE IF EXISTS prior_degrees CASCADE;
 DROP TABLE IF EXISTS rec_review CASCADE;
@@ -114,13 +114,13 @@ INSERT INTO users VALUES
 	-- Chair of Admissions Comm
 	("CAC", "John", "Smith", "jsmith", "123456", "jsmith@gmail.com", 42142172),
 	-- Applicants
-	("A", "John", "Lennon", "john_lennon", "plsletmein", "john_lennon@gmail.com", 555555555);
+	("A", "John", "Lennon", "john_lennon", "plsletmein", "john_lennon@gmail.com", 55555555),
 	("A", "Ringo", "Starr", "rstarr", "Apply!", "ringostarr@gmail.com", 66666666);
 
 
 -- insert personal data for applicants
 INSERT INTO personal_info VALUES
-	("John", "Lennon", 55555555, "123 Main St, New York NY", 111111111);
+	("John", "Lennon", 55555555, "123 Main St, New York NY", 111111111),
 	("Ringo", "Starr", 66666666, NULL, 222111111);
 
 -- John's application (complete)
