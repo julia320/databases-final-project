@@ -61,7 +61,7 @@
     <?php
     $query="SELECT * FROM gre WHERE uid=?";
     if(inDb($query,[$_GET['uid']])) {
-        ?>
+        echo "
         <table border="1" style="border-collapse: collapse;">
             <tr>
                 <th>Year</th>
@@ -70,11 +70,11 @@
                 <th>AdvScore</th>
                 <th>toefl</th>
                 <th>advYear</th>
-            </tr>
-            <?php
+            </tr>"
+            
             $rows = fetchRows($query,[$_GET['uid']]);
             foreach ($rows as $row){
-                ?>
+                echo "
                 <tr>
                     <td><?php echo $row['advyear'];?></td>
                     <td><?php echo $row['verbal'];?></td>
@@ -82,26 +82,17 @@
                     <td><?php echo $row['advScore'];?></td>
                     <td><?php echo $row['toefl'];?></td>
                     <td><?php echo $row['advYear'];?></td>
-                </tr>
-                <?php
+                </tr>"
             }
-            ?>
-        </table>
-        <?php
+        
+        echo "</table>"
+        
     }else{
-        ?>
-        <p>
-            No Transcript received
-        </p>
-        <?php
+        echo "<p>No Transcript received</p>"
     }
 
     if(inDb("SELECT * FROM gre WHERE uid=?",[$_GET['uid']])&&inDb("SELECT * FROM rec_review WHERE uid=?",[$_GET['uid']])){
-        ?>
-        <p>
-            <a href="results.php?uid=<?php echo $_GET['uid'];?>">Record application results</a>
-        </p>
-        <?php
+        echo "<p><a href='results.php?uid=<?php echo $_GET['uid'];?>''>Record application results</a></p>"
     }
     ?>
 
