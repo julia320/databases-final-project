@@ -1,17 +1,21 @@
-<?php
-session_start();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Review Page</title>
+</head>
 
-//validate the user is a reviewer
+<body>
+    <?php
+        session_start();
+        // if user is not a reviewer, redirect
+        if ($_SESSION['role'] != "FR") {
+            header("Location: redirect.php");
+            die();
+        }
 
-if(isset($_SESSION['role']= 'FR')&&isset($_GET['uid'])) {
-    include_once "functions.php";
+        include_once "functions.php";
     ?>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <title>Review Page</title>
-    </head>
-    <body>
+    
     <h1>Info for applicant: <?php echo $_GET['uid']?></h1>
     <h3>Recommendation Letters</h3>
     
@@ -100,10 +104,6 @@ if(isset($_SESSION['role']= 'FR')&&isset($_GET['uid'])) {
         <?php
     }
     ?>
-    </body>
-    </html>
-    <?php
-}else{
-    header("location:login.php");
-}
-    ?>
+
+</body>
+</html>

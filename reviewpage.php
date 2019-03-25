@@ -1,29 +1,36 @@
-<?php
-session_start();
-if(isset($_SESSION['role']= 'FR')){
-    include_once "functions.php";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
 
-    $query="SELECT * FROM academic_info";
-    $array=[];
-    $rows = fetchRows($query,$array);
+<body>
+    <?php
+        session_start();
 
-    $names = [];
-    foreach ($rows as $row){
-        $q = "SELECT * FROM users WHERE uid = ?";
-        $arr = [$row['uid']];
-        $nm = fetchRows($q,$arr);
-        $nms = [$nm[0]['fname'],$nm[0]['lname']];
-        array_push($names,$nms);
-    }
+        // if user is not a reviewer, redirect
+        if ($_SESSION['role'] != "FR") {
+            header("Location: redirect.php");
+            die();
+        }
 
+        include_once "functions.php";
+
+        $query="SELECT * FROM academic_info";
+        $array=[];
+        $rows = fetchRows($query,$array);
+
+        $names = [];
+        foreach ($rows as $row){
+            $q = "SELECT * FROM users WHERE uid = ?";
+            $arr = [$row['uid']];
+            $nm = fetchRows($q,$arr);
+            $nms = [$nm[0]['fname'],$nm[0]['lname']];
+            array_push($names,$nms);
+        }
     ?>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
-    <body>
+    
     <h1>Applicants</h1>
     <h2>Reviewer: <?php echo $_SESSION['userID']?></h2>
     <p>
@@ -63,9 +70,5 @@ if(isset($_SESSION['role']= 'FR')){
         }
             ?>
     </table>
-    </body>
-    </html>
-    <?php
-}else{
-    header("location:login.php");
-}
+</body>
+</html>
