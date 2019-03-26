@@ -19,7 +19,6 @@ CREATE TABLE users (
   password varchar(20) NOT NULL,
   email varchar(50) NOT NULL,
   userID int(8) NOT NULL,
-  appStatus int NOT NULL DEFAULT 1,
   PRIMARY KEY (userID)
 );
 
@@ -92,13 +91,14 @@ CREATE TABLE prior_degrees (
 
 CREATE TABLE app_review (
   uid int(8) NOT NULL,
-  reviewerRole char(3),
+  reviewID int(8) NOT NULL,
   comments varchar(100),
   deficiency varchar(20),
   reason char,
-  action int,
+  rating int,
   advisor char(30),
-  PRIMARY KEY (uid, reviewerRole),
+  status int NOT NULL DEFAULT 1,
+  PRIMARY KEY (reviewID),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
@@ -106,16 +106,16 @@ CREATE TABLE app_review (
 -- insert admissions committee and two applicants
 INSERT INTO users VALUES 
   -- Systems Administrator
-  ("SA", "Julia", "Bristow", "julia320", "admin1", "julia_bristow@gwu.edu", 12345678, 0),
+  ("SA", "Julia", "Bristow", "julia320", "admin1", "julia_bristow@gwu.edu", 12345678),
   -- Graduate Secretary
-  ("GS", "Jack", "Sloane", "jacksloane", "password", "email@gmail.com", 13254761, 0),
+  ("GS", "Jack", "Sloane", "jacksloane", "password", "email@gmail.com", 13254761),
   -- Faculty Reviewer
-  ("FR", "Bhagi", "Narahari", "bn", "password", "narahari@gwu.edu", 21147362, 0),
+  ("FR", "Bhagi", "Narahari", "bn", "password", "narahari@gwu.edu", 21147362),
   -- Chair of Admissions Comm
-  ("CAC", "John", "Smith", "jsmith", "123456", "jsmith@gmail.com", 42142172, 0),
+  ("CAC", "John", "Smith", "jsmith", "123456", "jsmith@gmail.com", 42142172),
   -- Applicants
-  ("A", "John", "Lennon", "john_lennon", "plsletmein", "john_lennon@gmail.com", 55555555, 1),
-  ("A", "Ringo", "Starr", "rstarr", "Apply!", "ringostarr@gmail.com", 66666666, 1);
+  ("A", "John", "Lennon", "john_lennon", "plsletmein", "john_lennon@gmail.com", 55555555),
+  ("A", "Ringo", "Starr", "rstarr", "Apply!", "ringostarr@gmail.com", 66666666);
 
 
 -- insert personal data for applicants
