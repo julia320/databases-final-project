@@ -1,5 +1,6 @@
 -- erase anything that is already there
 DROP TABLE IF EXISTS app_review CASCADE;
+DROP TABLE IF EXISTS application_info CASCADE;
 DROP TABLE IF EXISTS gre CASCADE;
 DROP TABLE IF EXISTS prior_degrees CASCADE;
 DROP TABLE IF EXISTS rec_review CASCADE;
@@ -52,18 +53,21 @@ CREATE TABLE rec_letter  (
   email varchar(30),
   institution varchar(30),
   uid int(8) NOT NULL,
+  recID int NOT NULL,
   PRIMARY KEY (email),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
 CREATE TABLE rec_review (
-  reviewerRole char(3),
+  reviewID char(3),
   rating int,
   generic boolean, 
   credible boolean, 
   uid int(8) NOT NULL,
-  PRIMARY KEY (uid, reviewerRole),
-  FOREIGN KEY (uid) REFERENCES users(userID)
+  recID int NOT NULL,
+  PRIMARY KEY (reviewID),
+  FOREIGN KEY (uid) REFERENCES users(userID),
+  FOREIGN KEY (recID) REFERENCES rec_letter(recID)
 );
 
 CREATE TABLE gre (
@@ -102,6 +106,19 @@ CREATE TABLE app_review (
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
+CREATE TABLE application_info (
+  uid int(8) NOT NULL,
+  status int NOT NULL,
+  comments varchar(100),
+  rating int,
+  deficiency varchar(20),
+  reason char,
+  decision int,
+  advisor char(30),
+  PRIMARY KEY (uid),
+  FOREIGN KEY (uid) REFERENCES users(userID)
+);
+
 
 -- insert admissions committee and two applicants
 INSERT INTO users VALUES 
@@ -133,3 +150,17 @@ INSERT INTO prior_degrees VALUES (3.6, 2017, "GWU", 55555555, "BS");
 
 -- Ringo's application (incomplete)
 INSERT INTO academic_info (uid, transcript, recletter) VALUES (66666666, false, false);
+-- insert admissions committee and first applicant
+INSERT INTO users VALUES 
+	-- Systems Administrator
+	("SA", "Sarah", "Hoffman", "shoffman", "admin123", "sarah_hoffman@apps.edu", 1),
+	-- Graduate Secretary
+	("GS", "John", "Lipton", "john_lipton", "password7", "liptonj@gmail.com", 2),
+	-- Faculty Reviewer
+	("FR", "Jennifer", "Clare", "jenclare", "mypetsname", "jenclare@gmail.com", 3),
+	-- Chair of Admissions Comm
+	("CAC", "Mike", "Myers", "myers", "123456", "mmyers@aol.com", 4),
+	-- Applicant
+	("A", "Adrian", "Peters", "apeters", "plsletmein", "apeters@verizon.net", 5);
+
+-- all other tables will be blank until application is submitted
