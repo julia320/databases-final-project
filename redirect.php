@@ -1,7 +1,7 @@
 <?php
 	
 	// if no role is set, need to go all the way back to log in page
-	if (!isset($_SESSION['role']) {
+	if (!isset($_SESSION['role'])) {
         header("Location: login.php");
         die();
     }

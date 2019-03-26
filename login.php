@@ -122,7 +122,8 @@
 					// direct to application page
 					$_SESSION['role'] = $row['role'];
 					$_SESSION['errL'] = "";
-					echo "<p>Login successful, REDIRECT PAGE<p>";
+					header("Location: home.php");
+					die();
 				}
 			}
 		}
@@ -130,34 +131,35 @@
 		function sign_up()
 		{
 			// connect to the database
-                        $conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
-                        if (!$conn) die("Connection failed: ".mysqli_connect_error());
+            $conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
+            if (!$conn) die("Connection failed: ".mysqli_connect_error());
 
-                        // make sure they don't already have an account
-                        if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE email='".$_POST['email']."'")) > 0)
-                                $_SESSION['errS'] = "<p class='error'>There is already an account with that email address, try logging in:</p>";
+            // make sure they don't already have an account
+            if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE email='".$_POST['email']."'")) > 0)
+                    $_SESSION['errS'] = "<p class='error'>There is already an account with that email address, try logging in:</p>";
 
-                        // make sure username isn't taken
-                        else if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE username='".$_POST['username']."'")) > 0)
-                                $_SESSION['errS'] = "<p class='error'>That username is taken, please select a different one:</p>";
+            // make sure username isn't taken
+            else if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE username='".$_POST['username']."'")) > 0)
+                    $_SESSION['errS'] = "<p class='error'>That username is taken, please select a different one:</p>";
 
-                        // make sure their passwords matched
+            // make sure their passwords matched
 			else if ($_POST['password'] == $_POST['password2']) {
 
-                                // create a user id for the new account
-                                $query = "SELECT MAX(userID) AS max FROM users";
-                                $row = mysqli_query($conn, $query)->fetch_assoc();
-                                $_SESSION['id'] = $row['max'] + 1;
+	            // create a user id for the new account by doing max+1
+	            $query = "SELECT MAX(userID) AS max FROM users";
+	            $row = mysqli_query($conn, $query)->fetch_assoc();
+	            $_SESSION['id'] = $row['max'] + 1;
 
-                                // add info to the database
-                                $query = "INSERT INTO users VALUES ('A', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['username']."', '".$_POST['password']."', '".$_POST['email']."', ".$_SESSION['id'].")";
-                                if (mysqli_query($conn, $query)) {
+	            // add info to the database
+	            $query = "INSERT INTO users VALUES ('A', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['username']."', '".$_POST['password']."', '".$_POST['email']."', ".$_SESSION['id'].")";
+	            if (mysqli_query($conn, $query)) {
 					$_SESSION['role'] = 'A';
 					$_SESSION['errS'] = "";
-                                        echo "Signup successful PAGE REDIRECT";
-                                }
-                                else
-                                        $_SESSION['errS'] = "<p class='error'>Failure creating account:".mysqli_error()."</p>";
+                    header("Location: home.php");
+                    die();
+            	}
+                else
+                    $_SESSION['errS'] = "<p class='error'>Failure creating account: ".mysqli_error()."</p>";
 			}
 
 			else 
