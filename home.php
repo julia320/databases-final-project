@@ -61,11 +61,14 @@
 			}
 
 			// if they were admitted
-			else if ($row['status'] == 4) {
+			else if ($row['status'] == 4 || $row['status'] == 5) {
 				echo "Congratulations!</p>";
 				echo "<p style='text-align: center;'>We are happy to inform you that you have been selected for admission to this school! </p>";
 
 				// should we list their advisor here and if they got aid?
+				if ($row['status'] == 5) {
+					echo "<p style='text-align: center;'>You have also been selected for financial aid, please speak to our office about that.</p>";
+				}
 			}
 
 			// if they were rejected
@@ -76,20 +79,56 @@
 
 			else {
 				echo "Error: we could not find any information for this user</p><br/>";
-			}
 
+			/*$result = mysqli_query($conn, "SELECT uid FROM academic_info WHERE uid=".$_SESSION['id']);
+			if (mysqli_num_rows($result) == 0){
+				echo "<p style='text-align: center;'><strong>Status: </strong>";
+				echo "Application incomplete</p>";
+				echo "<form align='center' action='application_form.php' method='get'>
+		    				<input type='submit' value='Apply'>
+						  </form>";
+			}
+			else{
+				$result = mysqli_query($conn, "SELECT status FROM app_review WHERE uid=".$_SESSION['id']);	//altered query
+				if (mysqli_num_rows($result) == 0){
+					echo "<p style='text-align: center;'><strong>Status: </strong>";
+					echo "Your application has not yet been reviewed</p>";
+					echo "<p style='text-align: center;'> Refer back to this page frequently to see when a decision has been made.</p>";
+				}
+				else{
+					$row = $result->fetch_assoc();
+					if ($row['status'] == 3 || $row['status'] == 2) {	 	//change from 1 to 3
+						echo "<p style='text-align: center;'><strong>Status: </strong>";
+						echo "Your application is complete!</p>";
+						echo "<p style='text-align: center;'>Refer back to this page frequently to see when a decision has been made.</p>";
+					}
+					if ($row['status'] == 4) {
+						echo "<p style='text-align: center;'><strong>Status: </strong>";
+						echo "Congratulations! You have been admitted.</p>";
+						
+					}
+					if ($row['status'] == 5) {
+						echo "<p style='text-align: center;'><strong>Status: </strong>";
+						echo "Congratulations! You have been admitted with aid.</p>";
+					}
+					if ($row['status'] == 6) {
+						echo "<p style='text-align: center;'><strong>Status: </strong>";
+						echo "Sorry You have been rejected.</p>";
+					}
+				}
+			}*/
 		}// end-applicant view
 
 
 		// if the user is a reviewer, show them the list of applicants
-		else if ($_SESSION['role'] == "FR" || $_SESSION['role'] == "CAC") {
+		if ($_SESSION['role'] == "FR" || $_SESSION['role'] == "CAC") {
 
 			// page header info
         	echo "<h2 style='text-align: center;'>Reviewer Home Page</h2>
         		<h4 style='text-align: center;'>View completed applications and review them here</h4>";
 
 			// get all the applicants whose application is complete
-			$result = mysqli_query($conn, "SELECT userID, fname, lname FROM users, app_review WHERE status=1 AND userID=uid");
+			$result = mysqli_query($conn, "SELECT userID, fname, lname FROM users, app_review WHERE status=3 AND userID=uid");
 
 			// the button will go to a different place based on role
 			if ($_SESSION['role'] == "FR")
@@ -100,6 +139,11 @@
 				$button = "<form action='application_form_review_CAC.php' method='post'>
 	    						<input type='submit' name='".$row['userID']."' value='Review Application'>
 					  		</form>";
+
+			//$result = mysqli_query($conn, "SELECT fname, lname, userID FROM users WHERE userID IN (SELECT uid FROM academic_info)");	//changed machanism
+			// $result2 = mysqli_query($conn, "SELECT * FROM app_review");
+			// if (mysqli_num_rows($result2) == 0){
+
 
 			// start table
 			echo "<table border='1' align='center'; style='border-collapse: collapse;'>

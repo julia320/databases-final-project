@@ -1,6 +1,5 @@
 -- erase anything that is already there
 DROP TABLE IF EXISTS app_review CASCADE;
-DROP TABLE IF EXISTS application_info CASCADE;
 DROP TABLE IF EXISTS gre CASCADE;
 DROP TABLE IF EXISTS prior_degrees CASCADE;
 DROP TABLE IF EXISTS rec_review CASCADE;
@@ -42,7 +41,6 @@ CREATE TABLE academic_info (
   year int(4),
   transcript boolean,
   recletter boolean, 
-  recID int,
   PRIMARY KEY (uid),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
@@ -53,20 +51,22 @@ CREATE TABLE rec_letter  (
   email varchar(30),
   institution varchar(30),
   uid int(8) NOT NULL,
-  recID int NOT NULL,
-  PRIMARY KEY (email),
+  recID int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (recID),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
 CREATE TABLE rec_review (
-  reviewID char(3),
+  reviewID int(8),
+  reviewerRole varchar(3),
   rating int,
   generic boolean, 
   credible boolean, 
   uid int(8) NOT NULL,
   recID int NOT NULL,
   PRIMARY KEY (reviewID),
-  FOREIGN KEY (uid) REFERENCES users(userID)
+  FOREIGN KEY (uid) REFERENCES users(userID),
+  FOREIGN KEY (recID) REFERENCES rec_letter(recID)
 );
 
 CREATE TABLE gre (
@@ -95,6 +95,7 @@ CREATE TABLE prior_degrees (
 CREATE TABLE app_review (
   uid int(8) NOT NULL,
   reviewID int(8) NOT NULL,
+  reviewerRole varchar(3),
   comments varchar(100),
   deficiency varchar(20),
   reason char,
@@ -104,20 +105,6 @@ CREATE TABLE app_review (
   PRIMARY KEY (reviewID),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
-
-CREATE TABLE application_info (
-  uid int(8) NOT NULL,
-  status int NOT NULL,
-  comments varchar(100),
-  rating int,
-  deficiency varchar(20),
-  reason char,
-  decision int,
-  advisor char(30),
-  PRIMARY KEY (uid),
-  FOREIGN KEY (uid) REFERENCES users(userID)
-);
-
 
 -- insert admissions committee and two applicants
 INSERT INTO users VALUES 
@@ -140,11 +127,10 @@ INSERT INTO personal_info VALUES
   ("Ringo", "Starr", 66666666, NULL, 222111111);
 
 -- John's application (complete)
-INSERT INTO academic_info VALUES (55555555, "MS", "Computer Science", "bioinformatics research", "FA", 2019, true, true, 121);
-INSERT INTO rec_letter VALUES ("Recommender", "1", "recommend@gmail.com", "GWU", 55555555, 111);
+INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES ("Recommender", "1", "recommend@gmail.com", "GWU", 55555555);
+INSERT INTO academic_info VALUES (55555555, "MS", "Computer Science", "bioinformatics research", "FA", 2019, true, true);
 INSERT INTO gre VALUES (157, 162, 2018, 830, "mathematics", 100, 2018, 55555555);
 INSERT INTO prior_degrees VALUES (3.6, 2017, "GWU", 55555555, "BS");
-
 
 -- Ringo's application (incomplete)
 INSERT INTO academic_info (uid, transcript, recletter) VALUES (66666666, false, false);
