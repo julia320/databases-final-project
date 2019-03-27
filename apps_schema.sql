@@ -65,8 +65,7 @@ CREATE TABLE rec_review (
   uid int(8) NOT NULL,
   recID int NOT NULL,
   PRIMARY KEY (reviewID),
-  FOREIGN KEY (uid) REFERENCES users(userID),
-  FOREIGN KEY (recID) REFERENCES rec_letter(recID)
+  FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
 CREATE TABLE gre (
