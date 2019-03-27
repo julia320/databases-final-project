@@ -35,18 +35,29 @@
 
 	<?php 
 		session_start(); 
+
+		// connect to the database
+		$conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
+		if (!$conn) die("Connection failed: ".mysqli_connect_error());
+
 		// if they tried to log in, verify their information
 		if (isset($_POST['login'])) {
 			$_SESSION['username'] = $_POST['username_login'];
 			$_SESSION['id'] = $_POST['uid'];
-			verify_user();
+			verify_user($conn);
 		}
 
 		// if they tried to sign up, validate data and add to database
 		if (isset($_POST['signup'])) {
 			$_SESSION['username'] = $_POST['username'];
 			$_SESSION['role'] = 'A';
-			sign_up();
+			sign_up($conn);
+		}
+
+		// if the reset button was pressed, run commands
+		if (isset($_POST['RESET'])) {
+			mysqli_query($conn, "source apps_schema.sql");
+			echo "reset";
 		}
 	?>
 
@@ -95,13 +106,16 @@
 		</div>
 	</div>
 
-	<?php
-		function verify_user()
-		{
-			// connect to the database
-			$conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
-			if (!$conn) die("Connection failed: ".mysqli_connect_error());
+	<!-- RESET button -->
+	<div align='center';>
+		<form action="login.php" method="POST">
+			<input type="submit" name="RESET" value="RESET">
+		</form>
+	</div>
 
+	<?php
+		function verify_user ($conn)
+		{
 			// query the database for entered username
 			$query = 'SELECT role, userID, password FROM users WHERE username="'.$_SESSION['username'].'"';
 			$result = mysqli_query($conn, $query);
@@ -128,12 +142,8 @@
 			}
 		}
 
-		function sign_up()
+		function sign_up ($conn)
 		{
-			// connect to the database
-            $conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
-            if (!$conn) die("Connection failed: ".mysqli_connect_error());
-
             // make sure they don't already have an account
             if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE email='".$_POST['email']."'")) > 0)
                     $_SESSION['errS'] = "<p class='error'>There is already an account with that email address, try logging in:</p>";
@@ -155,6 +165,7 @@
 	            if (mysqli_query($conn, $query)) {
 					$_SESSION['role'] = 'A';
 					$_SESSION['errS'] = "";
+					echo "redirect";
                     header("Location: home.php");
                     die();
             	}
