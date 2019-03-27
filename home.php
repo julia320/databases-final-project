@@ -29,13 +29,13 @@
         		<h4 style='text-align: center;'>Complete your application or view its status here</h4>";
 
 			// find status of the applicant
-			$result = mysqli_query($conn, "SELECT userID, status FROM app_review, users WHERE uid=".$_SESSION['id'] AND uid=userID);
+			$result = mysqli_query($conn, "SELECT uid, status FROM app_review WHERE uid=".$_SESSION['id']);
 			$row = $result->fetch_assoc();
 			
 			echo "<p style='text-align: center;'><strong>Status: </strong>";
 
 			// if their application is incomplete
-			if (!isset($row['status']) || $row['status']==1) {
+			if (!isset($row['status']) || $row['status'] == 1) {
 				echo "Application incomplete</p>";
 				echo "<form align='center' action='application_form.php' method='post'>
 	    				<input type='submit' value='Finish Application'>
@@ -77,46 +77,9 @@
 				echo "<p style='text-align: center;'>We regret to inform you that you have not been chosen as a potential student for this school.</p>";
 			}
 
-			else {
+			else 
 				echo "Error: we could not find any information for this user</p><br/>";
 
-			/*$result = mysqli_query($conn, "SELECT uid FROM academic_info WHERE uid=".$_SESSION['id']);
-			if (mysqli_num_rows($result) == 0){
-				echo "<p style='text-align: center;'><strong>Status: </strong>";
-				echo "Application incomplete</p>";
-				echo "<form align='center' action='application_form.php' method='get'>
-		    				<input type='submit' value='Apply'>
-						  </form>";
-			}
-			else{
-				$result = mysqli_query($conn, "SELECT status FROM app_review WHERE uid=".$_SESSION['id']);	//altered query
-				if (mysqli_num_rows($result) == 0){
-					echo "<p style='text-align: center;'><strong>Status: </strong>";
-					echo "Your application has not yet been reviewed</p>";
-					echo "<p style='text-align: center;'> Refer back to this page frequently to see when a decision has been made.</p>";
-				}
-				else{
-					$row = $result->fetch_assoc();
-					if ($row['status'] == 3 || $row['status'] == 2) {	 	//change from 1 to 3
-						echo "<p style='text-align: center;'><strong>Status: </strong>";
-						echo "Your application is complete!</p>";
-						echo "<p style='text-align: center;'>Refer back to this page frequently to see when a decision has been made.</p>";
-					}
-					if ($row['status'] == 4) {
-						echo "<p style='text-align: center;'><strong>Status: </strong>";
-						echo "Congratulations! You have been admitted.</p>";
-						
-					}
-					if ($row['status'] == 5) {
-						echo "<p style='text-align: center;'><strong>Status: </strong>";
-						echo "Congratulations! You have been admitted with aid.</p>";
-					}
-					if ($row['status'] == 6) {
-						echo "<p style='text-align: center;'><strong>Status: </strong>";
-						echo "Sorry You have been rejected.</p>";
-					}
-				}
-			}*/
 		}// end-applicant view
 
 
