@@ -317,43 +317,44 @@
 
       //use session id to extract fname and last name.
       $sql = "SELECT fname, lname FROM users WHERE userID = " .$_SESSION['id'];
-      $result = mysqli_query($conn, $sql) or die ("************* 1st SQL FAILED *************");
+      $result = mysqli_query($conn, $sql) or die ("**********1st MySQL Error***********");
       $value = mysqli_fetch_object($result);
       $fname = $value->fname;
       $lname = $value->lname;
 
       //fill in personal_info table
-      $sql1 = "INSERT INTO personal_info VALUES('$fname', '$lname', " . $_SESSION['id'].", '$address', " . $ssn . ")";
-      $result1 = mysqli_query($conn, $sql1) or die ("************* 2nd SQL FAILED *************");
+      $sql1 = "INSERT INTO personal_info VALUES('".$fname."', '".$lname."', ".$_SESSION['id'].", '".$address."', ".$ssn.")";
+      $result1 = mysqli_query($conn, $sql1) or die ("**********2nd MySQL Error***********");
 
       //fill in GRE table
-      $sql2 = "INSERT INTO gre VALUES(".$verbal.", " .$quantitative. ", " .$year. ", " .$advScore. ", '$subject', " .$toefl. ", " .$advYear. ", " . $_SESSION['id']. ")";
-      $result2 = mysqli_query($conn, $sql2) or die ("************* 3rd SQL FAILED *************");
+      $sql2 = "INSERT INTO gre VALUES(".$verbal.", ".$quantitative.", ".$year.", ".$advScore.", '".$subject."', " .$toefl.", ".$advYear.", ".$_SESSION['id'].")";
+      $result2 = mysqli_query($conn, $sql2) or die (mysqli_error());
 
       //fill in academic_info table
       $sql3 = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
-              VALUES(".$_SESSION['id'].", '$degreeType', '$aoi', '$experience', '$semester'," . $year . ")";
-      $result3 = mysqli_query($conn, $sql3) or die ("************* 4rd SQL FAILED *************");
+              VALUES(".$_SESSION['id'].", '".$degreeType."', '".$aoi."', '".$experience."', ".$semester.", ".$year.")";
+      $result3 = mysqli_query($conn, $sql3) or die ("**********3rd MySQL Error***********");
       
       //fill in prior degrees table
-      $sql4 = "INSERT INTO prior_degrees VALUES (".$gpa.", " .$dYear.", '$university', " .$_SESSION['id']. ", '$type')"; 
-      $result4 = mysqli_query($conn, $sql4) or die ("************* 5.1 SQL FAILED *************");
+      $sql4 = "INSERT INTO prior_degrees VALUES (".$gpa.", " .$dYear.", '".$university."', " .$_SESSION['id']. ", '".$type."')"; 
+      $result4 = mysqli_query($conn, $sql4) or die ("**********4th MySQL Error***********");
+
       if(!empty($_POST["type2"]) && !empty($_POST["gpa2"]) && !empty($_POST["dYear2"]) && !empty($_POST["university2"])){
-      	$sql4 = "INSERT INTO prior_degrees VALUES (".$gpa2.", " .$dYear2.", '$university2', " .$_SESSION['id']. ", '$type2')"; 
-        $result4 = mysqli_query($conn, $sql4) or die ("************* 5.2 SQL FAILED *************");
+      	$sql4 = "INSERT INTO prior_degrees VALUES (".$gpa2.", " .$dYear2.", '".$university2."', " .$_SESSION['id']. ", '".$type2."')"; 
+        $result4 = mysqli_query($conn, $sql4) or die ("**********5.1 MySQL Error***********");
       }
       if(!empty($_POST["type3"]) && !empty($_POST["gpa3"]) && !empty($_POST["dYear3"]) && !empty($_POST["university3"])){
-      	$sql4 = "INSERT INTO prior_degrees VALUES (".$gpa3.", " .$dYear3.", '$university3', " .$_SESSION['id']. ", '$type3')"; 
-        $result4 = mysqli_query($conn, $sql4) or die ("************* 5.3 SQL FAILED *************");
+      	$sql4 = "INSERT INTO prior_degrees VALUES (".$gpa3.", " .$dYear3.", '".$university3."', " .$_SESSION['id']. ", '".$type3."')"; 
+        $result4 = mysqli_query($conn, $sql4) or die ("**********5.2 MySQL Error***********");
       }
       if(!empty($_POST["type4"]) && !empty($_POST["gpa4"]) && !empty($_POST["dYear4"]) && !empty($_POST["university4"])){
-      	$sql4 = "INSERT INTO prior_degrees VALUES (".$gpa4.", " .$dYear4.", '$university4', " .$_SESSION['id']. ", '$type4')"; 
-        $result4 = mysqli_query($conn, $sql4) or die ("************* 5.4 SQL FAILED *************");
+      	$sql4 = "INSERT INTO prior_degrees VALUES (".$gpa4.", " .$dYear4.", '".$university4."', " .$_SESSION['id']. ", '".$type4."')"; 
+        $result4 = mysqli_query($conn, $sql4) or die ("**********5.3 MySQL Error***********");
       }
 
       //fill in rec_letter table
-      $sql5 = "INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES('$fnameRec', '$lnameRec', '$email', '$institution', " . $_SESSION['id'] . ")";
-      $result5 = mysqli_query($conn, $sql5) or die ("************* 6th SQL FAILED *************");
+      $sql5 = "INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES('".$fnameRec."', '".$lnameRec."', '".$email."', '".$institution."', " . $_SESSION['id'] . ")";
+      $result5 = mysqli_query($conn, $sql5) or die ("**********6th MySQL Error***********");
        
       // If we made it here,  we're done
       $done = true;
@@ -362,6 +363,7 @@
     
     //If the data was successfuly added to database, move to page 2
     if ($done){
+      echo "done";
       header("Location:home.php"); 
       exit;
     }
