@@ -1,7 +1,7 @@
 <?php
   session_start();
-  //$_SESSION['id'] = 55555555;
-  $_SESSION['role'] = "FR";
+  $studentID = 55555555;
+  //$_SESSION['role'] = "FR";
   /*Important variable that will be used later to determine 
   if we're ready to move to the next page of the application */
   $done = false;
@@ -14,17 +14,29 @@
   }
 
   ////////////////////////////////////////////////////
-  //RETRIEVE INFORMATION
+  // Retrieve information of student being reviewed
   ////////////////////////////////////////////////////
-  $sql = "SELECT fname, lname FROM users WHERE userID = " .$_SESSION['id'];
+  /*$apps = "SELECT * FROM users";
+  $result = mysqli_query($conn, $apps);
+  for ($i=0; $i < $result->num_rows; $i++) {
+      $row = $result->fetch_assoc();
+      // if the post var with that id is set, we are reviewing that student
+      if (isset($_POST[$row['userID']])) {
+        $studentID = $row['userID'];
+        $fname = $row['fname'];
+        $lname = $row['lname'];
+      }
+  }*/
+
+
+  $sql = "SELECT fname, lname, userID FROM users WHERE userID=" .$studentID;
   $result = mysqli_query($conn, $sql) or die ("************* NAME SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $fname = $value->fname;
   $lname = $value->lname;
 
-  $studentNumber = $_SESSION['id'];
 
-  $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['id'];
+  $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$studentID;
   $result = mysqli_query($conn, $sql) or die ("************* ACADEMIC INFO SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $degreeType = $value->degreeType;
@@ -33,7 +45,7 @@
   $semester = $value->semester;
   $year = $value->year;
 
-  $sql = "SELECT verbal, quant, year, advScore, subject, toefl, advYear FROM gre WHERE uid= " .$_SESSION['id'];
+  $sql = "SELECT verbal, quant, year, advScore, subject, toefl, advYear FROM gre WHERE uid= " .$studentID;
   $result = mysqli_query($conn, $sql) or die ("************* GRE SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $verbal = $value->verbal;
@@ -44,7 +56,7 @@
   $toefl = $value->toefl;
   $advYear = $value->advYear;
 
-  $sql = "SELECT institution FROM rec_letter WHERE uid = " .$_SESSION['id'];
+  $sql = "SELECT institution FROM rec_letter WHERE uid = " .$studentID;
   $result = mysqli_query($conn, $sql) or die ("************* REC LETTER SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $university = $value->institution;
@@ -82,7 +94,7 @@
       }
       //set up foreign key reference
       $recID;
-      $sql = "SELECT recID FROM rec_letter WHERE uid = " . $_SESSION['id'];
+      $sql = "SELECT recID FROM rec_letter WHERE uid = " . $studentID;
       $result = mysqli_query($conn, $sql) or die ("************* GET recID FAILED*************");
       if (mysqli_num_rows($result) != 0){
         $value = mysqli_fetch_object($result);
@@ -93,21 +105,21 @@
       }
 
       //load review info into database
-      $sql = "INSERT INTO rec_review VALUES(" .$reviewID. ", '" .$_SESSION['role']. "', " .$rating.", " .$generic. ", " .$credible. ", " . $_SESSION['id'].", ". $recID . ")";
+      $sql = "INSERT INTO rec_review VALUES(" .$reviewID. ", '" .$_SESSION['role']. "', " .$rating.", " .$generic. ", " .$credible. ", " . $studentID.", ". $recID . ")";
       $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO rec_review SQL FAILED *************");
-      $sql = "INSERT INTO app_review (uid, reviewID, reviewerRole, rating, advisor, status) VALUES(".$_SESSION['id'].", " .$reviewID. ", '" .$_SESSION['role'] . "', " .$action.", '" .$advisor. "', 3)";
+      $sql = "INSERT INTO app_review (uid, reviewID, reviewerRole, rating, advisor, status) VALUES(".$studentID.", " .$reviewID. ", '" .$_SESSION['role'] . "', " .$action.", '" .$advisor. "', 3)";
       $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO app_review SQL FAILED *************");
       
       //check if defiency is empty. If not, update app review
       if (!empty($_POST["defCourse"])){
-        $sql = "UPDATE app_review SET deficiency = '" . $_POST["defCourse"]. "' WHERE uid = " .$_SESSION['id']. " AND reviewID = " .$reviewID . "";
+        $sql = "UPDATE app_review SET deficiency = '" . $_POST["defCourse"]. "' WHERE uid = " .$studentID. " AND reviewID = " .$reviewID . "";
         $result = mysqli_query($conn, $sql) or die ("************* UPDATE app_review WITH dificiency SQL FAILED *************");
 
       }
 
       //if comments is not empty, update app review
       if (!empty($_POST["comments"])){
-        $sql = "UPDATE app_review SET comments = '" . $_POST["comments"]. "' WHERE uid = " .$_SESSION['id']. " AND reviewID = " .$reviewID . "";
+        $sql = "UPDATE app_review SET comments = '" . $_POST["comments"]. "' WHERE uid = " .$studentID. " AND reviewID = " .$reviewID . "";
         $result = mysqli_query($conn, $sql) or die ("************* UPDATE app_review WITH comments SQL FAILED *************");
 
       }
@@ -152,7 +164,7 @@
 
   <body>
     <b>Name: </b> <u> <?php echo $fname.", ".$lname; ?> </u> <br><br>
-    <b>Student Number: </b> <u> <?php echo $studentNumber; ?> </u> <br><br>
+    <b>Student Number: </b> <u> <?php echo $studentID; ?> </u> <br><br>
     <b>Semester and Year of Application: </b> <u> <?php echo $semester." ".$year; ?> </u> <br><br>
     <b>Applying for Degree: </b> <u> <?php echo $degreeType; ?> </u> <br>
     <hr>
