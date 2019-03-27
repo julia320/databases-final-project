@@ -67,8 +67,7 @@ CREATE TABLE rec_review (
   uid int(8) NOT NULL,
   recID int NOT NULL,
   PRIMARY KEY (reviewID),
-  FOREIGN KEY (uid) REFERENCES users(userID),
-  FOREIGN KEY (recID) REFERENCES rec_letter(recID)
+  FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
 CREATE TABLE gre (
@@ -132,23 +131,11 @@ INSERT INTO personal_info VALUES
 INSERT INTO academic_info VALUES
   (55555555, "MS", "Computer Science", "bioinformatics research", "FA", 2019, true, true, 121);
 INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES ("Recommender", "1", "recommend@gmail.com", "GWU", 55555555);
+INSERT INTO academic_info VALUES (55555555, "MS", "Computer Science", "bioinformatics research", "FA", 2019, true, true, 121);
+INSERT INTO rec_letter VALUES ("Recommender", "1", "recommend@gmail.com", "GWU", 55555555, 111);
+
 INSERT INTO gre VALUES (157, 162, 2018, 830, "mathematics", 100, 2018, 55555555);
 INSERT INTO prior_degrees VALUES (3.6, 2017, "GWU", 55555555, "BS");
 
-
 -- Ringo's application (incomplete)
 INSERT INTO academic_info (uid, transcript, recletter) VALUES (66666666, false, false);
--- insert admissions committee and first applicant
-INSERT INTO users VALUES 
-	-- Systems Administrator
-	("SA", "Sarah", "Hoffman", "shoffman", "admin123", "sarah_hoffman@apps.edu", 1),
-	-- Graduate Secretary
-	("GS", "John", "Lipton", "john_lipton", "password7", "liptonj@gmail.com", 2),
-	-- Faculty Reviewer
-	("FR", "Jennifer", "Clare", "jenclare", "mypetsname", "jenclare@gmail.com", 3),
-	-- Chair of Admissions Comm
-	("CAC", "Mike", "Myers", "myers", "123456", "mmyers@aol.com", 4),
-	-- Applicant
-	("A", "Adrian", "Peters", "apeters", "plsletmein", "apeters@verizon.net", 5);
-
--- all other tables will be blank until application is submitted
