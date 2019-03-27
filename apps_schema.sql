@@ -53,13 +53,14 @@ CREATE TABLE rec_letter  (
   email varchar(30),
   institution varchar(30),
   uid int(8) NOT NULL,
-  recID int NOT NULL,
-  PRIMARY KEY (email),
+  recID int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (recID),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
 CREATE TABLE rec_review (
-  reviewID char(3),
+  reviewID int(8),
+  reviewerRole char(3),
   rating int,
   generic boolean, 
   credible boolean, 
@@ -96,6 +97,7 @@ CREATE TABLE prior_degrees (
 CREATE TABLE app_review (
   uid int(8) NOT NULL,
   reviewID int(8) NOT NULL,
+  reviewerRole char(3),
   comments varchar(100),
   deficiency varchar(20),
   reason char,
@@ -105,20 +107,6 @@ CREATE TABLE app_review (
   PRIMARY KEY (reviewID),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
-
-CREATE TABLE application_info (
-  uid int(8) NOT NULL,
-  status int NOT NULL,
-  comments varchar(100),
-  rating int,
-  deficiency varchar(20),
-  reason char,
-  decision int,
-  advisor char(30),
-  PRIMARY KEY (uid),
-  FOREIGN KEY (uid) REFERENCES users(userID)
-);
-
 
 -- insert admissions committee and two applicants
 INSERT INTO users VALUES 
@@ -143,7 +131,7 @@ INSERT INTO personal_info VALUES
 -- John's application (complete)
 INSERT INTO academic_info VALUES
   (55555555, "MS", "Computer Science", "bioinformatics research", "FA", 2019, true, true, 121);
-INSERT INTO rec_letter VALUES ("Recommender", "1", "recommend@gmail.com", "GWU", 55555555);
+INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES ("Recommender", "1", "recommend@gmail.com", "GWU", 55555555);
 INSERT INTO gre VALUES (157, 162, 2018, 830, "mathematics", 100, 2018, 55555555);
 INSERT INTO prior_degrees VALUES (3.6, 2017, "GWU", 55555555, "BS");
 

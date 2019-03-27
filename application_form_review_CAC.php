@@ -7,11 +7,7 @@
   $done = false;
 
   // connect to mysql
-  $servername = "localhost";
-  $user = "sloanej";
-  $pass = "Westland76!";
-  $dbname = "sloanej";
-  $conn = mysqli_connect($servername, $user, $pass, $dbname);
+  $conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
   // Check connection
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -70,27 +66,74 @@
       $action = $_POST["action"];
       $advisor = $_POST["advisor"];
       
-      //load review info into database
-      $sql = "INSERT INTO rec_review VALUES('" .$_SESSION['role'] . "', " .$rating.", " .$generic. ", " .$credible. ", " . $_SESSION['id'].")";
-      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO rec_review SQL FAILED *************");
-      $sql = "INSERT INTO app_review (uid, reviewerRole, action, advisor) VALUES(".$_SESSION['id'].", '" .$_SESSION['role']. "', " .$action.", '" .$advisor. "')";
-      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO app_review SQL FAILED *************");
-
-      //update user status
-      $status;
-      if($action == 1){
-        $status = 5;
-      } else {
+      //create a new reviewID my incrementing largest current reviewID in database
+      $reviewID;
+      $sql = "SELECT reviewID FROM rec_review";
+      $result = mysqli_query($conn, $sql) or die ("************* COMPUTE reviewID FAILED*************");
+      if (mysqli_num_rows($result) == 0){
+        $reviewID = 1;
+      }
+      else{
+        $reviewID = mysqli_result(mysqli_query("SELECT MAX(reviewID) FROM rec_review"), 0);
+        $reviewID = $reviewID + 1;
+      }
+      //set up foreign key reference
+      $recID;
+      $sql = "SELECT recID FROM rec_letter WHERE uid = " . $_SESSION['id'];
+      $result = mysqli_query($conn, $sql) or die ("************* GET recID FAILED*************");
+      if (mysqli_num_rows($result) != 0){
+        $value = mysqli_fetch_object($result);
+        $recID = $value->recID;
+      }
+      else{
+        die("Cannot Review: This applicant does not have a recommendation letter");
+      }
+      //Calculate final status (THIS WILL INDICATE THE FINAL DECISION) cooresonding to the "final decision section" )
+      $status = 3;
+      if ($action == 1){
+        $status = 6;
+      }
+      if ($action == 2){
         $status = 4;
       }
-      $sql = "UPDATE users SET appStatus = " .$status. " WHERE userID = " .$_SESSION['id']. "";
-      $result = mysqli_query($conn, $sql) or die ("************* UPDATE user app status SQL FAILED *************");
+      if ($action == 3){
+        $status = 4;
+      }
+      if ($action == 4){
+        $status = 5;
+      }
+
+      //load review info into database
+      $sql = "INSERT INTO rec_review VALUES(" .$reviewID. ", '" .$_SESSION['role']. "', " .$rating.", " .$generic. ", " .$credible. ", " . $_SESSION['id'].", ". $recID . ")";
+      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO rec_review SQL FAILED *************");
+      $sql = "INSERT INTO app_review (uid, reviewID, reviewerRole, rating, advisor, status) VALUES(".$_SESSION['id'].", " .$reviewID. ", '" .$_SESSION['role'] . "', " .$action.", '" .$advisor. "', " . $status . ")";
+      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO app_review SQL FAILED *************");
+
+      //update status for all instances of applicant
+          //      $sql = "SELECT reviewID FROM app_review WHERE uid = " . $_SESSION['id'];
+      $sql = "UPDATE app_review SET status = " .$status. " WHERE uid = " .$_SESSION['id']."";
+      $result = mysqli_query($conn, $sql) or die ("************* UPDATE ALL STATUS'S SQL FAILED************");
+          //       while($row = mysql_fetch_assoc($result)){
+          //         $sql = "UPDATE app_review SET status " . $status . " WHERE "
+          //       }
+
+      //check if defiency is empty. If not, update app review
+      if (!empty($_POST["defCourse"])){
+        $sql = "UPDATE app_review SET deficiency = '" . $_POST["defCourse"]. "' WHERE uid = " .$_SESSION['id']. " AND reviewID = " .$reviewID . "";
+        $result = mysqli_query($conn, $sql) or die ("************* UPDATE app_review WITH dificiency SQL FAILED *************");
+
+      }
+
+      //if comments is not empty, update app review
+      if (!empty($_POST["comments"])){
+        $sql = "UPDATE app_review SET comments = '" . $_POST["comments"]. "' WHERE uid = " .$_SESSION['id']. " AND reviewID = " .$reviewID . "";
+        $result = mysqli_query($conn, $sql) or die ("************* UPDATE app_review WITH comments SQL FAILED *************");
+      }
       
       //check if defiency is empty. If not, update app review
       if (!empty($_POST["defCourse"])){
         $sql = "UPDATE app_review SET deficiency = '" . $_POST["defCourse"]. "' WHERE uid = " .$_SESSION['id']. " AND reviewerRole = '" .$_SESSION['role'] . "'";
         $result = mysqli_query($conn, $sql) or die ("************* UPDATE app_review WITH dificiency SQL FAILED *************");
-
       }
 
       //if comments is not empty, update app review
