@@ -23,45 +23,61 @@
         		<h4 style='text-align: center;'>Complete your application or view its status here</h4>";
 
 			// find status of the applicant
-			$result = mysqli_query($conn, "SELECT status, decision FROM app_review WHERE uid=".$_SESSION['id']);
-			$row = $result->fetch_assoc();
-			
-			echo "<p style='text-align: center;'><strong>Status: </strong>";
-
-			// if their application is incomplete
-			if (!isset($row['status']) || $row['status']==0) {
+			$result = mysqli_query($conn, "SELECT uid FROM academic_info WHERE uid=".$_SESSION['id']);
+			if (mysqli_num_rows($result) == 0){
+				echo "<p style='text-align: center;'><strong>Status: </strong>";
 				echo "Application incomplete</p>";
-				echo "<form align='center' action='application_form_general_page1.php' method='get'>
-	    				<input type='submit' value='Finish Application'>
-					  </form>";
+				echo "<form align='center' action='application_form.php' method='get'>
+		    				<input type='submit' value='Apply'>
+						  </form>";
 			}
-
-			// if their application is complete
-			else if ($row['status'] == 1) {
-				echo "Your application is complete!</p>";
-				echo "<p style='text-align: center;'>Refer back to this page frequently to see when a decision has been made.</p>";
-				echo "<form align='center' action='application_form_general_page1.php' method='get'>
-	    				<input type='submit' value='View/Edit Application'>
-					  </form>"; 
+			else{
+				$result = mysqli_query($conn, "SELECT status FROM app_review WHERE uid=".$_SESSION['id']);	//altered query
+				if (mysqli_num_rows($result) == 0){
+					echo "<p style='text-align: center;'><strong>Status: </strong>";
+					echo "Your application has not yet been reviewed</p>";
+					echo "<p style='text-align: center;'> Refer back to this page frequently to see when a decision has been made.</p>";
+				}
+				else{
+					$row = $result->fetch_assoc();
+					if ($row['status'] == 3 || $row['status'] == 2) {	 	//change from 1 to 3
+						echo "<p style='text-align: center;'><strong>Status: </strong>";
+						echo "Your application is complete!</p>";
+						echo "<p style='text-align: center;'>Refer back to this page frequently to see when a decision has been made.</p>";
+					}
+					if ($row['status'] == 4) {
+						echo "<p style='text-align: center;'><strong>Status: </strong>";
+						echo "Congratulations! You have been admitted.</p>";
+						
+					}
+					if ($row['status'] == 5) {
+						echo "<p style='text-align: center;'><strong>Status: </strong>";
+						echo "Congratulations! You have been admitted with aid.</p>";
+					}
+					if ($row['status'] == 6) {
+						echo "<p style='text-align: center;'><strong>Status: </strong>";
+						echo "Sorry You have been rejected.</p>";
+					}
+				}
 			}
-
-			else if (isset($row['decision'])) {
-				echo "Decision has been made</p><br/>";
-				echo "<p style='text-align: center;'><strong>Decision: </strong>".$row['decision']."</p>";
-			}
-
 		}// end-applicant view
 
 
 		// if the user is a reviewer, show them the list of applicants
-		else if ($_SESSION['role'] == "FR" || $_SESSION['role'] == "CAC") {
+		if ($_SESSION['role'] == "FR" || $_SESSION['role'] == "CAC") {
 
 			// page header info
         	echo "<h2 style='text-align: center;'>Reviewer Home Page</h2>
         		<h4 style='text-align: center;'>View completed applications and review them here</h4>";
 
 			// get all the applicants whose application is complete
-			$result = mysqli_query($conn, "SELECT fname, lname FROM users, app_review WHERE status=1 AND userID=uid");
+			$result = mysqli_query($conn, "SELECT fname, lname, userID FROM users WHERE userID IN (SELECT uid FROM academic_info)");	//changed machanism
+			
+
+			// $result2 = mysqli_query($conn, "SELECT * FROM app_review");
+			// if (mysqli_num_rows($result2) == 0){
+
+
 
 			// start table
 			echo "<table border='1' align='center'; style='border-collapse: collapse;'>
@@ -72,17 +88,35 @@
 					</tr>";
 
 			// show each applicant with a button to the review page
-			for ($i=0; $i < $result->num_rows; $i++) {
-				$row = $result->fetch_assoc();
-				echo "<tr>
-                    	<td>".$row['fname']."</td>
-	                    <td>".$row['lname']."</td>
-	                    <td><form action='review.php' method='post'>
-	    						<input type='submit' name='".$_SESSION['id']."' value='Review Application'>
-					  		</form>
-					  	</td>
-	                </tr>";
+			if ($_SESSION['role'] == "FR"){		//add these 2 if statements
+				for ($i=0; $i < $result->num_rows; $i++) {
+					$row = $result->fetch_assoc();
+					$_SESSION_['id'] = $row['userID'];
+					echo "<tr>
+	                    	<td>".$row['fname']."</td>
+		                    <td>".$row['lname']."</td>
+		                    <td><form action='application_form_review.php' method='post'>	
+		    						<input type='submit' name='".$_SESSION['id']."' value='Review Application'>
+						  		</form>
+						  	</td>
+		                </tr>";	// change review.php to applicatoin form review
+				}
 			}
+			if ($_SESSION['role'] == "CAC"){
+				for ($i=0; $i < $result->num_rows; $i++) {
+					$row = $result->fetch_assoc();
+					echo "<tr>
+	                    	<td>".$row['fname']."</td>
+		                    <td>".$row['lname']."</td>
+		                    <td><form action='application_form_review_CAC.php' method='post'>	
+		    						<input type='submit' name='".$_SESSION['id']."' value='Review Application'>
+						  		</form>
+						  	</td>
+		                </tr>";	// change review.php to applicatoin form review
+				}
+			}
+			//*Note: Right now, this only works if there's one applicant
+
 		}
     ?>
 

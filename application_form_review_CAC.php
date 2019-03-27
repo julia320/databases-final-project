@@ -1,6 +1,6 @@
 <?php
   session_start();
-  $_SESSION['id'] = 55555555;
+  //$_SESSION['id'] = 55555555;
   $_SESSION['role'] = "CAC";   
   /*Important variable that will be used later to determine 
   if we're ready to move to the next page of the application */
@@ -52,7 +52,7 @@
 
   $somethingEmpty = "";
   if (isset($_POST['submit'])){
-    if(
+   if(
      empty($_POST["rating"]) ||
      empty($_POST["generic"]) ||
      empty($_POST["credible"]) ||
@@ -74,8 +74,11 @@
         $reviewID = 1;
       }
       else{
-        $reviewID = mysqli_result(mysqli_query("SELECT MAX(reviewID) FROM rec_review"), 0);
-        $reviewID = $reviewID + 1;
+        $sql = "SELECT MAX(reviewID) AS max FROM rec_review";
+        $result = mysqli_query($conn, $sql) or die ("REIVIEW ID INCREMENT FAILED");
+        $value = mysqli_fetch_object($result);
+        $reviewID = $value->max;
+        $reviewID++;
       }
       //set up foreign key reference
       $recID;
@@ -88,6 +91,7 @@
       else{
         die("Cannot Review: This applicant does not have a recommendation letter");
       }
+      
       //Calculate final status (THIS WILL INDICATE THE FINAL DECISION) cooresonding to the "final decision section" )
       $status = 3;
       if ($action == 1){
@@ -110,12 +114,9 @@
       $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO app_review SQL FAILED *************");
 
       //update status for all instances of applicant
-          //      $sql = "SELECT reviewID FROM app_review WHERE uid = " . $_SESSION['id'];
-      $sql = "UPDATE app_review SET status = " .$status. " WHERE uid = " .$_SESSION['id']."";
+      $sql = "UPDATE app_review SET status = " .$status. " WHERE uid = " .$_SESSION['id']. "";
       $result = mysqli_query($conn, $sql) or die ("************* UPDATE ALL STATUS'S SQL FAILED************");
-          //       while($row = mysql_fetch_assoc($result)){
-          //         $sql = "UPDATE app_review SET status " . $status . " WHERE "
-          //       }
+       
 
       //check if defiency is empty. If not, update app review
       if (!empty($_POST["defCourse"])){
@@ -149,7 +150,8 @@
         exit;
       }
 
-      die("SUCCESS");
+       header("Location:home.php"); 
+        exit;
     }
   }
 ?>

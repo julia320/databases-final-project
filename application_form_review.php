@@ -1,6 +1,6 @@
 <?php
   session_start();
-  $_SESSION['id'] = 55555555;
+  //$_SESSION['id'] = 55555555;
   $_SESSION['role'] = "FR";
   /*Important variable that will be used later to determine 
   if we're ready to move to the next page of the application */
@@ -74,8 +74,11 @@
         $reviewID = 1;
       }
       else{
-        $reviewID = mysqli_result(mysqli_query("SELECT MAX(reviewID) FROM rec_review"), 0);
-        $reviewID = $reviewID + 1;
+        $sql = "SELECT MAX(reviewID) AS max FROM rec_review";
+        $result = mysqli_query($conn, $sql) or die ("REIVIEW ID INCREMENT FAILED");
+        $value = mysqli_fetch_object($result);
+        $reviewID = $value->max;
+        $reviewID++;
       }
       //set up foreign key reference
       $recID;
@@ -115,7 +118,8 @@
         exit;
       }
 
-      die("SUCCESS");
+      header("Location:home.php"); 
+      exit;
     }
   }
 ?>

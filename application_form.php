@@ -5,11 +5,7 @@
   $done = false;
 
   // connect to mysql
-  $servername = "localhost";
-  $user = "sloanej";
-  $pass = "Westland76!";
-  $dbname = "sloanej";
-  $conn = mysqli_connect($servername, $user, $pass, $dbname);
+  $conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
   // Check connection
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -356,7 +352,7 @@
       }
 
       //fill in rec_letter table
-      $sql5 = "INSERT INTO rec_letter VALUES('$fnameRec', '$lnameRec', '$email', '$institution', " . $_SESSION['id'] . ")";
+      $sql5 = "INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES('$fnameRec', '$lnameRec', '$email', '$institution', " . $_SESSION['id'] . ")";
       $result5 = mysqli_query($conn, $sql5) or die ("************* 6th SQL FAILED *************");
        
       // If we made it here,  we're done
@@ -366,9 +362,8 @@
     
     //If the data was successfuly added to database, move to page 2
     if ($done){
-        //header("Location:application_form_priorDegrees_page2.php"); 
-        //exit;
-        die("DONE");
+      header("Location:home.php"); 
+      exit;
     }
     
   }
