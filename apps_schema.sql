@@ -130,6 +130,7 @@ INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES ("Recommen
 INSERT INTO academic_info VALUES (55555555, "MS", "Computer Science", "bioinformatics research", "FA", 2019, true, true);
 INSERT INTO gre VALUES (157, 162, 2018, 830, "mathematics", 100, 2018, 55555555);
 INSERT INTO prior_degrees VALUES (3.6, 2017, "GWU", 55555555, "BS");
+INSERT INTO app_review (uid, reviewID, status) VALUES (55555555, 111, 3);
 
 -- Ringo's application (incomplete)
 INSERT INTO academic_info (uid, transcript, recletter) VALUES (66666666, false, false);
