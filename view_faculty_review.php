@@ -1,8 +1,6 @@
 
 <?php
-  session_start();
-  $_SESSION['id'] = 55555555;
-  $_SESSION['role'] = "FR";  
+  session_start();  
   /*Important variable that will be used later to determine 
   if we're ready to move to the next page of the application */
   $done = false;

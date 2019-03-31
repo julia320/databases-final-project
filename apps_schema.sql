@@ -1,8 +1,8 @@
 -- erase anything that is already there
+DROP TABLE IF EXISTS rec_review CASCADE;
 DROP TABLE IF EXISTS app_review CASCADE;
 DROP TABLE IF EXISTS gre CASCADE;
 DROP TABLE IF EXISTS prior_degrees CASCADE;
-DROP TABLE IF EXISTS rec_review CASCADE;
 DROP TABLE IF EXISTS rec_letter CASCADE;
 DROP TABLE IF EXISTS academic_info CASCADE;
 DROP TABLE IF EXISTS personal_info CASCADE;
@@ -56,16 +56,32 @@ CREATE TABLE rec_letter  (
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
+CREATE TABLE app_review (
+  uid int(8) NOT NULL,
+  reviewID int(8) NOT NULL AUTO_INCREMENT,
+  reviewerRole varchar(3),
+  comments varchar(100),
+  deficiency varchar(20),
+  reason char,
+  rating int,
+  advisor char(30),
+  status int NOT NULL DEFAULT 1,
+  PRIMARY KEY (reviewID),
+  FOREIGN KEY (uid) REFERENCES users(userID)
+);
+
 CREATE TABLE rec_review (
-  reviewID int(8),
+  reviewID int(8) NOT NULL, 
   reviewerRole varchar(3),
   rating int,
   generic boolean, 
   credible boolean, 
   uid int(8) NOT NULL,
-  recID int NOT NULL,
+  recID int,
   PRIMARY KEY (reviewID),
-  FOREIGN KEY (uid) REFERENCES users(userID)
+  FOREIGN KEY (uid) REFERENCES users(userID),
+  FOREIGN KEY (recID) REFERENCES rec_letter(recID),
+  FOREIGN KEY (reviewID) REFERENCES app_review(reviewID)
 );
 
 CREATE TABLE gre (
@@ -91,19 +107,7 @@ CREATE TABLE prior_degrees (
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
 
-CREATE TABLE app_review (
-  uid int(8) NOT NULL,
-  reviewID int(8) NOT NULL,
-  reviewerRole varchar(3),
-  comments varchar(100),
-  deficiency varchar(20),
-  reason char,
-  rating int,
-  advisor char(30),
-  status int NOT NULL DEFAULT 1,
-  PRIMARY KEY (reviewID),
-  FOREIGN KEY (uid) REFERENCES users(userID)
-);
+
 
 -- insert admissions committee and two applicants
 INSERT INTO users VALUES 
@@ -130,7 +134,9 @@ INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES ("Recommen
 INSERT INTO academic_info VALUES (55555555, "MS", "Computer Science", "bioinformatics research", "FA", 2019, true, true);
 INSERT INTO gre VALUES (157, 162, 2018, 830, "mathematics", 100, 2018, 55555555);
 INSERT INTO prior_degrees VALUES (3.6, 2017, "GWU", 55555555, "BS");
-INSERT INTO app_review (uid, reviewID, status) VALUES (55555555, 111, 3);
+
+INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "FR", 2);
+INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "CAC", 2);
 
 -- Ringo's application (incomplete)
 INSERT INTO academic_info (uid, transcript, recletter) VALUES (66666666, false, false);

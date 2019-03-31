@@ -332,7 +332,7 @@
 
       //fill in academic_info table
       $sql3 = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
-              VALUES(".$_SESSION['id'].", '".$degreeType."', '".$aoi."', '".$experience."', ".$semester.", ".$year.")";
+              VALUES(".$_SESSION['id'].", '".$degreeType."', '".$aoi."', '".$experience."', '".$semester."', ".$year.")";
       $result3 = mysqli_query($conn, $sql3) or die ("**********3rd MySQL Error***********");
       
       //fill in prior degrees table
@@ -355,7 +355,9 @@
       //fill in rec_letter table
       $sql5 = "INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES('".$fnameRec."', '".$lnameRec."', '".$email."', '".$institution."', " . $_SESSION['id'] . ")";
       $result5 = mysqli_query($conn, $sql5) or die ("**********6th MySQL Error***********");
-       
+      
+      $sql = "UPDATE app_review SET status = 2 WHERE uid = " .$_SESSION['id']. "";
+      $result = mysqli_query($conn, $sql) or die ("**********UPDATE STATUS MySQL Error***********");
       // If we made it here,  we're done
       $done = true;
     }

@@ -1,16 +1,10 @@
 <?php
   session_start();
-  $_SESSION['id'] = 55555555; 
   /*Important variable that will be used later to determine 
   if we're ready to move to the next page of the application */
-  $done = false;
 
   // connect to mysql
-  $servername = "localhost";
-  $user = "sloanej";
-  $pass = "Westland76!";
-  $dbname = "sloanej";
-  $conn = mysqli_connect($servername, $user, $pass, $dbname);
+  $conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
   // Check connection
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -22,10 +16,13 @@
       $somethingEmpty = "field required";
     }
     else{
-      $sql = "UPDATE app_review SET reason = '" . $_POST["reason"]. "' WHERE uid = " .$_SESSION['id']. "";
+      $sql = "UPDATE app_review SET reason = '" . $_POST["reason"]. "' WHERE reviewID = " .$_SESSION['reviewID']. "";
       $result = mysqli_query($conn, $sql) or die ("************* SQL FAILED *************");
     }
-    die("SUCESS");
+
+    $_SESSION['reviewID'] = "";
+    header("Location:home.php"); 
+    exit;
   }
 ?>
 

@@ -1,6 +1,6 @@
 <?php
   session_start();
-  //$_SESSION['id'] = 55555555;
+  $_SESSION['id'] = 66666667;
   $_SESSION['role'] = "CAC";   
   /*Important variable that will be used later to determine 
   if we're ready to move to the next page of the application */
@@ -66,21 +66,8 @@
       $action = $_POST["action"];
       $advisor = $_POST["advisor"];
       
-      //create a new reviewID my incrementing largest current reviewID in database
-      $reviewID;
-      $sql = "SELECT reviewID FROM rec_review";
-      $result = mysqli_query($conn, $sql) or die ("************* COMPUTE reviewID FAILED*************");
-      if (mysqli_num_rows($result) == 0){
-        $reviewID = 1;
-      }
-      else{
-        $sql = "SELECT MAX(reviewID) AS max FROM rec_review";
-        $result = mysqli_query($conn, $sql) or die ("REIVIEW ID INCREMENT FAILED");
-        $value = mysqli_fetch_object($result);
-        $reviewID = $value->max;
-        $reviewID++;
-      }
-      //set up foreign key reference
+     
+      //set up foreign key reference between rec_letter and rec_review
       $recID;
       $sql = "SELECT recID FROM rec_letter WHERE uid = " . $_SESSION['id'];
       $result = mysqli_query($conn, $sql) or die ("************* GET recID FAILED*************");
@@ -90,6 +77,16 @@
       }
       else{
         die("Cannot Review: This applicant does not have a recommendation letter");
+      }
+      //set up foreign key reference between rec_review and app_review
+      $sql = "SELECT reviewID FROM app_review WHERE uid = " . $_SESSION['id'] . " AND reviewerRole = 'CAC'";
+      $result = mysqli_query($conn, $sql) or die ("************* GET reviewID FAILED*************");
+      if (mysqli_num_rows($result) != 0){
+        $value = mysqli_fetch_object($result);
+        $reviewID = $value->reviewID;
+      }
+      else{
+        die("Cannot Review: This applicant has not been initialized properly int the database");
       }
       
       //Calculate final status (THIS WILL INDICATE THE FINAL DECISION) cooresonding to the "final decision section" )
@@ -107,17 +104,18 @@
         $status = 5;
       }
 
-      //load review info into database
+      //load general review info into datase
+      $sql = "UPDATE app_review  SET reviewerRole = '" .$_SESSION['role']. "', rating = " .$action.", advisor = '" .$advisor. "', status = 3 WHERE reviewID = " .$reviewID. "";
+      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO app_review SQL FAILED *************");
+
+      //load rec review info into database
       $sql = "INSERT INTO rec_review VALUES(" .$reviewID. ", '" .$_SESSION['role']. "', " .$rating.", " .$generic. ", " .$credible. ", " . $_SESSION['id'].", ". $recID . ")";
       $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO rec_review SQL FAILED *************");
-      $sql = "INSERT INTO app_review (uid, reviewID, reviewerRole, rating, advisor, status) VALUES(".$_SESSION['id'].", " .$reviewID. ", '" .$_SESSION['role'] . "', " .$action.", '" .$advisor. "', " . $status . ")";
-      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO app_review SQL FAILED *************");
 
       //update status for all instances of applicant
       $sql = "UPDATE app_review SET status = " .$status. " WHERE uid = " .$_SESSION['id']. "";
       $result = mysqli_query($conn, $sql) or die ("************* UPDATE ALL STATUS'S SQL FAILED************");
        
-
       //check if defiency is empty. If not, update app review
       if (!empty($_POST["defCourse"])){
         $sql = "UPDATE app_review SET deficiency = '" . $_POST["defCourse"]. "' WHERE uid = " .$_SESSION['id']. " AND reviewID = " .$reviewID . "";
@@ -146,12 +144,13 @@
 
       //if reject, require reason, and load reason into database
       if ($_POST["action"] == 1){
+      	$_SESSION['reviewID'] = $reviewID;
         header("Location:reason_for_reject.php"); 
         exit;
       }
 
        header("Location:home.php"); 
-        exit;
+       exit;
     }
   }
 ?>
