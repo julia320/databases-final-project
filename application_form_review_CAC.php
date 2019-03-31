@@ -144,7 +144,7 @@
 
       //if reject, require reason, and load reason into database
       if ($_POST["action"] == 1){
-      	$_SESSION['reviewID'] = $reviewID;
+        $_SESSION['reviewID'] = $reviewID;
         header("Location:reason_for_reject.php"); 
         exit;
       }

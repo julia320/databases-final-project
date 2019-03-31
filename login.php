@@ -71,7 +71,7 @@
 			<form method="POST" action="login.php">
 				<input type="text" name="uid" placeholder="UID" required pattern="[0-9]*"><br/><br/>
 				<input type="text" name="username_login" placeholder="Username" required><br/><br/>
-				<input type="text" name="password_login" placeholder="Password" required><br/><br/>
+				<input type="password" name="password_login" placeholder="Password" required><br/><br/>
 				<input type="submit" name="login" value="Log In">
 			</form>
 		</div>
@@ -90,16 +90,16 @@
 				<input type="text" name="lname" required><br/><br/>
 
 				<label for="email">Email:</label>
-				<input type="text" name="email" required><br/><br/>
+				<input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" oninvalid="this.setCustomValidity('Please enter a valid email address')" onchange="this.setCustomValidity('')"><br/><br/>
 
 				<label for="username">Username:</label>
 				<input type="text" name="username" required><br/><br/>
 
 				<label for="password">Password:</label>
-				<input type="text" name="password" required><br/>
+				<input type="password" name="password" required><br/>
 				
 				<label for="password2">Confirm Password:</label>
-				<input type="text" name="password2" required><br/><br/>
+				<input type="password" name="password2" required><br/><br/>
 
 			    	<input type="submit" name="signup" value="Create Account">
 			</form>
@@ -146,7 +146,7 @@
 		{
             // make sure they don't already have an account
             if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE email='".$_POST['email']."'")) > 0)
-                    $_SESSION['errS'] = "<p class='error'>There is already an account with that email address, try logging in:</p>";
+		    $_SESSION['errS'] = "<p class='error'>There is already an account with that email address, try logging in:</p>";
 
             // make sure username isn't taken
             else if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE username='".$_POST['username']."'")) > 0)
