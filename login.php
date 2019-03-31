@@ -71,7 +71,7 @@
 			<form method="POST" action="login.php">
 				<input type="text" name="uid" placeholder="UID" required pattern="[0-9]*"><br/><br/>
 				<input type="text" name="username_login" placeholder="Username" required><br/><br/>
-				<input type="text" name="password_login" placeholder="Password" required><br/><br/>
+				<input type="password" name="password_login" placeholder="Password" required><br/><br/>
 				<input type="submit" name="login" value="Log In">
 			</form>
 		</div>
@@ -96,10 +96,10 @@
 				<input type="text" name="username" required><br/><br/>
 
 				<label for="password">Password:</label>
-				<input type="text" name="password" required><br/>
+				<input type="password" name="password" required><br/>
 				
 				<label for="password2">Confirm Password:</label>
-				<input type="text" name="password2" required><br/><br/>
+				<input type="password" name="password2" required><br/><br/>
 
 			    	<input type="submit" name="signup" value="Create Account">
 			</form>
