@@ -91,19 +91,7 @@
         		<h4 style='text-align: center;'>View completed applications and review them here</h4>";
 
 			// get all the applicants whose application is complete
-			$result = mysqli_query($conn, "SELECT userID, fname, lname FROM users, app_review WHERE status=3 AND userID=uid");
-
-			// the button will go to a different place based on role
-			if ($_SESSION['role'] == "FR")
-				$button = "<form action='application_form_review.php' method='post'>
-	    						<input type='submit' name='".$row['userID']."' value='Review Application'>
-					  		</form>";
-			else 
-				$button = "<form action='application_form_review_CAC.php' method='post'>
-	    						<input type='submit' name='".$row['userID']."' value='Review Application'>
-					  		</form>";
-
-
+			$result = mysqli_query($conn, "SELECT DISTINCT userID, fname, lname FROM users, app_review WHERE status=3 AND userID=uid");
 
 			// start table
 			echo "<table border='1' align='center'; style='border-collapse: collapse;'>
@@ -116,6 +104,16 @@
 			// show each applicant with a button to the review page
 			for ($i=0; $i < $result->num_rows; $i++) {
 				$row = $result->fetch_assoc();
+				// the button will go to a different place based on role
+				if ($_SESSION['role'] == "FR")
+					$button = "<form action='application_form_review.php' method='post'>
+		    						<input type='submit' name='".$row['userID']."' value='Review Application'>
+						  		</form>";
+				else 
+					$button = "<form action='application_form_review_CAC.php' method='post'>
+		    						<input type='submit' name='".$row['userID']."' value='Review Application'>
+						  		</form>";
+
 				echo "<tr>
                     	<td>".$row['fname']."</td>
 	                    <td>".$row['lname']."</td>
