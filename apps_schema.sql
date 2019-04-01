@@ -135,8 +135,8 @@ INSERT INTO academic_info VALUES (55555555, "MS", "Computer Science", "bioinform
 INSERT INTO gre VALUES (157, 162, 2018, 830, "mathematics", 100, 2018, 55555555);
 INSERT INTO prior_degrees VALUES (3.6, 2017, "GWU", 55555555, "BS");
 
-INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "FR", 2);
-INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "CAC", 2);
+INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "FR", 3);
+INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "CAC", 3);
 
 -- Ringo's application (incomplete)
 INSERT INTO academic_info (uid, transcript, recletter) VALUES (66666666, false, false);

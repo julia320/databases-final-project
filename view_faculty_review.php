@@ -7,9 +7,9 @@
 
   // connect to mysql
   $servername = "localhost";
-  $user = "sloanej";
-  $pass = "Westland76!";
-  $dbname = "sloanej";
+  $user = "TheSpookyLlamas";
+  $pass = "TSL_jjy_2019";
+  $dbname = "TheSpookyLlamas";
   $conn = mysqli_connect($servername, $user, $pass, $dbname);
   // Check connection
   if (!$conn) {
@@ -19,15 +19,20 @@
   ////////////////////////////////////////////////////
   //RETRIEVE INFORMATION
   ////////////////////////////////////////////////////
-  $sql = "SELECT fname, lname FROM users WHERE userID = " .$_SESSION['id'];
-  $result = mysqli_query($conn, $sql) or die ("************* NAME SQL FAILED *************");
-  $value = mysqli_fetch_object($result);
-  $fname = $value->fname;
-  $lname = $value->lname;
+  // get the applicant the GS wants to update
+  $applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
+  while ($row = $applicants->fetch_assoc()) {
+    if (isset($_POST[$row['userID']])) {
+      $_SESSION['applicantID'] = $row['userID'];
+      $fname = $row['fname'];
+      $lname = $row['lname'];
+      $name = $fname." ".$lname;
+    }
+  }
+  if (!$_SESSION['applicantID'])
+    echo "Error: Applicant not found</br>";
 
-  $studentNumber = $_SESSION['id'];
-
-  $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['id'];
+  $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* ACADEMIC INFO SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $degreeType = $value->degreeType;
@@ -36,7 +41,7 @@
   $semester = $value->semester;
   $year = $value->year;
 
-  $sql = "SELECT verbal, quant, year, advScore, subject, toefl, advYear FROM gre WHERE uid= " .$_SESSION['id'];
+  $sql = "SELECT verbal, quant, year, advScore, subject, toefl, advYear FROM gre WHERE uid= " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* GRE SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $verbal = $value->verbal;
@@ -47,13 +52,13 @@
   $toefl = $value->toefl;
   $advYear = $value->advYear;
 
-  $sql = "SELECT institution FROM rec_letter WHERE uid = " .$_SESSION['id'];
+  $sql = "SELECT institution FROM rec_letter WHERE uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* REC LETTER SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $university = $value->institution;
 
   //Review info:
-  $sql = "SELECT rating, generic, credible FROM rec_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['id'];
+  $sql = "SELECT rating, generic, credible FROM rec_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* retrieve rec review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $rating = $value->rating;
@@ -70,7 +75,7 @@
     $credible = "No";
   }
 
-  $sql = "SELECT comments, deficiency, action, advisor FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['id'];
+  $sql = "SELECT comments, deficiency, action, advisor FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* retrieve app review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $comments = $value->comments;
@@ -108,9 +113,12 @@
   <h1> Faculty Review </h1>
 
   <body>
+    <!-- General info -->
     <h2> Applicant Information </h2>
     <b>Name: </b> <u> <?php echo $fname.", ".$lname; ?> </u> <br><br>
     <b>Student Number: </b> <u> <?php echo $studentNumber; ?> </u> <br><br>
+
+    <!-- Academic Info -->
     <b>Semester and Year of Application: </b> <u> <?php echo $semester." ".$year; ?> </u> <br><br>
     <b>Applying for Degree: </b> <u> <?php echo $degreeType; ?> </u> <br>
 
@@ -125,6 +133,8 @@
     <b>TOEFL Score: </b> <u> <?php echo $toefl; ?> </u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <b>Year of Exam: </b> <u> <?php echo $advYear; ?> </u> <br><br>
 
+
+    <!-- Prior Degrees -->
     <h3>Prior Degrees </h3> 
     <?php
       //display prior degree info in a table format

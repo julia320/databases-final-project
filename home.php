@@ -91,22 +91,7 @@
         		<h4 style='text-align: center;'>View completed applications and review them here</h4>";
 
 			// get all the applicants whose application is complete
-			$result = mysqli_query($conn, "SELECT userID, fname, lname FROM users, app_review WHERE status=3 AND userID=uid");
-
-			// the button will go to a different place based on role
-			if ($_SESSION['role'] == "FR")
-				$button = "<form action='application_form_review.php' method='post'>
-	    						<input type='submit' name='".$row['userID']."' value='Review Application'>
-					  		</form>";
-			else 
-				$button = "<form action='application_form_review_CAC.php' method='post'>
-	    						<input type='submit' name='".$row['userID']."' value='Review Application'>
-					  		</form>";
-
-			//$result = mysqli_query($conn, "SELECT fname, lname, userID FROM users WHERE userID IN (SELECT uid FROM academic_info)");	//changed machanism
-			// $result2 = mysqli_query($conn, "SELECT * FROM app_review");
-			// if (mysqli_num_rows($result2) == 0){
-
+			$result = mysqli_query($conn, "SELECT DISTINCT userID, fname, lname FROM users, app_review WHERE status=3 AND userID=uid");
 
 			// start table
 			echo "<table border='1' align='center'; style='border-collapse: collapse;'>
@@ -119,6 +104,16 @@
 			// show each applicant with a button to the review page
 			for ($i=0; $i < $result->num_rows; $i++) {
 				$row = $result->fetch_assoc();
+				// the button will go to a different place based on role
+				if ($_SESSION['role'] == "FR")
+					$button = "<form action='application_form_review.php' method='post'>
+		    						<input type='submit' name='".$row['userID']."' value='Review Application'>
+						  		</form>";
+				else 
+					$button = "<form action='application_form_review_CAC.php' method='post'>
+		    						<input type='submit' name='".$row['userID']."' value='Review Application'>
+						  		</form>";
+
 				echo "<tr>
                     	<td>".$row['fname']."</td>
 	                    <td>".$row['lname']."</td>
@@ -128,36 +123,61 @@
 		}// end-reviewer view
 
 
-		// if the user is a Grad Secretary, let them mark when transcripts/rec letters are received
+
+		// if the user is a Grad Secretary, let them search for applicants, mark docs as received
 		else if ($_SESSION['role'] == "GS") {
 
 			// header information
 			echo "<h2 style='text-align: center;'>Graduate Secretary Home Page</h2>
-        		<h4 style='text-align: center;'>When an applicant's documents have been received, mark them as such here</h4>";
+			<h4 style='text-align: center;'>When an applicant's documents have been received, mark them as such here</h4>";
 
-			// get all the applicants whose application is complete
-			$result = mysqli_query($conn, "SELECT userID, fname, lname FROM users WHERE role='A'");
 
-			// start table
-			echo "<table border='1' align='center'; style='border-collapse: collapse;'>
-	            	<tr>
-	                	<th>First Name</th>
-		                <th>Last Name</th>
-		                <th></th>
-					</tr>";
+			// search bar for the GS to find applicants
+			echo "<form align='center' method='post' action='home.php'>
+				<input name='search' type='text'>
+				<input name='submit' type='submit' value='Search for applicant'>
+				</form></br></br>";
 
-			// show each applicant with a button to the review page
-			for ($i=0; $i < $result->num_rows; $i++) {
-				$row = $result->fetch_assoc();
-				echo "<tr>
-	                	<td>".$row['fname']."</td>
-	                    <td>".$row['lname']."</td>
-	                    <td><form action='add_documents.php' method='post'>
-	    						<input type='submit' name='".$row['userID']."' value='Mark documents as Received'>
-					  		</form>
-					  	</td>
-	                </tr>";
+			// get all the applicants whose name matches what they searched
+			if (isset($_POST['submit'])) {
+				$result = mysqli_query($conn, "SELECT userID, fname, lname FROM users WHERE role='A' AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+
+				// if there were matches, show them
+				if ($result->num_rows > 0) {
+					// start table
+					echo "<table border='1' align='center'; style='border-collapse: collapse;'>
+			        	    	<tr>
+	        		        		<th>First Name</th>
+							<th>Last Name</th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>";
+					
+					// show each applicant with a button to the review page
+					for ($i=0; $i < $result->num_rows; $i++) {
+						$row = $result->fetch_assoc();
+						echo "<tr>
+	        		        		<td>".$row['fname']."</td>
+					                <td>".$row['lname']."</td>
+	                    				<td><form align='center' action='add_documents.php' method='post'>
+	    							<input type='submit' name='".$row['userID']."' value='Check documents'>
+							</form></td>
+							<td><form align='center' action='view_faculty_review.php' method='post'>
+								<input type='submit' name='".$row['userID']."' value='View review'>
+							</form></td>
+							<td><form align='center' action='final_decision.php' method='post'>
+								<input type='submit' name='".$row['userID']."' value='Update decision'>
+							</form></td>
+				                </tr>";
+					}
+				}
+
+				// if there were no matches, tell them
+				else 
+					echo "There are no applicants matching that name.";
 			}
+	
 		}// end-Grad secretary view
     ?>
 
