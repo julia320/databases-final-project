@@ -75,7 +75,7 @@
     $credible = "No";
   }
 
-  $sql = "SELECT comments, deficiency, action, advisor FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
+  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* retrieve app review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $comments = $value->comments;
