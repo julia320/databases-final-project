@@ -113,9 +113,12 @@
   <h1> Faculty Review </h1>
 
   <body>
+    <!-- General info -->
     <h2> Applicant Information </h2>
     <b>Name: </b> <u> <?php echo $fname.", ".$lname; ?> </u> <br><br>
     <b>Student Number: </b> <u> <?php echo $studentNumber; ?> </u> <br><br>
+
+    <!-- Academic Info -->
     <b>Semester and Year of Application: </b> <u> <?php echo $semester." ".$year; ?> </u> <br><br>
     <b>Applying for Degree: </b> <u> <?php echo $degreeType; ?> </u> <br>
 
@@ -130,6 +133,8 @@
     <b>TOEFL Score: </b> <u> <?php echo $toefl; ?> </u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <b>Year of Exam: </b> <u> <?php echo $advYear; ?> </u> <br><br>
 
+
+    <!-- Prior Degrees -->
     <h3>Prior Degrees </h3> 
     <?php
       //display prior degree info in a table format
