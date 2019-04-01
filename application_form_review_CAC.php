@@ -89,10 +89,10 @@
         $reviewID = $value->reviewID;
       }
       else{
-        die("Cannot Review: This applicant has not been initialized properly int the database");
+        die("Cannot Review: This applicant has not been initialized properly in the database");
       }
       
-      //Calculate final status (THIS WILL INDICATE THE FINAL DECISION) cooresonding to the "final decision section" )
+      // Calculate final status (THIS WILL INDICATE THE FINAL DECISION) corresponding to the "final decision section" )
       $status = 3;
       if ($action == 1){
         $status = 6;
@@ -185,12 +185,29 @@
   <h1> Chair of Admissions Committee - Graduate Admissions Review Form </h1>
 
   <body>
+
+    <!-- General info -->
     <b>Name: </b> <u> <?php echo $name; ?> </u> <br><br>
     <b>Student Number: </b> <u> <?php echo $_SESSION['applicantID']; ?> </u> <br><br>
     <b>Semester and Year of Application: </b> <u> <?php echo $semester." ".$year; ?> </u> <br><br>
-    <b>Applying for Degree: </b> <u> <?php echo $degreeType; ?> </u> <br>
+    <b>Applying for Degree: </b> <u> <?php echo $degreeType; ?> </u> <br><br>
+
+    <!-- Button to view FR's review if exists -->
+    <?php 
+      $q = "SELECT * FROM app_review WHERE uid=".$_SESSION['applicantID'];
+      $result = mysqli_query($conn, $q);
+      while ($row = $result->fetch_assoc()) {
+        if ($row['rating']) {
+          // if a review has been made, show the button
+          echo "<form action='view_faculty_review.php' method='post'>
+              <input type='submit' name=".$_SESSION['applicantID']." value='View Faculty Reviewer review'>
+              </form>";
+        }
+      }
+    ?>
     <hr>
 
+    <!-- Academic info -->
     <h3>Summary of Credentials </h3>
     <b>GRE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Verbal: </b>
     <u> <?php echo $verbal; ?> </u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Quantitative: </b>
@@ -202,6 +219,7 @@
     <b>TOEFL Score: </b> <u> <?php echo $toefl; ?> </u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <b>Year of Exam: </b> <u> <?php echo $advYear; ?> </u> <br><br>
 
+    <!-- Prior Degrees -->
     <h3>Prior Degrees </h3> 
     <?php
       //display prior degree info in a table format
@@ -233,6 +251,8 @@
     <b>Areas of Interest: </b> <u> <?php echo $aoi; ?> </u> <br>
     <b>Experience: </b> <u> <?php echo $experience; ?> </u> <br><br>
 
+
+    <!-- Rec letter -->
     <h3>Recommendation Letter </h3>
     <b>From: </b> <u> <?php echo $university; ?> </u> <br>
     <form id="mainform" method="post">
@@ -249,6 +269,8 @@
       Yes<input type="radio" name="credible" value=true> &nbsp;&nbsp;&nbsp;&nbsp;
       No<input type="radio" name="credible" value=false> <hr>
 
+
+      <!-- Overall Review -->
       <h2> Final Decision </h2>
 
       1. <input type="radio" name="action" value=1 > Reject <br>
