@@ -7,9 +7,9 @@
 
   // connect to mysql
   $servername = "localhost";
-  $user = "sloanej";
-  $pass = "Westland76!";
-  $dbname = "sloanej";
+  $user = "TheSpookyLlamas";
+  $pass = "TSL_jjy_2019";
+  $dbname = "TheSpookyLlamas";
   $conn = mysqli_connect($servername, $user, $pass, $dbname);
   // Check connection
   if (!$conn) {
