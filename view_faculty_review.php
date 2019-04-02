@@ -75,7 +75,7 @@
     $credible = "No";
   }
 
-  $sql = "SELECT comments, deficiency, action, advisor FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
+  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* retrieve app review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $comments = $value->comments;
@@ -116,7 +116,7 @@
     <!-- General info -->
     <h2> Applicant Information </h2>
     <b>Name: </b> <u> <?php echo $fname.", ".$lname; ?> </u> <br><br>
-    <b>Student Number: </b> <u> <?php echo $studentNumber; ?> </u> <br><br>
+    <b>Student Number: </b> <u> <?php echo $_SESSION['applicantID']; ?> </u> <br><br>
 
     <!-- Academic Info -->
     <b>Semester and Year of Application: </b> <u> <?php echo $semester." ".$year; ?> </u> <br><br>
