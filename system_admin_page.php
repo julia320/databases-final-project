@@ -1,6 +1,12 @@
 <?php
   session_start();  
 
+    // if they aren't the SA, redirect them
+    if ($_SESSION['role'] != 'SA') {
+          header("Location: home.php");
+          die();
+      }
+
   // connect to mysql
   $servername = "localhost";
   $user = "TheSpookyLlamas";
