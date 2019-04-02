@@ -21,23 +21,24 @@
   //RETRIEVE INFORMATION
   ////////////////////////////////////////////////////
   // get the applicant the GS wants to update
-  // $applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
-  // while ($row = $applicants->fetch_assoc()) {
-  //   if (isset($_POST[$row['userID']])) {
-  //     $_SESSION['applicantID'] = $row['userID'];
-  //     $fname = $row['fname'];
-  //     $lname = $row['lname'];
-  //     $name = $fname." ".$lname;
-  //   }
-  //}
-  $sql = "SELECT fname, lname FROM users WHERE userID = " . $_SESSION['applicantID'] . "";
-  $result = mysqli_query($conn, $sql) or die ("ERROR: failed to get applicant name");
-  $value = mysqli_fetch_object($result);
-  $fname = $value->fname;
-  $lname = $value->lname;
+  $applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
+  while ($row = $applicants->fetch_assoc()) {
+    if (isset($_POST[$row['userID']])) {
+      $_SESSION['applicantID'] = $row['userID'];
+      $fname = $row['fname'];
+      $lname = $row['lname'];
+      $name = $fname." ".$lname;
+    }
+  }
+ 
+  if (!$_SESSION['applicantID'])
+    echo "Error: Applicant not found</br>";
 
-  // if (!$_SESSION['applicantID'])
-  //   echo "Error: Applicant not found</br>";
+  // $sql = "SELECT fname, lname FROM users WHERE userID = " . $_SESSION['applicantID'] . "";
+  // $result = mysqli_query($conn, $sql) or die ("ERROR: failed to get applicant name");
+  // $value = mysqli_fetch_object($result);
+  // $fname = $value->fname;
+  // $lname = $value->lname;
 
   $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* ACADEMIC INFO SQL FAILED *************");
