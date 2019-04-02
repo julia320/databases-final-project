@@ -84,14 +84,14 @@
 
 
 		// if the user is a reviewer, show them the list of applicants
-		if ($_SESSION['role'] == "FR" || $_SESSION['role'] == "CAC") {
+		else if ($_SESSION['role'] == "FR" || $_SESSION['role'] == "CAC") {
 
 			// page header info
         	echo "<h2 style='text-align: center;'>Reviewer Home Page</h2>
         		<h4 style='text-align: center;'>View completed applications and review them here</h4>";
 
 			// get all the applicants whose application is complete
-			$result = mysqli_query($conn, "SELECT DISTINCT userID, fname, lname FROM users, app_review WHERE status=3 AND userID=uid");
+			$result = mysqli_query($conn, "SELECT DISTINCT userID, fname, lname FROM users, app_review WHERE status>2 AND userID=uid");
 
 			// start table
 			echo "<table border='1' align='center'; style='border-collapse: collapse;'>
@@ -166,6 +166,9 @@
 							<td><form align='center' action='view_faculty_review.php' method='post'>
 								<input type='submit' name='".$row['userID']."' value='View review'>
 							</form></td>
+							<td><form align='center' action='view_cac_review.php' method='post'>
+								<input type='submit' name='".$row['userID']."' value='View CAC review'>
+							</form></td>
 							<td><form align='center' action='final_decision.php' method='post'>
 								<input type='submit' name='".$row['userID']."' value='Update decision'>
 							</form></td>
@@ -179,6 +182,13 @@
 			}
 	
 		}// end-Grad secretary view
+
+
+		// if the user is a Systems admin
+		else if ($_SESSION['role'] == 'SA') {
+			header("Location: system_admin_page.php");
+        	die();
+		}
     ?>
 
 </body>
