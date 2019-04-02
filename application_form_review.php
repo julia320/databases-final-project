@@ -11,6 +11,16 @@
     die("Connection failed: " . mysqli_connect_error());
   }
 
+  //IF THIS STUDENT HAS ALREADY BEEN REVIEWED, TELL THE USER to go back
+  $sql = "SELECT rating FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
+  $result = mysqli_query($conn, $sql) or die ("************* INITIAL TEST SQL FAILED *************");
+  $value = mysqli_fetch_object($result);
+  if ($value->rating != NULL){
+    die('<h2> This student has already been reviewed <h2> <br><br>
+        <form id="mainform" method="post" action="home.php">
+        <input type="submit" name="submit" value="Back to Home">');
+  }
+
   ////////////////////////////////////////////////////
   //RETRIEVE INFORMATION
   ////////////////////////////////////////////////////
