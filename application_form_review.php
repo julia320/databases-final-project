@@ -11,7 +11,7 @@
     die("Connection failed: " . mysqli_connect_error());
   }
 
-  //IF THIS STUDENT HAS ALREADY BEEN REVIEWED, TELL THE USER
+  //IF THIS STUDENT HAS ALREADY BEEN REVIEWED, TELL THE USER to go back
   $sql = "SELECT rating FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* INITIAL TEST SQL FAILED *************");
   $value = mysqli_fetch_object($result);
