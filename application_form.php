@@ -22,7 +22,7 @@
   $quantitativeErr = "";
   $yearErr = "";
   $advScoreErr = "";
-  $subjectErr = "";
+  // $subjectErr = "";
   $toeflErr = "";
   $advYearErr = "";
   $aoiErr = "";
@@ -52,7 +52,6 @@
     ////////////////////////////////////////////////////////////////////////
     //FORM VALIDATIONS
     ////////////////////////////////////////////////////////////////////////
-    
     //make sure nothing's empty
     if(
       empty($_POST["address"]) ||
@@ -80,235 +79,273 @@
        $somethingEmpty = "One or more required fields are missing";
        $dataReady = false;
     }
+    else{
     
-    $addressTest = $_POST["address"];
-    $ssnTest = $_POST["ssn"];
-    
-    $appYearTest = $_POST["appYear"];
-    $verbalTest = $_POST["verbal"];
-    $quantitativeTest = $_POST["quantitative"];
-    $yearTest =  $_POST["year"];
-    $advScoreTest = $_POST["advScore"];
-    $subjectTest = $_POST["subject"];
-    $toeflTest = $_POST["toefl"];
-    $advYearTest = $_POST["advYear"];
-    $aoiTest = $_POST["aoi"];
-    $experienceTest = $_POST["experience"];
+	    $addressTest = $_POST["address"];
+	    $ssnTest = $_POST["ssn"];
+	    
+	    $appYearTest = $_POST["appYear"];
+	    $verbalTest = $_POST["verbal"];
+	    $quantitativeTest = $_POST["quantitative"];
+	    $yearTest =  $_POST["year"];
+	    $advScoreTest = $_POST["advScore"];
+	    // $subjectTest = $_POST["subject"];
+	    $toeflTest = $_POST["toefl"];
+	    $advYearTest = $_POST["advYear"];
+	    $aoiTest = $_POST["aoi"];
+	    $experienceTest = $_POST["experience"];
 
-    $gpaTest = $_POST["gpa"];
-    $dYearTest = $_POST["dYear"];
-    $universityTest = $_POST["university"];
-    $gpa2Test = $_POST["gpa2"];
-    $dYear2Test = $_POST["dYear2"];
-    $university2Test = $_POST["university2"];
-    $gpa3Test = $_POST["gpa3"];
-    $dYear3Test = $_POST["dYear3"];
-    $university3Test = $_POST["university3"];
-    $gpa4Test = $_POST["gpa4"];
-    $dYear4Test = $_POST["dYear4"];
-    $university4Test = $_POST["university4"];
-    
-    $fnameRecTest = $_POST["fnameRec"];
-    $lnameRecTest = $_POST["lnameRec"];
-    $institutionTest = $_POST["institution"];
-    $emailTest = $_POST["email"];
-    
-    $address= "";
-    $ssn = "";
-    
-    $appYear= "";
-    $verbal= "";
-    $quantitative= "";
-    $year= "";
-    $advScore= ""; 
-    $subject= ""; 
-    $toefl= ""; 
-    $advYear= ""; 
-    $aoi= ""; 
-    $experience= "";
-    $degreeType = $_POST["degreeType"];
-    $semester = $_POST["semester"];
+	    $gpaTest = $_POST["gpa"];
+	    $dYearTest = $_POST["dYear"];
+	    $universityTest = $_POST["university"];
+	    $gpa2Test = $_POST["gpa2"];
+	    $dYear2Test = $_POST["dYear2"];
+	    $university2Test = $_POST["university2"];
+	    $gpa3Test = $_POST["gpa3"];
+	    $dYear3Test = $_POST["dYear3"];
+	    $university3Test = $_POST["university3"];
+	    $gpa4Test = $_POST["gpa4"];
+	    $dYear4Test = $_POST["dYear4"];
+	    $university4Test = $_POST["university4"];
+	    
+	    $fnameRecTest = $_POST["fnameRec"];
+	    $lnameRecTest = $_POST["lnameRec"];
+	    $institutionTest = $_POST["institution"];
+	    $emailTest = $_POST["email"];
+	    
+	    $address= "";
+	    $ssn = "";
+	    
+	    $appYear= "";
+	    $verbal= "";
+	    $quantitative= "";
+	    $year= "";
+	    $advScore= ""; 
+	    $subject= $_POST["subject"]; 
+	    $toefl= ""; 
+	    $advYear= ""; 
+	    $aoi= ""; 
+	    $experience= "";
+	    $degreeType = $_POST["degreeType"];
+	    $semester = $_POST["semester"];
 
-    $gpa = "";
-    $dYear = "";
-    $university = "";
-    $type = $_POST["type"];
-    $gpa2 = "";
-    $dYear2 = "";
-    $university2 = "";
-    $type2 = $_POST["type2"];
-    $gpa3 = "";
-    $dYear3 = "";
-    $university3 = "";
-    $type3 = $_POST["type3"];
-    $gpa4 = "";
-    $dYear4 = "";
-    $university4 = "";
-    $type4 = $_POST["type4"];
-    
-    $fnameRec = "";
-    $lnameRec = "";
-    $institution = "";
-    $email = "";
-     
-    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$addressTest) && !empty($_POST["address"])) {
-      $addressErr = "Only letters, numbers, and white space allowed";
-      $dataReady = false;
-    } else{
-      $address = $addressTest;
-    }
-    if (!preg_match("/^[0-9]+$/i",$ssnTest) && !empty($_POST["ssn"])) {
-      $ssnErr = "Not a valid social security number";
-      $dataReady = false;
-    } else{
-      $ssn = $ssnTest;
-    }
-    if (!preg_match("/^[0-9]+$/i",$appYearTest) && !empty($_POST["appYear"])) {
-      $appYearErr = "Not a valid date";
-      $dataReady = false;
-    } else{
-      $appYear = $appYearTest;
-    }
-    if (!preg_match("/^[0-9]+$/i",$verbalTest) && !empty($_POST["verbal"])) {
-      $verbalErr = "Not a valid score";
-      $dataReady = false;
-    } else{
-      $verbal = $verbalTest;
-    }
-    if (!preg_match("/^[0-9]+$/i",$quantitativeTest) && !empty($_POST["quantitative"])) {
-      $quantitativeErr = "Not a valid score";
-      $dataReady = false;
-    } else{
-      $quantitative = $quantitativeTest;
-    } 
-    if (!preg_match("/^[0-9]+$/i",$yearTest) && !empty($_POST["year"])) {
-      $yearErr = "Not a valid date";
-      $dataReady = false;
-    } else{
-      $year = $yearTest;
-    }
-    if (!preg_match("/^[0-9]+$/i",$advScoreTest) && !empty($_POST["advScore"])) {
-      $advScoreErr = "Not a valid score";
-      $dataReady = false;
-    } else{
-      $advScore = $advScoreTest;
-    }
-    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$subjectTest) && !empty($_POST["subject"])) {
-      $subjectErr = "Not a valid subject - only letters, numbers, and white space allowed";
-      $dataReady = false;
-    } else{
-      $subject = $subjecTest;
-    }
-    if (!preg_match("/^[0-9]+$/i",$toeflTest) && !empty($_POST["toefl"])) {
-      $toeflErr = "Not a valid score";
-      $dataReady = false;
-    } else{
-      $toefl = $toeflTest;
-    }
-    if (!preg_match("/^[0-9]+$/i",$advYearTest) && !empty($_POST["advYear"])) {
-      $advYearErr = "Not a valid date";
-      $dataReady = false;
-    } else{
-      $advYear = $advYearTest;
-    }
-    if (!empty($_POST["aoi"])) {
-      $aoi = $aoiTest;
-    }
-    if (!empty($_POST["experience"])) {
-      $experience = $experienceTest;
-    }
+	    $gpa = "";
+	    $dYear = "";
+	    $university = "";
+	    $type = $_POST["type"];
+	    $gpa2 = "";
+	    $dYear2 = "";
+	    $university2 = "";
+	    $type2 = $_POST["type2"];
+	    $gpa3 = "";
+	    $dYear3 = "";
+	    $university3 = "";
+	    $type3 = $_POST["type3"];
+	    $gpa4 = "";
+	    $dYear4 = "";
+	    $university4 = "";
+	    $type4 = $_POST["type4"];
+	    
+	    $fnameRec = "";
+	    $lnameRec = "";
+	    $institution = "";
+	    $email = "";
+	     
+	    function isValidYear($value, $low = 1950, $high = 2020){
+	    	$value = (int)$value;
+	    	if ( $value > $high || $value < $low ) {
+	   		  // return false (not a valid value)
+	    	  return false;
+	    	}
+	    	//otherwise the year is valid so return true
+	    	return true;
+	    }
+	    function isValidAppYear($value, $low = 2019, $high = 2021){
+	    	$value = (int)$value;
+	    	if ( $value > $high || $value < $low ) {
+	   		  // return false (not a valid value)
+	    	  return false;
+	    	}
+	    	//otherwise the year is valid so return true
+	    	return true;
+	    }
+	    function isValidGPA($value, $low = 0, $high = 5.0){
+	    	$value = (double)$value;
+	    	if ( $value > $high || $value < $low ) {
+	   		  // return false (not a valid value)
+	    	  return false;
+	    	}
+	    	//otherwise the year is valid so return true
+	    	return true;
+	    }
+	    function isValidScore($value, $low = 0, $high = 100){
+	    	$value = (int)$value;
+	    	if ( $value > $high || $value < $low ) {
+	   		  // return false (not a valid value)
+	    	  return false;
+	    	}
+	    	//otherwise the year is valid so return true
+	    	return true;
+	    }
 
-    if (!is_numeric($gpaTest) && !empty($_POST["gpa"])) {
-      $gpaErr = "Not a valid gpa";
-      $dataReady = false;
-    } else{
-      $gpa = $gpaTest;
-    }
-    if (!preg_match("/^[0-9]+$/i",$dYearTest) && !empty($_POST["dYear"])) {
-      $dYearErr = "Not a valid year";
-      $dataReady = false;
-    } else{
-      $dYear = $dYearTest;
-    }
-    if (!preg_match("/^[a-zA-Z ]+$/i",$universityTest) && !empty($_POST["university"])) {
-      $universityErr = "Only letters, and white space allowed";
-      $dataReady = false;
-    } else{
-      $university = $universityTest;
-    }
-    //optional degrees
-    if (!is_numeric($gpa2Test) && !empty($_POST["gpa2"])) {
-      $gpa2Err = "Not a valid gpa";    
-    } else{
-      $gpa2 = $gpa2Test;
-    }
-    if (!preg_match("/^[0-9]+$/i",$dYear2Test) && !empty($_POST["dYear2"])) {
-      $dYear2Err = "Not a valid year";  
-    } else{
-      $dYear2 = $dYear2Test;
-    }
-    if (!preg_match("/^[a-zA-Z ]+$/i",$university2Test) && !empty($_POST["university2"])) {
-      $university2Err = "Only letters, and white space allowed";
-    } else{
-      $university2 = $university2Test;
-    }
-    if (!is_numeric($gpa3Test) && !empty($_POST["gpa3"])) {
-      $gpa3Err = "Not a valid gpa";    
-    } else{
-      $gpa3 = $gpa3Test;
-    }
-    if (!preg_match("/^[0-9]+$/i",$dYear3Test) && !empty($_POST["dYear3"])) {
-      $dYear3Err = "Not a valid year";  
-    } else{
-      $dYear3 = $dYear3Test;
-    }
-    if (!preg_match("/^[a-zA-Z ]+$/i",$university3Test) && !empty($_POST["university3"])) {
-      $university3Err = "Only letters, and white space allowed";
-    } else{
-      $university3 = $university3Test;
-    }
-    if (!is_numeric($gpa4Test) && !empty($_POST["gpa4"])) {
-      $gpa4Err = "Not a valid gpa";    
-    } else{
-      $gpa4 = $gpa4Test;
-    }
-    if (!preg_match("/^[0-9]+$/i",$dYear4Test) && !empty($_POST["dYear4"])) {
-      $dYear4Err = "Not a valid year";  
-    } else{
-      $dYear4 = $dYear4Test;
-    }
-    if (!preg_match("/^[a-zA-Z ]+$/i",$unversity4Test) && !empty($_POST["university4"])) {
-      $university4Err = "Only letters, and white space allowed";
-    } else{
-      $university4 = $university4Test;
-    }
+	    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$addressTest)) {
+	      $addressErr = "Only letters, numbers, and white space allowed";
+	      $dataReady = false;
+	    } else{
+	      $address = $addressTest;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$ssnTest)) {
+	      $ssnErr = "Not a valid social security number";
+	      $dataReady = false;
+	    } else{
+	      $ssn = $ssnTest;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$appYearTest) || !isValidAppYear($appYearTest)) {
+	      $appYearErr = "Not a valid date";
+	      $dataReady = false;
+	    } else{
+	      $appYear = $appYearTest;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$verbalTest) || !isValidScore($verbalTest)) {
+	      $verbalErr = "Not a valid score";
+	      $dataReady = false;
+	    } else{
+	      $verbal = $verbalTest;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$quantitativeTest) || !isValidScore($quantitativeTest)) {
+	      $quantitativeErr = "Not a valid score";
+	      $dataReady = false;
+	    } else{
+	      $quantitative = $quantitativeTest;
+	    } 
+	    if (!preg_match("/^[0-9]+$/i",$yearTest) || !isValidYear($yearTest)) {
+	      $yearErr = "Not a valid date";
+	      $dataReady = false;
+	    } else{
+	      $year = $yearTest;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$advScoreTest) || !isValidScore($advScoreTest)) {
+	      $advScoreErr = "Not a valid score";
+	      $dataReady = false;
+	    } else{
+	      $advScore = $advScoreTest;
+	    }
+	    // if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$subjectTest)) {
+	    //   $subjectErr = "Not a valid subject - only letters, numbers, and white space allowed";
+	    //   $dataReady = false;
+	    // } else{
+	    //   $subject = $subjecTest;
+	    // }
+	    if (!preg_match("/^[0-9]+$/i",$toeflTest) || !isValidScore($toeflTest)) {
+	      $toeflErr = "Not a valid score";
+	      $dataReady = false;
+	    } else{
+	      $toefl = $toeflTest;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$advYearTest) || !isValidYear($advYearTest)) {
+	      $advYearErr = "Not a valid date";
+	      $dataReady = false;
+	    } else{
+	      $advYear = $advYearTest;
+	    }
+	    if (!empty($_POST["aoi"])) {
+	      $aoi = $aoiTest;
+	    }
+	    if (!empty($_POST["experience"])) {
+	      $experience = $experienceTest;
+	    }
+
+	    if (!is_numeric($gpaTest) || !isValidGPA($gpaTest)) {
+	      $gpaErr = "Not a valid gpa";
+	      $dataReady = false;
+	    } else{
+	      $gpa = $gpaTest;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$dYearTest) || !isValidYear($dYearTest)) {
+	      $dYearErr = "Not a valid year";
+	      $dataReady = false;
+	    } else{
+	      $dYear = $dYearTest;
+	    }
+	    if (!preg_match("/^[a-zA-Z ]+$/i",$universityTest)) {
+	      $universityErr = "Only letters, and white space allowed";
+	      $dataReady = false;
+	    } else{
+	      $university = $universityTest;
+	    }
+	    //optional degrees
+	    if (!is_numeric($gpa2Test) || !isValidGPA($gpa2Test)) {
+	      $gpa2Err = "Not a valid gpa";    
+	    } else{
+	      $gpa2 = $gpa2Test;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$dYear2Test) || !isValidYear($dYear2Test)) {
+	      $dYear2Err = "Not a valid year";  
+	    } else{
+	      $dYear2 = $dYear2Test;
+	    }
+	    if (!preg_match("/^[a-zA-Z ]+$/i",$university2Test)) {
+	      $university2Err = "Only letters, and white space allowed";
+	    } else{
+	      $university2 = $university2Test;
+	    }
+	    if (!is_numeric($gpa3Test) || !isValidGPA($gpa3Test)) {
+	      $gpa3Err = "Not a valid gpa";    
+	    } else{
+	      $gpa3 = $gpa3Test;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$dYear3Test)  || !isValidYear($dYear3Test)) {
+	      $dYear3Err = "Not a valid year";  
+	    } else{
+	      $dYear3 = $dYear3Test;
+	    }
+	    if (!preg_match("/^[a-zA-Z ]+$/i",$university3Test) ) {
+	      $university3Err = "Only letters, and white space allowed";
+	    } else{
+	      $university3 = $university3Test;
+	    }
+	    if (!is_numeric($gpa4Test) || !isValidGPA($gpa4Test)) {
+	      $gpa4Err = "Not a valid gpa";    
+	    } else{
+	      $gpa4 = $gpa4Test;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$dYear4Test) || !isValidYear($dYear4Test)) {
+	      $dYear4Err = "Not a valid year";  
+	    } else{
+	      $dYear4 = $dYear4Test;
+	    }
+	    if (!preg_match("/^[a-zA-Z ]+$/i",$unversity4Test) ) {
+	      $university4Err = "Only letters, and white space allowed";
+	    } else{
+	      $university4 = $university4Test;
+	    }
 
 
-    if (!preg_match("/^[a-zA-Z ]+$/i",$fnameRecTest) && !empty($_POST["fnameRec"])) {
-      $fnameRecErr = "Only letters, and white space allowed";
-      $dataReady = false;
-    } else{
-      $fnameRec = $fnameRecTest;
+	    if (!preg_match("/^[a-zA-Z ]+$/i",$fnameRecTest) ) {
+	      $fnameRecErr = "Only letters, and white space allowed";
+	      $dataReady = false;
+	    } else{
+	      $fnameRec = $fnameRecTest;
+	    }
+	    if (!preg_match("/^[a-zA-Z ]+$/i",$lnameRecTest) ) {
+	      $lnameRecErr = "Only letters, and white space allowed";
+	      $dataReady = false;
+	    } else{
+	      $lnameRec = $lnameRecTest;
+	    }
+	    if (!preg_match("/^[a-zA-Z ]+$/i",$institutionTest)) {
+	      $institutionErr = "Only letters, and white space allowed";
+	      $dataReady = false;
+	    } else{
+	      $institution = $institutionTest;
+	    }
+	    if (!filter_var($emailTest, FILTER_VALIDATE_EMAIL) ) {
+	      $emailErr = "Invalid email";
+	      $dataReady = false;
+	    } else{
+	      $email = $emailTest;
+	    }
     }
-    if (!preg_match("/^[a-zA-Z ]+$/i",$lnameRecTest) && !empty($_POST["lnameRec"])) {
-      $lnameRecErr = "Only letters, and white space allowed";
-      $dataReady = false;
-    } else{
-      $lnameRec = $lnameRecTest;
-    }
-    if (!preg_match("/^[a-zA-Z ]+$/i",$institutionTest) && !empty($_POST["institution"])) {
-      $institutionErr = "Only letters, and white space allowed";
-      $dataReady = false;
-    } else{
-      $institution = $institutionTest;
-    }
-    if (!filter_var($emailTest, FILTER_VALIDATE_EMAIL) && !empty($_POST["email"])) {
-      $emailErr = "Invalid email";
-      $dataReady = false;
-    } else{
-      $email = $emailTest;
-    }
-    
     ////////////////////////////////////////////////////////////////////////
     
     
@@ -428,8 +465,16 @@
       GRE advanced: <br>
       Score <span class="field"><input type="text" name="advScore">
       <span class="error"><?php echo " " . $advScoreErr;?></span></span><br>
-      Subject <span class="field"><input type="text" name="subject">
-      <span class="error"><?php echo " " . $subjectErr;?></span></span><br><br>
+
+     Subject <span class="field"> 
+      <select name="subject">
+        <option value="Biology">Biology</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="English">English</option>
+        <option value="Physics">Physics</option>
+        <option value="Psychology">Pyschology</option>
+      </select> </span><br>
+
       TOEFL Score <span class="field"><input type="text" name="toefl">
       <span class="error"><?php echo " " . $toeflErr;?></span></span><br>
       Year of exam <span class="field"><input type="text" name="advYear">

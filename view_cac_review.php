@@ -20,7 +20,7 @@
   ////////////////////////////////////////////////////
   //RETRIEVE INFORMATION
   ////////////////////////////////////////////////////
-  get the applicant the GS wants to update
+  // get the applicant the GS wants to update
   $applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
   while ($row = $applicants->fetch_assoc()) {
     if (isset($_POST[$row['userID']])) {
@@ -31,7 +31,6 @@
     }
   }
  
-
   if (!$_SESSION['applicantID'])
     echo "Error: Applicant not found</br>";
 
@@ -67,7 +66,7 @@
   $university = $value->institution;
 
   //Review info:
-  $sql = "SELECT rating, generic, credible FROM rec_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
+  $sql = "SELECT rating, generic, credible FROM rec_review WHERE reviewerRole = 'CAC' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* retrieve rec review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $rating = $value->rating;
@@ -84,7 +83,7 @@
     $credible = "No";
   }
 
-  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
+  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE reviewerRole = 'CAC' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* retrieve app review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $comments = $value->comments;
@@ -98,7 +97,7 @@
 <html>
   
   <title>
-    Faculty Review
+    CAC Review
   </title>
   
   <style>
@@ -119,13 +118,13 @@
     }
   </style>
   
-  <h1> Faculty Review </h1>
+  <h1> CAC Review </h1>
 
   <body>
     <!-- General info -->
     <h2> Applicant Information </h2>
     <b>Name: </b> <u> <?php echo $fname.", ".$lname; ?> </u> <br><br>
-    <b>Student Number: </b> <u> <?php echo $_SESSION['applicantID']; ?> </u> <br><br>
+    <b>Student Number: </b> <u> <?php echo $studentNumber; ?> </u> <br><br>
 
     <!-- Academic Info -->
     <b>Semester and Year of Application: </b> <u> <?php echo $semester." ".$year; ?> </u> <br><br>

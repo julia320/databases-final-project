@@ -54,35 +54,31 @@
   /////////////////////////////////////////////////////////////
 
   $somethingEmpty = "";
+  $greenlight = 1;;
   if (isset($_POST['submit'])){
-    if(
-     empty($_POST["rating"]) ||
-     empty($_POST["generic"]) ||
-     empty($_POST["credible"]) ||
-     empty($_POST["action"]) ||
-     empty($_POST["advisor"]))
-      $somethingEmpty = "One or more required fields are missing";
-    else{
+
+    if(empty($_POST["rating"]) || empty($_POST["generic"]) || empty($_POST["credible"]) || empty($_POST["action"]) || empty($_POST["advisor"])){
+      if ($_POST["action"] == 1 && !empty($_POST["rating"]) && !empty($_POST["generic"]) && !empty($_POST["credible"])){
+
+      }
+      else{
+        $greenlight = 0;
+        $somethingEmpty = "One or more required fields are missing";
+      }
+    } 
+    
+    if ($greenlight == 1){
+
       $rating = $_POST["rating"];
       $generic = $_POST["generic"];
       $credible = $_POST["credible"];
       $action = $_POST["action"];
-      $advisor = $_POST["advisor"];
+      $advisor;
+      if (empty($_POST["advisor"]))
+        $advisor = "NA";
+      else
+        $advisor = $_POST["advisor"];
       
-      // //create a new reviewID my incrementing largest current reviewID in database
-      // $reviewID;
-      // $sql = "SELECT reviewID FROM rec_review";
-      // $result = mysqli_query($conn, $sql) or die ("************* COMPUTE reviewID FAILED*************");
-      // if (mysqli_num_rows($result) == 0){
-      //   $reviewID = 1;
-      // }
-      // else{
-      //   $sql = "SELECT MAX(reviewID) AS max FROM rec_review";
-      //   $result = mysqli_query($conn, $sql) or die ("REIVIEW ID INCREMENT FAILED");
-      //   $value = mysqli_fetch_object($result);
-      //   $reviewID = $value->max;
-      //   $reviewID++;
-      // }
 
       //set up foreign key reference between rec_letter and rec_review
       $recID;
