@@ -65,7 +65,7 @@
   $university = $value->institution;
 
   //Review info:
-  $sql = "SELECT rating, generic, credible FROM rec_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
+  $sql = "SELECT rating, generic, credible FROM rec_review WHERE reviewerRole = 'CAC' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* retrieve rec review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $rating = $value->rating;
@@ -82,7 +82,7 @@
     $credible = "No";
   }
 
-  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
+  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE reviewerRole = 'CAC' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* retrieve app review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $comments = $value->comments;
@@ -96,7 +96,7 @@
 <html>
   
   <title>
-    Faculty Review
+    CAC Review
   </title>
   
   <style>
@@ -117,7 +117,7 @@
     }
   </style>
   
-  <h1> Faculty Review </h1>
+  <h1> CAC Review </h1>
 
   <body>
     <!-- General info -->
