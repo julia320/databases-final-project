@@ -151,6 +151,15 @@
 	    $institution = "";
 	    $email = "";
 	     
+	    function isValidSSN($value, $low = 0, $high = 999999999){
+	    	$value = (int)$value;
+	    	if ( $value > $high || $value < $low ) {
+	   		  // return false (not a valid value)
+	    	  return false;
+	    	}
+	    	//otherwise the ssn is valid so return true
+	    	return true;
+	    }
 	    function isValidYear($value, $low = 1950, $high = 2020){
 	    	$value = (int)$value;
 	    	if ( $value > $high || $value < $low ) {
@@ -160,7 +169,7 @@
 	    	//otherwise the year is valid so return true
 	    	return true;
 	    }
-	    function isValidAppYear($value, $low = 2019, $high = 2021){
+	    function isValidAppYear($value, $low = 2019, $high = 2030){
 	    	$value = (int)$value;
 	    	if ( $value > $high || $value < $low ) {
 	   		  // return false (not a valid value)
@@ -175,7 +184,7 @@
 	   		  // return false (not a valid value)
 	    	  return false;
 	    	}
-	    	//otherwise the year is valid so return true
+	    	//otherwise the gp is valid so return true
 	    	return true;
 	    }
 	    function isValidScore($value, $low = 0, $high = 100){
@@ -184,7 +193,7 @@
 	   		  // return false (not a valid value)
 	    	  return false;
 	    	}
-	    	//otherwise the year is valid so return true
+	    	//otherwise the score is valid so return true
 	    	return true;
 	    }
 
@@ -194,7 +203,7 @@
 	    } else{
 	      $address = $addressTest;
 	    }
-	    if (!preg_match("/^[0-9]+$/i",$ssnTest)) {
+	    if (!preg_match("/^[0-9]+$/i",$ssnTest) || !isValidSSN($ssnTest)) {
 	      $ssnErr = "Not a valid social security number";
 	      $dataReady = false;
 	    } else{
@@ -356,11 +365,11 @@
       $sql = "SELECT fname, lname FROM users WHERE userID = " .$_SESSION['id'];
       $result = mysqli_query($conn, $sql) or die ("**********1st MySQL Error***********");
       $value = mysqli_fetch_object($result);
-      $fname = $value->fname;
-      $lname = $value->lname;
+      $fname = $value->fname or die ("359");
+      $lname = $value->lname or die ("360");
 
       //fill in personal_info table
-      $sql1 = "INSERT INTO personal_info VALUES('".$fname."', '".$lname."', ".$_SESSION['id'].", '".$address."', ".$ssn.")";
+      $sql1 = "INSERT INTO personal_info VALUES('" .$fname. "', '" .$lname. "', " .$_SESSION['id']. ", '" .$address. "', " .$ssn. ")";
       $result1 = mysqli_query($conn, $sql1) or die ("**********2nd MySQL Error***********");
 
       //fill in GRE table
