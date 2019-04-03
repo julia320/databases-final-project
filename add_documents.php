@@ -64,7 +64,10 @@
 
 
 			// update the status 
-			if ($tr == 1 && $rec == 1) {
+			// only if docs received and app complete does the status go to 3
+			$result = mysqli_query($conn, "SELECT status FROM app_review WHERE uid=".$_SESSION['applicantID']);
+			$row = $result->fetch_assoc();
+			if ($tr == 1 && $rec == 1 && $row['status'] == 2) {
 				$q = "UPDATE app_review SET status=3 WHERE uid=".$_SESSION['applicantID'];
 				mysqli_query($conn, $q);
 			}

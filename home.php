@@ -47,7 +47,7 @@
 				echo "Your application is pending</p>";
 				echo "<p style='text-align: center;'>We are still waiting to receive your transcript and recommendation letter, please check back later.</p>";
 				echo "<form align='center' action='application_view_form.php' method='post'>
-	    				<input type='submit' value='View Application'>
+	    				<input type='submit' name='".$_SESSION['id']."' value='View Application'>
 					  </form>"; 
 			}
 

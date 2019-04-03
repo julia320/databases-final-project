@@ -84,7 +84,7 @@
 
   <body>
     <b>Name: </b> <u> <?php echo $fname.", ".$lname; ?> </u> <br><br>
-    <b>Student Number: </b> <u> <?php echo $studentNumber; ?> </u> <br><br>
+    <b>Student Number: </b> <u> <?php echo $_SESSION['appliantID']; ?> </u> <br><br>
     <b>Semester and Year of Application: </b> <u> <?php echo $semester." ".$year; ?> </u> <br><br>
     <b>Applying for Degree: </b> <u> <?php echo $degreeType; ?> </u> <br>
     <hr>
