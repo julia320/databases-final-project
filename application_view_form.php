@@ -18,7 +18,7 @@
   //$_SESSION['applicantID'] = '';
   $applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
   while ($row = $applicants->fetch_assoc()) {
-    if (isset($_GET[$row['userID']])) {
+    if (isset($_POST[$row['userID']])) {
       $_SESSION['applicantID'] = $row['userID'];
       $fname = $row['fname'];
       $lname = $row['lname'];
