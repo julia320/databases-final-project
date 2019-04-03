@@ -53,12 +53,6 @@
 			$_SESSION['role'] = 'A';
 			sign_up($conn);
 		}
-
-		// if the reset button was pressed, run commands
-		if (isset($_POST['RESET'])) {
-			mysqli_query($conn, "source apps_schema.sql");
-			echo "reset";
-		}
 	?>
 
 	<h2 style="text-align: center;">Graduate Application System</h2>
@@ -108,7 +102,7 @@
 
 	<!-- RESET button -->
 	<div align='center';>
-		<form action="login.php" method="POST">
+		<form action="reset.php" method="POST">
 			<input type="submit" name="RESET" value="RESET">
 		</form>
 	</div>
