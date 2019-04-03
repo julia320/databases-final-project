@@ -21,6 +21,7 @@
       $_SESSION['applicantID'] = $row['userID'];
       $fname = $row['fname'];
       $lname = $row['lname'];
+      $studentNumber = $row['userID'];
       $name = $fname." ".$lname;
     }
   }
