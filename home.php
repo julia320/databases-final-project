@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <head>
     <title>APPS Home Page</title>
+
+	<!-- CSS styling -->
+	<style>
+		tbody tr:nth-child(odd) {
+  			background-color: #ff33cc;
+		}
+
+		tbody tr:nth-child(even) {
+  			background-color: #e495e4;
+		}
+
+		h2 {
+			color: #00bfff;
+		}
+
+	</style
+
 </head>
 
 <body>
@@ -25,7 +42,7 @@
         if ($_SESSION['role'] == "A") {
 
         	// page header info
-        	echo "<h2 style='text-align: center;'>Applicant Home Page</h2>
+        	echo "<div ><h2 style='text-align: center;'>Applicant Home Page</h2>
         		<h4 style='text-align: center;'>Complete your application or view its status here</h4>";
 
 			// find status of the applicant
@@ -94,7 +111,7 @@
 			$result = mysqli_query($conn, "SELECT DISTINCT userID, fname, lname FROM users, app_review WHERE status>2 AND userID=uid");
 
 			// start table
-			echo "<table border='1' align='center'; style='border-collapse: collapse;'>
+			echo "<table border='1' align='center' style='border-collapse:collapse;'>
 	            	<tr>
 	                	<th>First Name</th>
 		                <th>Last Name</th>

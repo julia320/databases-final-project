@@ -193,9 +193,19 @@
       <b>Faculty Reviewer Comments: </b> <br>
       <textarea rows="4" cols="50"><?php echo $comments; ?> </textarea>
     	
-      <form id="mainform" method="post" action="application_form_review_CAC.php">
-      	<div class="bottomCentered"> <input type="submit" name="submit" value="Return"> </div>
-      </form>
+
+      <?php
+        if ($_SESSION['role'] == 'CAC'){
+            echo '<form id="mainform" method="post" action="application_form_review_CAC.php">
+      	        <div class="bottomCentered"> <input type="submit" name="submit" value="Return"> </div>
+     	        </form>';
+     	}
+     	if($_SESSION['role'] == 'GS'){
+     		echo '<form id="mainform" method="post" action="home.php">
+      	        <div class="bottomCentered"> <input type="submit" name="submit" value="Return"> </div>
+     	        </form>';
+     	}
+      ?>
 
 
 

@@ -38,70 +38,72 @@
     if(count(array_filter($_POST))!=count($_POST)){
       $somethingEmpty = "Something is empty";
     }
-    $fnameTest = $_POST["fname"];
-    $lnameTest = $_POST["lname"];
-    $usernameTest = $_POST["username"];
-    $passwordTest = $_POST["password"];
-    $emailTest = $_POST["email"];
-    $addressTest = $_POST["address"];
-    $ssnTest = $_POST["ssn"];
+    else{
+	    $fnameTest = $_POST["fname"];
+	    $lnameTest = $_POST["lname"];
+	    $usernameTest = $_POST["username"];
+	    $passwordTest = $_POST["password"];
+	    $emailTest = $_POST["email"];
+	    $addressTest = $_POST["address"];
+	    $ssnTest = $_POST["ssn"];
 
-    $role = $_POST["role"];
-    $fname = "";
-    $lname = "";
-    $username = "";
-    $password = $_POST["password"];
-    $email = "";
-    $address= "";
-    $ssn = "";
+	    $role = $_POST["role"];
+	    $fname = "";
+	    $lname = "";
+	    $username = "";
+	    $password = $_POST["password"];
+	    $email = "";
+	    $address= "";
+	    $ssn = "";
 
-    if (!preg_match("/^[a-zA-Z ]+$/i",$fnameTest)) {
-      $fnameErr = "Only letters, and white space allowed";
-      $dataReady = false;
-    } else{
-      $fname = $fnameTest;
-    }
-    if (!preg_match("/^[a-zA-Z ]+$/i",$lnameTest)) {
-      $lnameErr = "Only letters, and white space allowed";
-      $dataReady = false;
-    } else{
-      $lname = $lnameTest;
-    }
-    if(!preg_match("/^[a-zA-Z0-9 ]+$/i",$usernameTest)){
-      $usernameErr = "Only letter, numbers, and whitespace allowed";
-      $dataReady = false;
-    } else{
-      $username = $usernameTest;
-    }
-    if (!filter_var($emailTest, FILTER_VALIDATE_EMAIL) && !empty($_POST["email"])) {
-      $emailErr = "Invalid email";
-      $dataReady = false;
-    } else{
-      $email = $emailTest;
-    }
-    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$addressTest) && !empty($_POST["address"])) {
-      $addressErr = "Only letters, numbers, and white space allowed";
-      $dataReady = false;
-    } else{
-      $address = $addressTest;
-    }
-    if (!preg_match("/^[0-9]+$/i",$ssnTest) && !empty($_POST["ssn"])) {
-      $ssnErr = "Not a valid social security number";
-      $dataReady = false;
-    } else{
-      $ssn = $ssnTest;
-    }
+	    if (!preg_match("/^[a-zA-Z ]+$/i",$fnameTest)) {
+	      $fnameErr = "Only letters, and white space allowed";
+	      $dataReady = false;
+	    } else{
+	      $fname = $fnameTest;
+	    }
+	    if (!preg_match("/^[a-zA-Z ]+$/i",$lnameTest)) {
+	      $lnameErr = "Only letters, and white space allowed";
+	      $dataReady = false;
+	    } else{
+	      $lname = $lnameTest;
+	    }
+	    if(!preg_match("/^[a-zA-Z0-9 ]+$/i",$usernameTest)){
+	      $usernameErr = "Only letter, numbers, and whitespace allowed";
+	      $dataReady = false;
+	    } else{
+	      $username = $usernameTest;
+	    }
+	    if (!filter_var($emailTest, FILTER_VALIDATE_EMAIL) && !empty($_POST["email"])) {
+	      $emailErr = "Invalid email";
+	      $dataReady = false;
+	    } else{
+	      $email = $emailTest;
+	    }
+	    if (!preg_match("/^[a-zA-Z0-9 ]+$/i",$addressTest) && !empty($_POST["address"])) {
+	      $addressErr = "Only letters, numbers, and white space allowed";
+	      $dataReady = false;
+	    } else{
+	      $address = $addressTest;
+	    }
+	    if (!preg_match("/^[0-9]+$/i",$ssnTest) && !empty($_POST["ssn"])) {
+	      $ssnErr = "Invalid social security number";
+	      $dataReady = false;
+	    } else{
+	      $ssn = $ssnTest;
+	    }
 
-    //Insert into database 
-    if ($dataReady == true){
-      $sql = "INSERT INTO users VALUES ('" .$role. "', '" .$fname . "', '" .$lname. "', '" .$username. "', '" .$password. "', '" .$email. "', " .$newID. ")";
-      $result = mysqli_query($conn, $sql) or die ("**********Error: user insert query failed***********");
+	    //Insert into database 
+	    if ($dataReady == true){
+	      $sql = "INSERT INTO users VALUES ('" .$role. "', '" .$fname . "', '" .$lname. "', '" .$username. "', '" .$password. "', '" .$email. "', " .$newID. ")";
+	      $result = mysqli_query($conn, $sql) or die ("**********Error: user insert query failed***********");
 
-      $sql = "INSERT INTO personal_info VALUES ('" .$fname. "', '" .$lname. "', " .$newID. ", '" .$address. "', '" .$ssn. "')";
-      $result = mysqli_query($conn, $sql) or die ("**********Error: personal_info insert query failed***********");
-      header("Location:system_admin_page.php"); 
-      exit;
-    }
+	      $sql = "INSERT INTO personal_info VALUES ('" .$fname. "', '" .$lname. "', " .$newID. ", '" .$address. "', '" .$ssn. "')";
+	      $result = mysqli_query($conn, $sql) or die ("**********Error: personal_info insert query failed***********");
+	      header("Location:system_admin_page.php"); 
+	      exit;
+	    }
+	}
   }
 ?>
 
@@ -198,7 +200,7 @@
       Enter SSN: <span class="field"><input type="text" name="ssn">
       <span class="error"><?php echo " " . $ssnErr;?></span></span><br><br>
       <input type="submit" name="submit" value="Create User">
-
+      <span class="error"><?php echo " " . $somethingEmpty;?></span></span>
 
     </form>
     

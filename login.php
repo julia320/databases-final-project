@@ -28,6 +28,14 @@
 			color: red;
 		}
 
+		.box {
+			background: rgb(255,255,255); /* Old browsers */
+			background: -moz-linear-gradient(left, rgba(255,255,255,1) 10%, rgba(165,165,165,1) 11%, rgba(165,165,165,1) 38%, rgba(165,165,165,1) 38%, rgba(165,165,165,1) 55%, rgba(165,165,165,1) 89%, rgba(255,255,255,1) 90%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(left, rgba(255,255,255,1) 10%,rgba(165,165,165,1) 11%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 55%,rgba(165,165,165,1) 89%,rgba(255,255,255,1) 90%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to right, rgba(255,255,255,1) 10%,rgba(165,165,165,1) 11%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 55%,rgba(165,165,165,1) 89%,rgba(255,255,255,1) 90%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+		}
+
 	</style>	
 </head>
 
@@ -58,7 +66,7 @@
 	<h2 style="text-align: center;">Graduate Application System</h2>
 	<div class="row">
 		<!-- Log in -->
-		<div class="column">
+		<div class="column box">
 			<h3>Log In</h3>
 			<p>Log in to complete your application, view its satus, or see the final decision</p>
 			<?php echo $_SESSION['errL']; ?><br>
@@ -72,7 +80,7 @@
 
 
 		<!-- Sign up -->
-		<div class="column">
+		<div class="column box">
 			<h3>Sign Up</h3>
 			<p>Sign up here if you don't already have an account to begin your application</p>
 			<?php echo $_SESSION['errS']; ?><br>
@@ -84,7 +92,7 @@
 				<input type="text" name="lname" required><br/><br/>
 
 				<label for="email">Email:</label>
-				<input type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" oninvalid="this.setCustomValidity('Please enter a valid email address')" onchange="this.setCustomValidity('')"><br/><br/>
+				<input type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"><br/><br/>
 
 				<label for="username">Username:</label>
 				<input type="text" name="username" required><br/><br/>
@@ -95,12 +103,14 @@
 				<label for="password2">Confirm Password:</label>
 				<input type="password" name="password2" required><br/><br/>
 
-			    	<input type="submit" name="signup" value="Create Account">
+			    	<input type="submit" name="signup" value="Create Account"><br/>
 			</form>
+			<br/>
 		</div>
 	</div>
 
 	<!-- RESET button -->
+	<br/><br/><br/>
 	<div align='center';>
 		<form action="reset.php" method="POST">
 			<input type="submit" name="RESET" value="RESET">
