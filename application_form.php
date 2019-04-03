@@ -368,19 +368,42 @@
       $fname = $value->fname or die ("359");
       $lname = $value->lname or die ("360");
 
-      //fill in personal_info table
-      $sql1 = "INSERT INTO personal_info VALUES('" .$fname. "', '" .$lname. "', " .$_SESSION['id']. ", '" .$address. "', " .$ssn. ")";
-      $result1 = mysqli_query($conn, $sql1) or die ("**********2nd MySQL Error***********");
+      $sql = "SELECT * FROM personal_info WHERE uid = " .$_SESSION['id'];
+      $result = mysqli_query($conn, $sql) or die ("select from personal_info failed");
+      if (mysqli_num_rows($result) == 0){
+	    //fill in personal_info table
+	    $sql1 = "INSERT INTO personal_info VALUES('" .$fname. "', '" .$lname. "', " .$_SESSION['id']. ", '" .$address. "', " .$ssn. ")";
+	    $result1 = mysqli_query($conn, $sql1) or die ("**********insert personal_info Error***********");  
+	  }
+	  else{
+	  	$sql1 = "UPDATE personal_info SET fname = '" .$fname. "', lname = '" .$lname. "', address = '" .$address. "', ssn = " .$ssn. " WHERE  uid = " .$_SESSION['id'];
+	  	 $result1 = mysqli_query($conn, $sql1) or die ("**********update personal_info Error***********"); 
+	  }
 
       //fill in GRE table
       $sql2 = "INSERT INTO gre VALUES(".$verbal.", ".$quantitative.", ".$year.", ".$advScore.", '".$subject."', " .$toefl.", ".$advYear.", ".$_SESSION['id'].")";
-      $result2 = mysqli_query($conn, $sql2) or die (mysqli_error());
+      $result2 = mysqli_query($conn, $sql2) or die ("insert into gre failed");
 
+
+
+
+      $sql = "SELECT * FROM academic_info WHERE uid = " .$_SESSION['id'];
+      $result = mysqli_query($conn, $sql) or die ("check academic failed");
+      if (mysqli_num_rows($result) == 0){
       //fill in academic_info table
-      $sql3 = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
-              VALUES(".$_SESSION['id'].", '".$degreeType."', '".$aoi."', '".$experience."', '".$semester."', ".$year.")";
-      $result3 = mysqli_query($conn, $sql3) or die ("**********3rd MySQL Error***********");
+	      $sql3 = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) 
+	              VALUES(".$_SESSION['id'].", '".$degreeType."', '".$aoi."', '".$experience."', '".$semester."', ".$year.")";
+	      $result3 = mysqli_query($conn, $sql3) or die ("**********insert into academic info Error***********");
+	   }
+	   else{
+	     $sql = "UPDATE academic_info SET degreeType = '" .$degreeType. "', AOI = '" .$aoi. "', experience = '" .$experience. "', semester = '" .$semester. "', year = " .$year. " WHERE uid = " .$_SESSION['id'];
+         $result = mysqli_query($conn, $sql) or die ("update academic failed");
+	   }
       
+
+
+
+
       //fill in prior degrees table
       $sql4 = "INSERT INTO prior_degrees VALUES (".$gpa.", " .$dYear.", '".$university."', " .$_SESSION['id']. ", '".$type."')"; 
       $result4 = mysqli_query($conn, $sql4) or die ("**********4th MySQL Error***********");
