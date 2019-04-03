@@ -15,9 +15,10 @@
   //RETRIEVE INFORMATION
   ////////////////////////////////////////////////////
   // get the applicant the GS wants to update
+  //$_SESSION['applicantID'] = '';
   $applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
   while ($row = $applicants->fetch_assoc()) {
-    if (isset($_POST[$row['userID']])) {
+    if (isset($_GET[$row['userID']])) {
       $_SESSION['applicantID'] = $row['userID'];
       $fname = $row['fname'];
       $lname = $row['lname'];
@@ -83,8 +84,8 @@
   <h1> Applicant Information </h1>
 
   <body>
-    <b>Name: </b> <u> <?php echo $fname.", ".$lname; ?> </u> <br><br>
-    <b>Student Number: </b> <u> <?php echo $_SESSION['appliantID']; ?> </u> <br><br>
+    <b>Name: </b> <u> <?php echo $name; ?> </u> <br><br>
+    <b>Student Number: </b> <u> <?php echo $_SESSION['applicantID']; ?> </u> <br><br>
     <b>Semester and Year of Application: </b> <u> <?php echo $semester." ".$year; ?> </u> <br><br>
     <b>Applying for Degree: </b> <u> <?php echo $degreeType; ?> </u> <br>
     <hr>
