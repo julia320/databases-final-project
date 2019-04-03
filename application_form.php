@@ -274,47 +274,47 @@
 	      $university = $universityTest;
 	    }
 	    //optional degrees
-	    if (!is_numeric($gpa2Test) || !isValidGPA($gpa2Test)) {
+	    if (!empty($gpa2Test) && (!is_numeric($gpa2Test) || !isValidGPA($gpa2Test))) {
 	      $gpa2Err = "Not a valid gpa";    
 	    } else{
 	      $gpa2 = $gpa2Test;
 	    }
-	    if (!preg_match("/^[0-9]+$/i",$dYear2Test) || !isValidYear($dYear2Test)) {
+	    if (!empty($dYear2Test) && (!preg_match("/^[0-9]+$/i",$dYear2Test) || !isValidYear($dYear2Test))) {
 	      $dYear2Err = "Not a valid year";  
 	    } else{
 	      $dYear2 = $dYear2Test;
 	    }
-	    if (!preg_match("/^[a-zA-Z ]+$/i",$university2Test)) {
+	    if (!empty($universiy2Test) && (!preg_match("/^[a-zA-Z ]+$/i",$university2Test))) {
 	      $university2Err = "Only letters, and white space allowed";
 	    } else{
 	      $university2 = $university2Test;
 	    }
-	    if (!is_numeric($gpa3Test) || !isValidGPA($gpa3Test)) {
+	    if (!empty($gpa3Test) && (!is_numeric($gpa3Test) || !isValidGPA($gpa3Test))) {
 	      $gpa3Err = "Not a valid gpa";    
 	    } else{
 	      $gpa3 = $gpa3Test;
 	    }
-	    if (!preg_match("/^[0-9]+$/i",$dYear3Test)  || !isValidYear($dYear3Test)) {
+	    if (!empty($dYear3Test) && (!preg_match("/^[0-9]+$/i",$dYear3Test)  || !isValidYear($dYear3Test))) {
 	      $dYear3Err = "Not a valid year";  
 	    } else{
 	      $dYear3 = $dYear3Test;
 	    }
-	    if (!preg_match("/^[a-zA-Z ]+$/i",$university3Test) ) {
+	    if (!empty($universiy3Test) && (!preg_match("/^[a-zA-Z ]+$/i",$university3Test)) ) {
 	      $university3Err = "Only letters, and white space allowed";
 	    } else{
 	      $university3 = $university3Test;
 	    }
-	    if (!is_numeric($gpa4Test) || !isValidGPA($gpa4Test)) {
+	    if (!empty($gpa4Test) && (!is_numeric($gpa4Test) || !isValidGPA($gpa4Test))) {
 	      $gpa4Err = "Not a valid gpa";    
 	    } else{
 	      $gpa4 = $gpa4Test;
 	    }
-	    if (!preg_match("/^[0-9]+$/i",$dYear4Test) || !isValidYear($dYear4Test)) {
+	    if (!empty($dYear4Test) && (!preg_match("/^[0-9]+$/i",$dYear4Test) || !isValidYear($dYear4Test))) {
 	      $dYear4Err = "Not a valid year";  
 	    } else{
 	      $dYear4 = $dYear4Test;
 	    }
-	    if (!preg_match("/^[a-zA-Z ]+$/i",$unversity4Test) ) {
+	    if (!empty($universiy4Test) &&( !preg_match("/^[a-zA-Z ]+$/i",$unversity4Test)) ) {
 	      $university4Err = "Only letters, and white space allowed";
 	    } else{
 	      $university4 = $university4Test;

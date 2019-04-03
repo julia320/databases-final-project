@@ -20,7 +20,7 @@
   ////////////////////////////////////////////////////
   //RETRIEVE INFORMATION
   ////////////////////////////////////////////////////
-  get the applicant the GS wants to update
+  //get the applicant the GS wants to update
   $applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
   while ($row = $applicants->fetch_assoc()) {
     if (isset($_POST[$row['userID']])) {
@@ -192,7 +192,10 @@
       <b>Recommended Advisor: </b> <u> <?php echo $advisor; ?> </u> <br>
       <b>Faculty Reviewer Comments: </b> <br>
       <textarea rows="4" cols="50"><?php echo $comments; ?> </textarea>
-    
+    	
+      <form id="mainform" method="post" action="application_form_review_CAC.php">
+      	<div class="bottomCentered"> <input type="submit" name="submit" value="Return"> </div>
+      </form>
 
 
 

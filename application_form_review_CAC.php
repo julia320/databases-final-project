@@ -133,8 +133,6 @@
       //load rec review info into database
       $sql = "INSERT INTO rec_review VALUES(" .$reviewID. ", '" .$_SESSION['role']. "', " .$rating.", " .$generic. ", " .$credible. ", " . $_SESSION['applicantID'].", ". $recID . ")";
       $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO rec_review SQL FAILED *************");
-      $sql = "INSERT INTO rec_review VALUES(" .$reviewID. ", '" .$_SESSION['role']. "', " .$rating.", " .$generic. ", " .$credible. ", " . $_SESSION['applicantID'].", ". $recID . ")";
-      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO rec_review SQL FAILED *************");
 
       //update status for all instances of applicant
       $sql = "UPDATE app_review SET status = " .$status. " WHERE uid = " .$_SESSION['applicantID']. "";
@@ -215,15 +213,14 @@
 
     <!-- Button to view FR's review if exists -->
     <?php 
-      $q = "SELECT * FROM app_review WHERE uid=".$_SESSION['applicantID'];
-      $result = mysqli_query($conn, $q);
-      while ($row = $result->fetch_assoc()) {
-        if ($row['rating']) {
-          // if a review has been made, show the button
-          echo "<form action='view_faculty_review.php' method='post'>
+      $q = "SELECT rating FROM app_review WHERE reviewerRole = 'FR' AND uid = ".$_SESSION['applicantID'];
+      $result = mysqli_query($conn, $q) or die ("Error: line 218");
+      $value = mysqli_fetch_object($result);
+      if ($value->rating != NULL) {
+        // if a review has been made, show the button
+        echo "<form action='view_faculty_review.php' method='post'>
               <input type='submit' name=".$_SESSION['applicantID']." value='View Faculty Reviewer review'>
               </form>";
-        }
       }
     ?>
     <hr>
