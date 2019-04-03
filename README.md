@@ -36,6 +36,7 @@ Website link: <http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpoo
 
 ## Task Distribution
 #### Julia
+  * initially created apps_schema.sql source file
   * created login page
   * created home page and gave each user a different view
   * made all the functionality for the GS, including allowing them to mark documents as received, view existing reviews, and update the final decision
@@ -50,5 +51,5 @@ Website link: <http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpoo
   * made the Systems Admin home page
   
 #### Collaborative
-  * created and adjusted apps_schema source file
+  * adjusted and evolved the apps_schema source file throughout the workflow
   * in depth testing, critiquing, and debugging of eachothers work
