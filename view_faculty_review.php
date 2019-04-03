@@ -187,7 +187,7 @@
 
       <h3>Faculty Reviewer Action </h3>
       <b>Recommended Action: </b> <u> <?php echo $action; ?> </u> <br>
-      (0=Reject, 1=Borderline admit, 2=Admit without aid, 3=Admit with aid)<br>
+      (1=Reject, 2=Borderline admit, 3=Admit without aid, 4=Admit with aid)<br>
       <b>Recommended Deficiency Courses: </b> <u> <?php echo $dificiency; ?> </u> <br>
       <b>Recommended Advisor: </b> <u> <?php echo $advisor; ?> </u> <br>
       <b>Faculty Reviewer Comments: </b> <br>
