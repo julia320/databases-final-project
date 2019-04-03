@@ -36,7 +36,6 @@ Website link: <http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpoo
 
 ## Task Distribution
 #### Julia
-  * made the initial apps_schema.sql source file
   * created login page
   * created home page and gave each user a different view
   * made all the functionality for the GS, including allowing them to mark documents as received, view existing reviews, and update the final decision
@@ -49,3 +48,7 @@ Website link: <http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpoo
   * made view_review pages so that certain users with access can view the reviews that have been made
   * made the reason_for_reject page which only comes up if the reviewer chooses to reject a student
   * made the Systems Admin home page
+  
+#### Collaborative
+  * created and adjusted apps_schema source file
+  * in depth testing, critiquing, and debugging of eachothers work
