@@ -463,7 +463,7 @@
     .error {color: #FF0000;}
   </style>
   
-   <h1> Application Form </h1>
+   <h1 style='color:  #5689DF;'> Application Form </h1>
    
   
   <body>

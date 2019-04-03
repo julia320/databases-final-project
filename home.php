@@ -13,7 +13,7 @@
 		}
 
 		h2 {
-			color: #00bfff;
+			color: #5689DF;
 		}
 
 	</style
