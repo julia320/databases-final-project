@@ -90,7 +90,7 @@
 				<input type="text" name="lname" required><br/><br/>
 
 				<label for="email">Email:</label>
-				<input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" oninvalid="this.setCustomValidity('Please enter a valid email address')" onchange="this.setCustomValidity('')"><br/><br/>
+				<input type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" oninvalid="this.setCustomValidity('Please enter a valid email address')" onchange="this.setCustomValidity('')"><br/><br/>
 
 				<label for="username">Username:</label>
 				<input type="text" name="username" required><br/><br/>
