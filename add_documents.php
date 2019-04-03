@@ -62,6 +62,17 @@
 			if (!$result)
 				die("Insert query failed: ".mysqli_error());
 
+
+			// update the status 
+			if ($tr == 1 && $rec == 1) {
+				$q = "UPDATE app_review SET status=3 WHERE uid=".$_SESSION['applicantID'];
+				mysqli_query($conn, $q);
+			}
+			else {
+				$q = "UPDATE app_review SET status=2 WHERE uid=".$_SESSION['applicantID'];
+				mysqli_query($conn, $q);
+			}
+
 			// redirect to home
 			header("Location: home.php");
         	die();

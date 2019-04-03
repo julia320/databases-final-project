@@ -152,6 +152,7 @@
 							<th></th>
 							<th></th>
 							<th></th>
+							<th></th>
 						</tr>";
 					
 					// show each applicant with a button to the review page
