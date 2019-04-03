@@ -6,8 +6,8 @@
 
 	// open the sql file and read from it
 	$file = fopen("apps_schema.sql", "r") or die ("File does not exist.");
-	$contents = fread($file, filesize($file));
-
+	$contents = fread($file, filesize("apps_schema.sql"));
+	
 	// separate each query 
 	$queries = explode(';', $contents);
 
@@ -22,7 +22,7 @@
 	fclose($file);
 
 
-	// go back to home
-	header("Location: home.php");
-    die();
+	// go back to original page
+	header("Location: login.php");
+    	die();
 ?>
