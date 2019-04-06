@@ -324,17 +324,25 @@
 	    else{
 	      $advYear = $advYearTest;
 	    }
-	    if (!empty($_POST["aoi"])) {
-	      $aoi = $aoiTest;
+	    if (!empty($aoiTest) && !preg_match("/[A-Za-z0-9 ]+/", $aoiTest)) {
+	      $aoiErr = "Only letters, numbers, and white space allowed";
+	      $dataReady = false;
 	    }
-	    else{
+	    else if (empty($aoiTest)) {
 	      $aoi = "N/A";
 	    }
-	    if (!empty($_POST["experience"])) {
-	      $experience = $experienceTest;
+	    else{
+	    	$aoi = $aoiTest;
+	    }
+	    if (!empty($experienceTest) && !preg_match("/[A-Za-z0-9 ]+/", $experienceTest)) {
+	      $experienceErr = "Only letters, numbers, and white space allowed";
+	      $dataReady = false;
+	    }
+	    else if (empty($experienceTest)){
+	    	$experience = "N/A";
 	    }
 	    else{
-	      $experience = "N/A";
+	      $experience = $experienceTest;
 	    }
 	    if (!empty($gpaTest) && (!is_numeric($gpaTest) || !isValidGPA($gpaTest))) {
 	      $gpaErr = "Not a valid gpa";
@@ -529,23 +537,23 @@
       $sql = "SELECT uid FROM personal_info WHERE uid = " . $_SESSION['id'];
       $result = mysqli_query($conn, $sql) or die ("**Check for existing personal info Error**");
       if (mysqli_num_rows($result) == 0){
-	      //fill in personal_info table iniially
-	      $sql1 = "INSERT INTO personal_info VALUES('".$fname."', '".$lname."', ".$_SESSION['id'].", '".$address."', ".$ssn.")";
-	      $result1 = mysqli_query($conn, $sql1) or die ("**********insert personal_info MySQL Error***********");
+	    //fill in personal_info table iniially
+	    $sql1 = "INSERT INTO personal_info VALUES('".$fname."', '".$lname."', ".$_SESSION['id'].", '".$address."', ".$ssn.")";
+	    $result1 = mysqli_query($conn, $sql1) or die ("**********insert personal_info MySQL Error***********");
 	  }
 	  else{
-	  	  //upadate personal_info table
-	      $sql1 = "UPDATE personal_info SET fname = '" .$fname. "', lname = '" .$lname. "', address = '" .$address. "', ssn = " .$ssn." WHERE uid = " .$_SESSION['id'];
-	      $result1 = mysqli_query($conn, $sql1) or die ("**********update personal_info MySQL Error***********");
+	  	//upadate personal_info table
+	    $sql1 = "UPDATE personal_info SET fname = '" .$fname. "', lname = '" .$lname. "', address = '" .$address. "', ssn = " .$ssn." WHERE uid = " .$_SESSION['id'];
+	    $result1 = mysqli_query($conn, $sql1) or die ("**********update personal_info MySQL Error***********");
 	  }
       //GRE
       if($subject != NULL){
-	      $sql2 = "INSERT INTO gre VALUES(".$verbal.", ".$quantitative.", ".$year.", ".$advScore.", '".$subject."', " .$toefl.", ".$advYear.", ".$_SESSION['id'].")";
-	      $result2 = mysqli_query($conn, $sql2) or die ("**********gre subject!=NULL MySQL Error***********");
+	    $sql2 = "INSERT INTO gre VALUES(".$verbal.", ".$quantitative.", ".$year.", ".$advScore.", '".$subject."', " .$toefl.", ".$advYear.", ".$_SESSION['id'].")";
+	    $result2 = mysqli_query($conn, $sql2) or die ("**********gre subject!=NULL MySQL Error***********");
 	  }
 	  else{
 	  	$sql2 = "INSERT INTO gre VALUES(".$verbal.", ".$quantitative.", ".$year.", ".$advScore.", NULL, " .$toefl.", ".$advYear.", ".$_SESSION['id'].")";
-	      $result2 = mysqli_query($conn, $sql2) or die ("**********gre subject==NULL MySQL Error***********");
+	    $result2 = mysqli_query($conn, $sql2) or die ("**********gre subject==NULL MySQL Error***********");
 	  }
 	  //academic info
 	  $sql = "SELECT uid FROM academic_info WHERE uid = " . $_SESSION['id'];
@@ -643,9 +651,9 @@
       	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       	&nbsp;&nbsp;&nbsp;&nbsp; " . $semesterErr;?> </span></span> <br>
-      <input type="radio" name="semester" value="Fa"> Fall<br>
-      <input type="radio" name="semester" value="Sp"> Spring<br>
-      <input type="radio" name="semester" value="Su"> Summer<br><br>
+      <input type="radio" name="semester" value="FA"> Fall<br>
+      <input type="radio" name="semester" value="SP"> Spring<br>
+      <input type="radio" name="semester" value="SU"> Summer<br><br>
       GRE: <br>
       Verbal <span class="field"><input type="text" name="verbal">
       <span class="error"><?php echo " " . $verbalErr;?></span></span><br>
@@ -671,8 +679,10 @@
       <span class="error"><?php echo " " . $toeflErr;?></span></span><br>
       Year of exam <span class="field"><input type="text" name="advYear">
       <span class="error"><?php echo " " . $advYearErr;?></span></span><br><br>
-      Areas of Interest <span class="field"><input type="text" name="aoi"></span><br>
-      Experience <span class="field"><input type="text" name="experience"></span><br>
+      Areas of Interest <span class="field"><input type="text" name="aoi">
+      <span class="error"><?php echo " " . $aoiErr;?></span></span><br>
+      Experience <span class="field"><input type="text" name="experience">
+      <span class="error"><?php echo " " . $experienceErr;?></span></span><br>
       <hr>
 
       <h3>Prior Degrees </h3>
