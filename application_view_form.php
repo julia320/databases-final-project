@@ -110,9 +110,9 @@
         echo "<tr>";
         echo "<th>Degree</th>";
         echo "<th>GPA </th>";
-        //Add Major
         echo "<th>Year</th>";
         echo "<th>University</th>";
+        echo "<th>Major</th>";
         echo "</tr>";
         while($row = mysqli_fetch_assoc($result)) {
           echo "<tr>";
@@ -120,6 +120,7 @@
           echo "<td>" . $row['gpa'] . "</td>";
           echo "<td>" . $row['year'] . "</td>";
           echo "<td>" . $row['university'] . "</td>";
+          echo "<td>" . $row['major'] . "</td>";
           echo "</tr>";
         }
         echo "</table>";

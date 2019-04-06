@@ -101,6 +101,7 @@ CREATE TABLE prior_degrees (
   gpa float,
   year int(4),
   university varchar(30),
+  major varchar(30),
   uid int(8) NOT NULL,
   deg_type char(3),
   PRIMARY KEY (deg_type, uid),
@@ -133,12 +134,14 @@ INSERT INTO personal_info VALUES
 INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES ("Recommender", "1", "recommend@gmail.com", "GWU", 55555555);
 INSERT INTO academic_info VALUES (55555555, "MS", "Computer Science", "bioinformatics research", "FA", 2019, true, true);
 INSERT INTO gre VALUES (157, 162, 2018, 830, "mathematics", 100, 2018, 55555555);
-INSERT INTO prior_degrees VALUES (3.6, 2017, "GWU", 55555555, "BS");
+INSERT INTO prior_degrees VALUES (3.6, 2017, "GWU", "Computer Science", 55555555, "BS");
 
 INSERT INTO app_review (uid, reviewerRole) VALUES (66666666, "FR");
 INSERT INTO app_review (uid, reviewerRole) VALUES (66666666, "CAC");
 INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "FR", 3);
 INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "CAC", 3);
+INSERT INTO app_review (uid, reviewerRole) VALUES (66666666, "FR");
+INSERT INTO app_review (uid, reviewerRole) VALUES (66666666, "CAC");
 
 -- Ringo's application (incomplete)
 INSERT INTO academic_info (uid, transcript, recletter) VALUES (66666666, false, false);
