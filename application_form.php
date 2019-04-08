@@ -584,6 +584,27 @@
       //fill in rec_letter table
       $sql5 = "INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES('".$fnameRec."', '".$lnameRec."', '".$email."', '".$institution."', " . $_SESSION['id'] . ")";
       $result5 = mysqli_query($conn, $sql5) or die ("**********6th MySQL Error***********");
+
+
+      //email rec
+	  $msg = '<html>
+				<head>
+					<title>Invitation To Write Recommendation Letter</title>
+				</head>
+				<body>
+					<p>
+						'.$fname.' '.$lname.' has requested a letter of recommendation from you. If you <br>
+						are interested, please copy the uid and follow the link below.<br>
+						uid: ' .$_SESSION["id"].'<br><br>
+						<a href="http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpookyLlamas/rec_letter.php "> http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpookyLlamas/rec_l0etter.php </a>
+
+					</p>
+				</body>
+				</html>';
+	  $subject = "Recommendation Letter for " .$fname." ".$lname."";
+	  $headers = "MIME-Version: 1.0" . "\r\n";
+	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+      mail($email, $subject, $msg, $headers) or die ("rec email failed");
       
       $sql = "UPDATE app_review SET status = 2 WHERE uid = " .$_SESSION['id']. "";
       $result = mysqli_query($conn, $sql) or die ("**********UPDATE STATUS MySQL Error***********");

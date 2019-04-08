@@ -52,6 +52,7 @@ CREATE TABLE rec_letter  (
   institution varchar(30),
   uid int(8) NOT NULL,
   recID int NOT NULL AUTO_INCREMENT,
+  recommendation varchar(10000),
   PRIMARY KEY (recID),
   FOREIGN KEY (uid) REFERENCES users(userID)
 );
