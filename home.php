@@ -45,6 +45,9 @@
         	echo "<div ><h2 style='text-align: center;'>Applicant Home Page</h2>
         		<h4 style='text-align: center;'>Complete your application or view its status here</h4>";
 
+        	// tell them their uid
+        	echo "<h4 style='text-align:center'>Your UID is:</h4> <p style='color:red; text-align:center'>".$_SESSION['id']."</p>";
+
 			// find status of the applicant
 			$result = mysqli_query($conn, "SELECT uid, status FROM app_review WHERE uid=".$_SESSION['id']);
 			$row = $result->fetch_assoc();
@@ -55,7 +58,7 @@
 			if (!isset($row['status']) || $row['status'] == 1) {
 				echo "Application incomplete</p>";
 				echo "<form align='center' action='application_form.php' method='post'>
-	    				<input type='submit' value='Finish Application'>
+	    				<input type='submit' value='Start Application'>
 					  </form>";
 			}
 
