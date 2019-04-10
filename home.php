@@ -71,8 +71,26 @@
 					  </form>"; 
 			}
 
-			// if their application is complete
+			// if just transcript is needed
 			else if ($row['status'] == 3) {
+				echo "Your application is pending</p>";
+				echo "<p style='text-align: center;'>We are still waiting to receive your transcript, please check back later.</p>";
+				echo "<form align='center' action='application_view_form.php' method='post'>
+	    				<input type='submit' name='".$row['uid']."' value='View Application'>
+					  </form>"; 
+			}
+
+			// if just rec letter is needed
+			else if ($row['status'] == 4) {
+				echo "Your application is pending</p>";
+				echo "<p style='text-align: center;'>We are still waiting to receive your recommendation letter, please check back later.</p>";
+				echo "<form align='center' action='application_view_form.php' method='post'>
+	    				<input type='submit' name='".$row['uid']."' value='View Application'>
+					  </form>"; 
+			}
+
+			// if their application is complete
+			else if ($row['status'] == 5) {
 				echo "Your application is complete!</p>";
 				echo "<p style='text-align: center;'>Refer back to this page frequently to see when a decision has been made.</p>";
 				echo "<form align='center' action='application_view_form.php' method='post'>
@@ -81,18 +99,18 @@
 			}
 
 			// if they were admitted
-			else if ($row['status'] == 4 || $row['status'] == 5) {
+			else if ($row['status'] == 6 || $row['status'] == 7) {
 				echo "Congratulations!</p>";
 				echo "<p style='text-align: center;'>We are happy to inform you that you have been selected for admission to this school! </p>";
 
-				// should we list their advisor here and if they got aid?
-				if ($row['status'] == 5) {
+				// tell them if they have received aid
+				if ($row['status'] == 7) {
 					echo "<p style='text-align: center;'>You have also been selected for financial aid, please speak to our office about that.</p>";
 				}
 			}
 
 			// if they were rejected
-			else if ($row['status'] == 6) {
+			else if ($row['status'] == 8) {
 				echo "</p>";
 				echo "<p style='text-align: center;'>We regret to inform you that you have not been chosen as a potential student for this school.</p>";
 			}
@@ -111,7 +129,7 @@
         		<h4 style='text-align: center;'>View completed applications and review them here</h4>";
 
 			// get all the applicants whose application is complete
-			$result = mysqli_query($conn, "SELECT DISTINCT userID, fname, lname FROM users, app_review WHERE status>2 AND userID=uid");
+			$result = mysqli_query($conn, "SELECT DISTINCT userID, fname, lname FROM users, app_review WHERE status>4 AND userID=uid");
 
 			// start table
 			echo "<table border='1' align='center' style='border-collapse:collapse;'>
@@ -158,9 +176,9 @@
 				<input name='submit' type='submit' value='Search for applicant'>
 				</form></br></br>";
 
-			// get all the applicants whose name matches what they searched
+			// get all the applicants who match search and have a finished application
 			if (isset($_POST['submit'])) {
-				$result = mysqli_query($conn, "SELECT userID, fname, lname FROM users WHERE role='A' AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+				$result = mysqli_query($conn, "SELECT userID, fname, lname, status FROM users, app_review WHERE role='A' AND status>1 AND userID=uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
 
 				// if there were matches, show them
 				if ($result->num_rows > 0) {
