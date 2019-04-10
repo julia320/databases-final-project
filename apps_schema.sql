@@ -139,8 +139,8 @@ INSERT INTO prior_degrees VALUES (3.6, 2017, "GWU", "Computer Science", 55555555
 
 INSERT INTO app_review (uid, reviewerRole) VALUES (66666666, "FR");
 INSERT INTO app_review (uid, reviewerRole) VALUES (66666666, "CAC");
-INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "FR", 3);
-INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "CAC", 3);
+INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "FR", 5);
+INSERT INTO app_review (uid, reviewerRole, status) VALUES (55555555, "CAC", 5);
 
 -- Ringo's application (incomplete)
 INSERT INTO academic_info (uid, transcript, recletter) VALUES (66666666, false, false);
