@@ -110,10 +110,10 @@
   $password = "Advisor7!";
   $dbname = "TheAdvisor";*/
 
-  $server = "localhost";
-  $username = "visheshj123";
-  $password = "Viswa123!";
-  $servername = "visheshj123";
+	$server = "localhost";
+	$username = "markeilblow";
+	$password = "Mercedes01123!!";
+	$servername = "markeilblow";
   $conn = mysqli_connect($server, $username, $password, $servername);
 
   if($mysqli->connect_error) {
