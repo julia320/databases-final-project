@@ -1,9 +1,9 @@
 <?php
 /* Database credentials. */
 $server = "localhost";
-$username = "larissab1";
-$password = "Divertissement1$";
-$servername = "larissab1";
+$username = "markeilblow";
+$password = "Mercedes01123!!";
+$servername = "markeilblow";
 
 //alter user 'larissab1'@'localhost' identified with mysql_native_password by '';
  //echo "Connexion fails................";
