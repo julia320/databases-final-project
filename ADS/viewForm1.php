@@ -11,10 +11,10 @@ session_start();
   <body>
 
     <?php
-    $server = "localhost";
-    $username = "visheshj123";
-    $password = "Viswa123!";
-    $servername = "visheshj123";
+	$server = "localhost";
+	$username = "markeilblow";
+	$password = "Mercedes01123!!";
+	$servername = "markeilblow";
     $mysqli = new mysqli($server,$username,$password,$servername);
     if($mysqli->connect_error) {
       echo "Failed to connect to MySQL: " . mysqli_connect_error();
