@@ -18,10 +18,10 @@ body {
 <!DOCTYPE html>
 <html>
   <?php
-   $server = "localhost";
-	$username = "visheshj123";
-	$password = "Viswa123!";
-	$servername = "visheshj123";
+	$server = "localhost";
+	$username = "markeilblow";
+	$password = "Mercedes01123!!";
+	$servername = "markeilblow";
 	$mysqli = mysqli_connect($server, $username, $password, $servername);
   if($mysqli->connect_error) {
    die("Connection failed: " . mysqli_connect_error());
