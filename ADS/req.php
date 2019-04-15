@@ -86,9 +86,9 @@
 <?php
 session_start();
 	$server = "localhost";
-	$username = "visheshj123";
-	$password = "Viswa123!";
-	$servername = "visheshj123";
+	$username = "markeilblow";
+	$password = "Mercedes01123!!";
+	$servername = "markeilblow";
   $conn = mysqli_connect($server, $username, $password, $servername);
 if($_POST["MS"]){
   $pro = "MS";
