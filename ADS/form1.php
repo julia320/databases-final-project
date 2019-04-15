@@ -2,9 +2,9 @@
           session_start();
 	  echo "Student: " . $_SESSION["uid"] . "<br/>";
 	$server = "localhost";
-	$username = "visheshj123";
-	$password = "Viswa123!";
-	$servername = "visheshj123";
+	$username = "markeilblow";
+	$password = "Mercedes01123!!";
+	$servername = "markeilblow";
     $conn = mysqli_connect($server, $username, $password, $servername);
 	  $user = $_SESSION["uid"];
 
