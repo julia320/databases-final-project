@@ -72,10 +72,10 @@
 
 
 <?php
-	$servername = "localhost";
-	$username = "visheshj123";
-	$password = "Viswa123!";
-	$dbname = "visheshj123";
+	$server = "localhost";
+	$username = "markeilblow";
+	$password = "Mercedes01123!!";
+	$servername = "markeilblow";
 $conn = mysqli_connect($servername, $username, $password, $dbname);
   if($mysqli->connect_error) {
    die("Connection failed: " . mysqli_connect_error());
