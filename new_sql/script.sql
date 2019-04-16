@@ -42,20 +42,20 @@ CREATE TABLE room (
 );
 
 CREATE TABLE course (
-  semester varchar(6),
-  credits int(1),
-  section int(2),
-  year int(4),
-  name varchar(40),
+  crn int(10) auto_increment,
   dept varchar(20),
-  courseno int(4),
+  name varchar(40),
+  credits int(1),
   prereq1 varchar(20),
   prereq2 varchar(20),
+  semester varchar(6),
+  year int(4),
+  section int(2),
   day varchar(20),
   tme varchar(20),
   instructor int(8),
-  crn int(10) auto_increment,
   location int(6),
+  courseno int(4),
   PRIMARY KEY (crn),
   foreign key (instructor) references user(uid),
   foreign key (location) references room(roomid)
