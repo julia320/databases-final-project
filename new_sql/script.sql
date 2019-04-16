@@ -1,19 +1,18 @@
 -- erase anything that is already there
-DROP TABLE IF EXISTS rec_review CASCADE;
-DROP TABLE IF EXISTS app_review CASCADE;
+
 DROP TABLE IF EXISTS gre CASCADE;
 DROP TABLE IF EXISTS prior_degrees CASCADE;
-DROP TABLE IF EXISTS rec_letter CASCADE;
 DROP TABLE IF EXISTS academic_info CASCADE;
+DROP TABLE IF EXISTS form1 CASCADE;
+DROP TABLE IF EXISTS corereq CASCADE;
+DROP TABLE IF EXISTS requirements CASCADE;
+DROP TABLE IF EXISTS rec_review CASCADE;
+DROP TABLE IF EXISTS app_review CASCADE;
 DROP TABLE IF EXISTS transcript CASCADE;
+DROP TABLE IF EXISTS rec_letter CASCADE;
 DROP TABLE IF EXISTS course CASCADE;
 DROP TABLE IF EXISTS room CASCADE;
 DROP TABLE IF EXISTS user CASCADE;
-DROP TABLE IF EXISTS form1 CASCADE;
-DROP TABLE IF EXISTS corereq CASCADE;
-DROP TABLE IF EXISTS course_catalog CASCADE;
-DROP TABLE IF EXISTS requirements CASCADE;
-
 
 CREATE TABLE user (
   type varchar(5),
@@ -24,7 +23,7 @@ CREATE TABLE user (
   ssn int(9),
   email varchar(20),
   address varchar(50),
-  program int(8) auto_increment,
+  program varchar(20),
   major varchar(10),
   gradYear varchar(20),
   active varchar(5),
@@ -66,7 +65,6 @@ CREATE TABLE transcript (
   crn int(10),
   grade varchar(2),
   numgrade varchar(4),
-  dept varchar(20),
   lineid int auto_increment primary key,
   foreign key (uid) references user(uid),
   foreign key (crn) references course(crn)
@@ -86,10 +84,12 @@ CREATE TABLE requirements(
    );
 
 CREATE TABLE corereq(
-     crn varchar(10) NOT NULL,
+     crn int(10) NOT NULL,
      dept varchar(30) NOT NULL,
      program varchar(20),
-     primary key(crn, dept, program)
+     primary key(crn, program),
+     foreign key(program) REFERENCES requirements(program),
+     foreign key(crn) REFERENCES course(crn)
    );
 
 
@@ -101,8 +101,9 @@ CREATE TABLE form1(
    program  varchar(50) NOT NULL,
    dept varchar(30) NOT NULL,
    semYear varchar(15) NOT NULL,
-   crn varchar(10) NOT NULL,
-   primary key(crn,u_id)
+   crn int(10) NOT NULL,
+   primary key(crn,u_id),
+   foreign key(crn) REFERENCES transcript(crn)
    );
 
 
@@ -116,7 +117,7 @@ CREATE TABLE academic_info (
   transcript boolean,
   recletter boolean, 
   PRIMARY KEY (uid),
-  FOREIGN KEY (uid) REFERENCES users(userID)
+  FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
 CREATE TABLE rec_letter  (
@@ -128,7 +129,7 @@ CREATE TABLE rec_letter  (
   recID int NOT NULL AUTO_INCREMENT,
   recommendation varchar(10000),
   PRIMARY KEY (recID),
-  FOREIGN KEY (uid) REFERENCES users(userID)
+  FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
 CREATE TABLE app_review (
@@ -142,7 +143,7 @@ CREATE TABLE app_review (
   advisor char(30),
   status int NOT NULL DEFAULT 1,
   PRIMARY KEY (reviewID),
-  FOREIGN KEY (uid) REFERENCES users(userID)
+  FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
 CREATE TABLE rec_review (
@@ -154,7 +155,7 @@ CREATE TABLE rec_review (
   uid int(8) NOT NULL,
   recID int,
   PRIMARY KEY (reviewID),
-  FOREIGN KEY (uid) REFERENCES users(userID),
+  FOREIGN KEY (uid) REFERENCES user(uid),
   FOREIGN KEY (recID) REFERENCES rec_letter(recID),
   FOREIGN KEY (reviewID) REFERENCES app_review(reviewID)
 );
@@ -169,7 +170,7 @@ CREATE TABLE gre (
   advYear int,
   uid int(8) NOT NULL,
   PRIMARY KEY (uid),
-  FOREIGN KEY (uid) REFERENCES users(userID)
+  FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
 CREATE TABLE prior_degrees (
@@ -180,16 +181,5 @@ CREATE TABLE prior_degrees (
   uid int(8) NOT NULL,
   deg_type char(3),
   PRIMARY KEY (deg_type, uid),
-  FOREIGN KEY (uid) REFERENCES users(userID)
+  FOREIGN KEY (uid) REFERENCES user(uid)
 );
-
-
-
-ALTER TABLE students ADD foreign key(a_id) REFERENCES faculty(f_id) ON DELETE CASCADE;
-ALTER TABLE thesis_status ADD foreign key(u_id) REFERENCES students(u_id) ON DELETE CASCADE;
-ALTER TABLE student_courses ADD foreign key(crn,dept) REFERENCES course_catalog(crn, dept) ON DELETE CASCADE;
-ALTER TABLE form1 ADD foreign key(crn,dept) REFERENCES course_catalog(crn,dept) ON DELETE CASCADE;
-ALTER TABLE form1 ADD foreign key(crn,semYear,u_id) REFERENCES student_courses(crn,semYear,u_id) ON DELETE CASCADE;
-ALTER TABLE form1 ADD foreign key(u_id) REFERENCES students(u_id) ON DELETE CASCADE;
-ALTER TABLE corereq ADD foreign key(program) REFERENCES requirements(program) ON DELETE CASCADE;
-ALTER TABLE corereq ADD foreign key(crn, dept) REFERENCES course_catalog(crn,dept) ON DELETE CASCADE;
