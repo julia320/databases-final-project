@@ -16,14 +16,20 @@ DROP TABLE IF EXISTS requirements CASCADE;
 
 
 CREATE TABLE user (
+  type varchar(5),
+  uid int(8) auto_increment,
+  password varchar(20),
   fname varchar(20),
   lname varchar(20),
-  uid int(8) auto_increment,
-  phone varchar(10),
+  ssn int(9),
   email varchar(20),
-  password varchar(20),
+  address varchar(50),
+  program int(8) auto_increment,
+  major varchar(10),
+  gradYear varchar(20),
   active varchar(5),
-  type varchar(5),
+  donation int(15),
+  advisor int(8),
   PRIMARY KEY (uid)
 );
 
