@@ -63,8 +63,10 @@ CREATE TABLE course (
 
 CREATE TABLE transcript (
   uid int(8),
-  grade varchar(2),
   crn int(10),
+  grade varchar(2),
+  numgrade varchar(4),
+  dept varchar(20),
   lineid int auto_increment primary key,
   foreign key (uid) references user(uid),
   foreign key (crn) references course(crn)
