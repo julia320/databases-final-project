@@ -1,12 +1,12 @@
 <?php
 
 	// make connection to database
-	$conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
+	$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 	if (!$conn) die("Connection failed: ".mysqli_connect_error());
 
 	// open the sql file and read from it
-	$file = fopen("apps_schema.sql", "r") or die ("File does not exist.");
-	$contents = fread($file, filesize("apps_schema.sql"));
+	$file = fopen("new_sql/script.sql", "r") or die ("File does not exist.");
+	$contents = fread($file, filesize("new_sql/script.sql"));
 	
 	// separate each query 
 	$queries = explode(';', $contents);

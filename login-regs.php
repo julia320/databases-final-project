@@ -20,11 +20,7 @@
         }
 
         //connect to database
-        $servername = "localhost";
-        $username = "SELECT_team_name";
-        $password = "Password123!";
-        $dbname = "SELECT_team_name";
-        $connection = mysqli_connect($servername, $username, $password, $dbname);
+        $connection = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 
         // define variables and set to empty values
         $uidErr = $passwordErr = "";
@@ -106,7 +102,7 @@
             <br>
             <br>
             <div style="display: inline-block;">
-                <form action="reset-database.php">
+                <form action="reset.php">
                     <input type="submit" value="RESET DATABASE">
                 </form>
             </div>
