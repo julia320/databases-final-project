@@ -113,18 +113,15 @@
       }
       
       // Calculate final status (THIS WILL INDICATE THE FINAL DECISION) corresponding to the "final decision section" )
-      $status = 3;
-      if ($action == 1){
+      $status = 5;
+      if ($action == 1) {
+        $status = 8;
+      }
+      if ($action == 2 || $action == 3) {
         $status = 6;
       }
-      if ($action == 2){
-        $status = 4;
-      }
-      if ($action == 3){
-        $status = 4;
-      }
-      if ($action == 4){
-        $status = 5;
+      if ($action == 4) {
+        $status = 7;
       }
 
       //load general review info into datase
