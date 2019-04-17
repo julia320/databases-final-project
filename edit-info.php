@@ -20,23 +20,22 @@
             header("Location: login.php");
             die();
         }
+        
         //send to menu page if they don't have sufficient permissions
         if(!(($_SESSION['type']=="secr") || ($_SESSION['type']=="admin"))) {
           header("Location: menu.php");
           die();
         }
-        // Connect to database
-        $servername = "localhost";
-        $username = "SELECT_team_name";
-        $password = "Password123!";
-        $dbname = "SELECT_team_name";
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+        //connect to database
+        $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
+
         // Check connection
         if(!$conn){
           die("Connection failed: " . mysqli_connect_error());
         }
 
-        echo '<form action=edit-info-admin.php method=post>';
+        echo '<form action="manageusers.php" method=post>';
         echo "<input type=\"submit\" value=\"Back\"/>";
 
         $query = "select * FROM user where uid='".$_POST["studuid"]."';";
