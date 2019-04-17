@@ -7,7 +7,7 @@
     <link rel = "stylesheet" type="text/css" href="style.css"/>
     <style>
         input[type=submit] {
-            background-color: #76b852;
+            background-color: #5272b8;
             border: none;
             color: white;
             padding: 16px 32px;
@@ -17,7 +17,7 @@
         }
 
         input[type=submit]:hover {
-            background-color: #76b852;
+            background-color: #5272b8;
             border: none;
             color: white;
             padding: 16px 32px;
@@ -188,11 +188,34 @@
 
         //ROSTERS
         $rostPrompt = "";
+        $rostAction = "";
         if ($type == "admin" || $type == "secr") {
             $rostAction = "view-rosters.php";
             $rostPrompt = "View Course Rosters";
         } else {
             $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div><form action=\"" . $rostAction . "\"><input type=\"submit\" value=\"" . $rostPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
+        //GRADUATION REQUIREMENTS
+        $reqPrompt = "";
+        $reqAction = "";
+        if ($type == "admin") {
+            $reqAction = "req.php";
+            $reqPrompt = "View Graduation Requirements";
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div><form action=\"" . $reqAction . "\"><input type=\"submit\" value=\"" . $reqPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
         }
 
         if ($nextItem) {

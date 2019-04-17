@@ -10,8 +10,9 @@
 <body>
     <?php
         //change the session loggedin variable to false and send user back to login page
-        session_start();
-        $_SESSION["loggedin"] = FALSE;
+        session_status();
+        session_unset();
+        session_destroy();
         header("Location: login.php");
         die();
     ?>
