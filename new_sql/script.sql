@@ -116,7 +116,8 @@ CREATE TABLE academic_info (
   semester char(2),
   year int(4),
   transcript boolean,
-  recletter boolean, 
+  recletter boolean,
+  date varchar(15),
   PRIMARY KEY (uid),
   FOREIGN KEY (uid) REFERENCES user(uid)
 );
@@ -186,4 +187,14 @@ CREATE TABLE prior_degrees (
 );
 
 insert into user (fname, lname, address, phone, email, password, active, type)VALUES
-  ("Dietrich", "Reidenbaugh", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin");
+  ("Dietrich", "Reidenbaugh", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin"),
+  ("Markeil", "Blow", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "mblow@gwu.edu", "123456", "yes", "alum"),
+  ("Julia", "Bristow", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "jbristow@gwu.edu", "123456", "yes", "MS"),
+  ("Rick", "Sears", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "rsears@gwu.edu", "123456", "yes", "PHD"),
+  ("Roxana", "Leontie", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "rleontie@gwu.edu", "123456", "yes", "inst"),
+  ("Thomas", "LeBlanc", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "tleblanc@gwu.edu", "123456", "yes", "adv"),
+  ("Maya", "Shende", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "mshende@gwu.edu", "123456", "yes", "secr"),
+  ("Naian", "Yin", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "nyin@gwu.edu", "123456", "yes", "app"),
+  ("Allison", "DeCicco", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "adecicco@gwu.edu", "123456", "yes", "cac"),
+  ("Billy", " Miller", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "bmiller@gwu.edu", "123456", "yes", "rev"),
+  ("Bhagi", "Narahari", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "bnarahari@gwu.edu", "123456", "yes", "reg");
