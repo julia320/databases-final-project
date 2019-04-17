@@ -18,5 +18,5 @@
 ### Rick Sear
 - Update all UIs
 - Implement Advising Hold
-- Fill out form to life Hold
+- Fill out form to lift Hold
 - Merge all menu pages
