@@ -22,13 +22,14 @@ CREATE TABLE user (
   lname varchar(20),
   ssn int(9),
   email varchar(20),
-  address varchar(50),
+  address varchar(100),
   program varchar(20),
   major varchar(10),
   gradYear varchar(20),
   active varchar(5),
   donation int(15),
   advisor int(8),
+  phone varchar(10),
   PRIMARY KEY (uid)
 );
 
@@ -184,6 +185,5 @@ CREATE TABLE prior_degrees (
   FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
-insert into user (fname, lname, street, city, state, zip, phone, email, password, active, type)VALUES
-	("Richard", "Sear", "Wisconsin Ave", "Washington", "DC", 20052, "0123456789", "searri@gwu.edu", "123456", "yes", "MS"),
-  ("Dietrich", "Reidenbaugh", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin");
+insert into user (fname, lname, address, phone, email, password, active, type)VALUES
+  ("Dietrich", "Reidenbaugh", "Pennsylvania Ave, Washington, DC 20052", "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin");
