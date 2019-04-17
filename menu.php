@@ -36,11 +36,7 @@
         session_start();
 
         //connect to database
-        $servername = "localhost";
-        $username = "SELECT_team_name";
-        $password = "Password123!";
-        $dbname = "SELECT_team_name";
-        $connection = mysqli_connect($servername, $username, $password, $dbname);
+        $connection = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 
         //If they somehow got here without logging in, politely send them away
         if (!$_SESSION['loggedin']) {
@@ -84,11 +80,11 @@
         //LOGOUT
         echo "<div><form action=\"logout.php\"><input type=\"submit\" value=\"Logout\"/></form></div>";
 
-        //EDIT PROFILE
+        //EDIT PROFILE (ADD/EDIT IF ADMIN)
         $editInfoPrompt = "";
         if ($type == "admin") {
-            $editInfoPrompt = "Edit Profiles";
-            $editInfoAction = "edit-info-admin.php";
+            $editInfoPrompt = "Edit/Manage Profiles";
+            $editInfoAction = "manageusers.php";
         } else if ($type == "MS" || $type == "PHD" || $type == "inst" || $type = "secr") {
             $editInfoPrompt = "Edit Profile";
             $editInfoAction = "edit-info-reg.php";
@@ -216,17 +212,6 @@
             echo "<div><form action=\"" . $reqAction . "\"><input type=\"submit\" value=\"" . $reqPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
-        }
-
-        if ($nextItem) {
-            echo "<div><form action=\"" . $rostAction . "\"><input type=\"submit\" value=\"" . $rostPrompt . "\"/></form></div>";
-        } else {
-            $nextItem = true;
-        }
-
-        //ADD NEW USERS
-        if ($type == "admin") {
-            echo "<div><form action=\"manageusers.php\"><input type=\"submit\" value=\"Manage Users\"/></form></div>";
         }
 
         echo "</div></div>";

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>View All Students</title>
+        <title>Manage Users</title>
         <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
         <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
         <link rel = "stylesheet" type="text/css" href="style.css"/>
@@ -53,6 +53,12 @@
                     echo "<td>" . $row["email"] . "</td>";
                     echo "<td>" . $row["type"] . "</td>";
                     echo "<td>" . $row["active"] . "</td>";
+                    echo "<td>";
+                    echo "<form action=\"edit-info.php\" method=\"post\">";
+                    echo "<input type=\"hidden\" name=\"studuid\" value=\"" . $row["uid"] . "\">";
+                    echo "<input type=\"submit\" value=\"Edit\"/>";
+                    echo "</form>";
+                    echo "</td>";
                     echo "</tr>";
                 }
                 echo "</table>";
