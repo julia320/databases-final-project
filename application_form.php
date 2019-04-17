@@ -9,64 +9,23 @@
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
   }
+
   //HANDLE FORM VALIDATION
-  $somethingEmpty = "";
-  $addressErr = "";
-  $ssnErr = "";
-  $degreeTypeErr = "";
-  $appYearErr = "";
-  $semesterErr = "";
-  $verbalErr = "";
-  $quantitativeErr = "";
-  $yearErr = "";
-  $advScoreErr = "";
-  // $subjectErr = "";
-  $toeflErr = "";
-  $advYearErr = "";
-  $aoiErr = "";
-  $experienceErr = "";
-  $gpaErr = "";
-  $dYearErr = "";
-  $universityErr = "";
-  $majorErr = "";
-  $gpa2Err = "";
-  $dYear2Err = "";
-  $university2Err = "";
-  $major2Err = "";
-  $gpa3Err = "";
-  $dYear3Err = "";
-  $university3Err = "";
-  $major3Err = "";
-  $gpa4Err = "";
-  $dYear4Err = "";
-  $university4Err = "";
-  $major4Err = "";
-  $fnameRecErr = "";
-  $lnameRecErr = "";
-  $institutionErr = "";
-  $emailErr = "";
-  if (isset($_POST['submit'])){
+  if (isset($_POST['submit'])) {
+
+  	// set the date
+  	$date = date("H:i:s, m/d/Y");
+  	echo $date;
+
     $dataReady = true;
     
-    ////////////////////////////////////////////////////////////////////////
-    //FORM VALIDATIONS
-    ////////////////////////////////////////////////////////////////////////
     //make sure nothing's empty
-    if(
+    if (
       empty($_POST["address"]) ||
       empty($_POST["ssn"]) ||
       empty($_POST["degreeType"]) ||
       empty($_POST["semester"]) ||
       empty($_POST["appYear"]) ||
-      // empty($_POST["verbal"]) ||
-      // empty($_POST["quantitative"]) ||
-      // empty($_POST["year"]) ||
-      // empty($_POST["advScore"]) ||
-      // empty($_POST["subject"]) ||
-      // empty($_POST["toefl"]) ||
-      // empty($_POST["advYear"]) ||
-      // empty($_POST["aoi"]) ||
-      // empty($_POST["experience"]) ||
       empty($_POST["gpa"]) ||
       empty($_POST["dYear"]) ||
       empty($_POST["university"]) ||
@@ -115,46 +74,13 @@
 	    $institutionTest = $_POST["institution"];
 	    $emailTest = $_POST["email"];
 	    
-	    $address= "";
-	    $ssn = "";
-	    
-	    $appYear= "";
-	    $verbal= "";
-	    $quantitative= "";
-	    $year= "";
-	    $advScore= "";
-	    $subject= "";
-	    $toefl= "";
-	    $advYear= "";
-	    $aoi= ""; 
-	    $experience= "";
 	    $degreeType = $_POST["degreeType"];
 	    $semester = $_POST["semester"];
-	    $gpa = "";
-	    $dYear = "";
-	    $university = "";
-	    $major = "";
 	    $type = $_POST["type"];
-	    $gpa2 = "";
-	    $dYear2 = "";
-	    $university2 = "";
-	    $major2 = "";
 	    $type2 = $_POST["type2"];
-	    $gpa3 = "";
-	    $dYear3 = "";
-	    $university3 = "";
-	    $major3 = "";
 	    $type3 = $_POST["type3"];
-	    $gpa4 = "";
-	    $dYear4 = "";
-	    $university4 = "";
-	    $major4 = "";
 	    $type4 = $_POST["type4"];
-	    
-	    $fnameRec = "";
-	    $lnameRec = "";
-	    $institution = "";
-	    $email = "";
+
 	    
 	    function isValidSSN($value, $low = 0, $high = 999999999){
 	    	$value = (int)$value;
@@ -615,8 +541,8 @@
     //If the data was successfuly added to database, move to page 2
     if ($done){
       echo "done";
-      header("Location:home.php"); 
-      exit;
+      //header("Location:home.php"); 
+      die();
     }
     
   }
