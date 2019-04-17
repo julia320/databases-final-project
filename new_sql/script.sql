@@ -183,3 +183,7 @@ CREATE TABLE prior_degrees (
   PRIMARY KEY (deg_type, uid),
   FOREIGN KEY (uid) REFERENCES user(uid)
 );
+
+insert into user (fname, lname, street, city, state, zip, phone, email, password, active, type)VALUES
+	("Richard", "Sear", "Wisconsin Ave", "Washington", "DC", 20052, "0123456789", "searri@gwu.edu", "123456", "yes", "MS"),
+  ("Dietrich", "Reidenbaugh", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin");
