@@ -39,11 +39,8 @@
             header("Location: login.php");
         } 
         //connect to database
-        $servername = "localhost";
-        $username = "SELECT_team_name"; 
-        $password = "Password123!"; 
-        $dbname = "SELECT_team_name";
-        $connection = mysqli_connect($servername, $username, $password, $dbname);
+        $connection = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
+
         $query = "select usid from user;";	
         $result	= mysqli_query($connection, $query);
 
@@ -208,9 +205,20 @@
         <span class="error">
             <?php echo "*".$activeErr;?></span>
         <br><br>
-        Type: <input type="text" name="type" value="<?php echo $type;?>">
-        <span class="error">
-            <?php echo "*".$typeErr;?></span>
+        Type:
+        <select name="type">
+            <option value="admin">System Admin</option>
+            <option value="secr">Grad Secratary</option>
+            <option value="cac">Chair of Admissions Comm</option>
+            <option value="rev">Faculty Reviewer</option>
+            <option value="adv">Faculty Advisor</option>
+            <option value="inst">Faculty Instructor</option>
+            <option value="app">Applicant</option>
+            <option value="MS">Masters Student</option>
+            <option value="PHD">PhD Student</option>
+            <option value="alum">Alum</option>
+            <option value="reg">Registrar</option>
+        </select>
         <br><br>
         Custom UID (optional): <input type="number" name="uid" value="<?php echo $uid;?>">
         <span class="error">
