@@ -61,8 +61,20 @@
             $role = "Instructor";
         } else if ($type == "secr") {
             $role = "Secretary";
+        } else if ($type == "alum") {
+            $role = "Alumni";
+        } else if ($type == "adv") {
+            $role = "Advisor";
+        } else if ($type == "app") {
+            $role = "Applicant";
+        } else if ($type == "reg") {
+            $role = "Registrar";
+        } else if ($type == "cac") {
+            $role = "CAC";
+        } else if ($type == "rev") {
+            $role = "Reviewer";
         } else {
-            header("Location: login.php");
+            header("Location: login-regs.php");
             die();
         }
         echo "<div style=\"text-align: center;\"><div style=\"display: inline-block; width: 80%;\">";
