@@ -37,12 +37,10 @@
         $role = "";
         if(!$type=="admin") {
             header("Location: login.php");
-        } 
+        }
+        
         //connect to database
         $connection = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
-
-        $query = "select usid from user;";	
-        $result	= mysqli_query($connection, $query);
 
         //"back to menu" button
         echo "<div style=\"display: inline-block;\" class=\"menu-button\">";
@@ -148,9 +146,9 @@
                 $_SESSION['password'] = '123456';
                 $query = "";
                 if($customUID) {
-                    $query = "insert into user (fname, lname, password, active, type, street, city, zip, phone, email, state, uid) values ('".$fname."','".$lname."','123456','".$active."','".$type."','".$street."','".$city."','".$zip."','".$phone."','".$email."','".$state."', ".$uid.")";	
+                    $query = "insert into user (fname, lname, password, active, type, address, phone, email, uid) values ('".$fname."','".$lname."','123456','".$active."','".$type."','".$street.", ".$city.",".$state." ".$zip."','".$phone."','".$email."',".$uid.")";	
                 } else {
-                    $query = "insert into user (fname, lname, password, active, type, street, city, zip, phone, email, state) values ('".$fname."','".$lname."','123456','".$active."','".$type."','".$street."','".$city."','".$zip."','".$phone."','".$email."','".$state."')";	
+                    $query = "insert into user (fname, lname, password, active, type, address, phone, email) values ('".$fname."','".$lname."','123456','".$active."','".$type."','".$street.", ".$city.",".$state." ".$zip."','".$phone."','".$email."')";	
                 }
 
                 $result	= mysqli_query($connection, $query);
@@ -162,7 +160,7 @@
     ?>
 
     <h2>Create a new user:</h2>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" class="source-sans">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 
         First name: <input type="text" name="fname" value="<?php echo $fname;?>">
         <span class="error">
