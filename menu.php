@@ -55,7 +55,7 @@
         $nextItem = true;
 
         //LOGOUT
-        echo "<div><form action=\"logout.php\"><input type=\"submit\" value=\"Logout\"/></form></div>";
+        echo "<div class=\"main-menu\"><form action=\"logout.php\"><input type=\"submit\" value=\"Logout\"/></form></div>";
 
         //EDIT PROFILE (ADD/EDIT IF ADMIN)
         $editInfoPrompt = "";
@@ -69,7 +69,7 @@
             $nextItem = false;
         }
         if ($nextItem) {
-            echo "<div><form action=\"" . $editInfoAction . "\"><input type=\"submit\" value=\"" . $editInfoPrompt . "\"/></form></div>";
+            echo "<div class=\"main-menu\"><form action=\"" . $editInfoAction . "\"><input type=\"submit\" value=\"" . $editInfoPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
@@ -90,7 +90,7 @@
         }
 
         if ($nextItem) {
-            echo "<div><form action=\"" . $scheduleAction . "\"><input type=\"submit\" value=\"" . $schedulePrompt . "\"/></form></div>";
+            echo "<div class=\"main-menu\"><form action=\"" . $scheduleAction . "\"><input type=\"submit\" value=\"" . $schedulePrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
@@ -107,7 +107,7 @@
         }
 
         if ($nextItem) {
-            echo "<div><form action=\"" . $transAction . "\"><input type=\"submit\" value=\"" . $transPrompt . "\"/></form></div>";
+            echo "<div class=\"main-menu\"><form action=\"" . $transAction . "\"><input type=\"submit\" value=\"" . $transPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
@@ -136,7 +136,7 @@
         }
 
         if ($nextItem) {
-            echo "<div><form action=\"" . $addAction . "\"><input type=\"submit\" value=\"" . $addPrompt . "\"/></form></div>";
+            echo "<div class=\"main-menu\"><form action=\"" . $addAction . "\"><input type=\"submit\" value=\"" . $addPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
@@ -154,7 +154,7 @@
         }
 
         if ($nextItem) {
-            echo "<div><form action=\"" . $editAction . "\"><input type=\"submit\" value=\"" . $editPrompt . "\"/></form></div>";
+            echo "<div class=\"main-menu\"><form action=\"" . $editAction . "\"><input type=\"submit\" value=\"" . $editPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
@@ -170,7 +170,7 @@
         }
 
         if ($nextItem) {
-            echo "<div><form action=\"" . $rostAction . "\"><input type=\"submit\" value=\"" . $rostPrompt . "\"/></form></div>";
+            echo "<div class=\"main-menu\"><form action=\"" . $rostAction . "\"><input type=\"submit\" value=\"" . $rostPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
@@ -186,7 +186,7 @@
         }
 
         if ($nextItem) {
-            echo "<div><form action=\"" . $reqAction . "\"><input type=\"submit\" value=\"" . $reqPrompt . "\"/></form></div>";
+            echo "<div class=\"main-menu\"><form action=\"" . $reqAction . "\"><input type=\"submit\" value=\"" . $reqPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
