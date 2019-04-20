@@ -21,7 +21,7 @@
 	  $last = "";
     $program = "";
 
-    //GETS NAME FROM USER table
+    //GETS NAME & PROGRAM FROM USER table
     $query = "SELECT * FROM user WHERE uid = '$user'";
     $result = mysqli_query($conn,$query);       
     if (mysqli_num_rows($result) != 0)
@@ -30,18 +30,10 @@
       {
         $first = $row["fname"];
         $last = $row["lname"];
+        $program = $row["type"];
       }
     }
-    //GETS PROGRAM FROM ACADEMIC INFO
-    $query = "SELECT * FROM academic_info WHERE uid = '$user'";
-    $result = mysqli_query($conn,$query);
-    if(mysqli_num_rows($result) != 0)
-    {
-      while($row = $result->fetch_assoc())
-      {
-        $program = $row["degreeType"];
-      }        
-    }
+
 
     //CRN VARIABLES
 	  $one = $_POST['crn1'];
@@ -93,7 +85,7 @@
 		  {
 
         //IF TRYING TO SUBMIT FORM FOR PHD
-        if($program == 'PhD')
+        if($program == 'PHD')
         {
           $cs = 0;
           //CHECK FOR NUMBER OF CS COURSES
