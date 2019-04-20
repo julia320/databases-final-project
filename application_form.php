@@ -488,7 +488,7 @@ if (isset($_POST['submit'])) {
 		mail($email, $subject, $msg, $headers) or die ("rec email failed");
 
 		$sql = "UPDATE app_review SET status = 2 WHERE uid = " .$_SESSION['id']. "";
-		$result = mysqli_query($conn, $sql) or die ("**********UPDATE STATUS MySQL Error***********");
+		$result = mysqli_query($conn, $sql) or die ("Status update failed: ".mysqli_error($conn));
 		// If we made it here,  we're done
 		$done = true;
 	}
