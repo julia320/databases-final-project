@@ -14,8 +14,7 @@
   if (isset($_POST['submit'])) {
 
   	// set the date
-  	$date = date("H:i:s, m/d/Y");
-  	echo $date;
+  	$date = date("Y/m/d, H:i:s");
 
     $dataReady = true;
     
@@ -455,61 +454,66 @@
     if ($dataReady == true){
       //use session id to extract fname and last name.
       $sql = "SELECT fname, lname FROM users WHERE userID = " .$_SESSION['id'];
-      $result = mysqli_query($conn, $sql) or die ("**********1st MySQL Error***********");
+      $result = mysqli_query($conn, $sql) or die ("Could not find user: ".mysqli_error($conn));
       $value = mysqli_fetch_object($result);
       $fname = $value->fname;
       $lname = $value->lname;
       //personal info
       $sql = "SELECT uid FROM personal_info WHERE uid = " . $_SESSION['id'];
-      $result = mysqli_query($conn, $sql) or die ("**Check for existing personal info Error**");
+      $result = mysqli_query($conn, $sql) or die ("Get personal info failed: ".mysqli_error($conn));
       if (mysqli_num_rows($result) == 0){
 	    //fill in personal_info table iniially
 	    $sql1 = "INSERT INTO personal_info VALUES('".$fname."', '".$lname."', ".$_SESSION['id'].", '".$address."', ".$ssn.")";
-	    $result1 = mysqli_query($conn, $sql1) or die ("**********insert personal_info MySQL Error***********");
+	    $result1 = mysqli_query($conn, $sql1) or die ("Insert personal info failed: ".mysqli_error($conn));
 	  }
 	  else{
-	  	//upadate personal_info table
+	  	//update personal_info table
 	    $sql1 = "UPDATE personal_info SET fname = '" .$fname. "', lname = '" .$lname. "', address = '" .$address. "', ssn = " .$ssn." WHERE uid = " .$_SESSION['id'];
-	    $result1 = mysqli_query($conn, $sql1) or die ("**********update personal_info MySQL Error***********");
+	    $result1 = mysqli_query($conn, $sql1) or die ("Update personal info failed: ".mysqli_error($conn));
 	  }
-      //GRE
+
+      /* GRE INSERT */
       if($subject != NULL){
 	    $sql2 = "INSERT INTO gre VALUES(".$verbal.", ".$quantitative.", ".$year.", ".$advScore.", '".$subject."', " .$toefl.", ".$advYear.", ".$_SESSION['id'].")";
-	    $result2 = mysqli_query($conn, $sql2) or die ("**********gre subject!=NULL MySQL Error***********");
+	    $result2 = mysqli_query($conn, $sql2) or die ("GRE Error: ".mysqli_error($conn));
 	  }
 	  else{
 	  	$sql2 = "INSERT INTO gre VALUES(".$verbal.", ".$quantitative.", ".$year.", ".$advScore.", NULL, " .$toefl.", ".$advYear.", ".$_SESSION['id'].")";
-	    $result2 = mysqli_query($conn, $sql2) or die ("**********gre subject==NULL MySQL Error***********");
+	    $result2 = mysqli_query($conn, $sql2) or die ("GRE Error: ".mysqli_error($conn));
 	  }
-	  //academic info
+
+	  /* ACADEMIC INFO INSERT */
 	  $sql = "SELECT uid FROM academic_info WHERE uid = " . $_SESSION['id'];
-      $result = mysqli_query($conn, $sql) or die ("**Check for existing academic info failed**");
+      $result = mysqli_query($conn, $sql) or die ("Check for existing academic info failed: ".mysqli_error($conn));
       if (mysqli_num_rows($result) == 0){
-	    $sql3 = "INSERT INTO academic_info (uid, degreeType, AOI, experience, semester, year) VALUES(".$_SESSION['id'].", '".$degreeType."', '".$aoi."', '".$experience."', '".$semester."', ".$appYear.")";
-	    $result3 = mysqli_query($conn, $sql3) or die ("**********insert into academic info failed***********");
+	    $sql3 = "INSERT INTO academic_info (uid, dated, degreeType, AOI, experience, semester, year) VALUES(".$_SESSION['id'].", '".$date."', '".$degreeType."', '".$aoi."', '".$experience."', '".$semester."', ".$appYear.")";
+	    $result3 = mysqli_query($conn, $sql3) or die ("Insert academic info failed: ".mysqli_error($conn));
       }
       else{
-      	$sql3 = "UPDATE academic_info SET degreeType = '" .$degreeType. "', AOI = '" .$aoi. "', experience = '" .$experience. "', semester = '" .$semester. "', year = " .$appYear. " WHERE uid = " .$_SESSION['id'] ."";
-      	$result3 = mysqli_query($conn, $sql3) or die ("**********update academic info failed***********");
+      	$sql3 = "UPDATE academic_info SET dated='".$date."', degreeType='".$degreeType."', AOI='".$aoi."', experience='".$experience."', semester='".$semester."', year=".$appYear." WHERE uid=".$_SESSION['id'];
+      	$result3 = mysqli_query($conn, $sql3) or die ("Update academic info failed: ".mysqli_error($conn));
       }
-      //fill in prior degrees table
+
+      /* PRIOR DEGRESS INSERT */
       $sql4 = "INSERT INTO prior_degrees VALUES (".$gpa.", " .$dYear.", '".$university."', '" .$major. "', " .$_SESSION['id']. ", '".$type."')"; 
-      $result4 = mysqli_query($conn, $sql4) or die ("**********4th MySQL Error***********");
+      $result4 = mysqli_query($conn, $sql4) or die ("Insert prior degrees error: ".mysqli_error($conn));
+
       if(!empty($_POST["type2"]) && !empty($_POST["gpa2"]) && !empty($_POST["dYear2"]) && !empty($_POST["university2"]) && !empty($_POST["major2"])){
       	$sql4 = "INSERT INTO prior_degrees VALUES (".$gpa2.", " .$dYear2.", '".$university2."', '" .$major2. "', " .$_SESSION['id']. ", '".$type2."')"; 
-        $result4 = mysqli_query($conn, $sql4) or die ("**********5.1 MySQL Error***********");
+        $result4 = mysqli_query($conn, $sql4) or die ("Insert prior degrees error: ".mysqli_error($conn));
       }
       if(!empty($_POST["type3"]) && !empty($_POST["gpa3"]) && !empty($_POST["dYear3"]) && !empty($_POST["university3"]) && !empty($_POST["major3"])){
       	$sql4 = "INSERT INTO prior_degrees VALUES (".$gpa3.", " .$dYear3.", '".$university3."', '" .$major3. "', " .$_SESSION['id']. ", '".$type3."')"; 
-        $result4 = mysqli_query($conn, $sql4) or die ("**********5.2 MySQL Error***********");
+        $result4 = mysqli_query($conn, $sql4) or die ("Insert prior degrees error: ".mysqli_error($conn));
       }
       if(!empty($_POST["type4"]) && !empty($_POST["gpa4"]) && !empty($_POST["dYear4"]) && !empty($_POST["university4"]) && !empty($_POST["major4"])){
       	$sql4 = "INSERT INTO prior_degrees VALUES (".$gpa4.", " .$dYear4.", '".$university4."', '" .$major4. "', " .$_SESSION['id']. ", '".$type4."')"; 
-        $result4 = mysqli_query($conn, $sql4) or die ("**********5.3 MySQL Error***********");
+        $result4 = mysqli_query($conn, $sql4) or die ("Insert prior degrees error: ".mysqli_error($conn));
       }
-      //fill in rec_letter table
+
+      /* REC LETTER INSERTS */
       $sql5 = "INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES('".$fnameRec."', '".$lnameRec."', '".$email."', '".$institution."', " . $_SESSION['id'] . ")";
-      $result5 = mysqli_query($conn, $sql5) or die ("**********6th MySQL Error***********");
+      $result5 = mysqli_query($conn, $sql5) or die ("Insert rec letter failed: ".mysqli_error($conn));
 
 
       //email rec
@@ -519,7 +523,7 @@
 				</head>
 				<body>
 					<p>
-						'.$fname.' '.$lname.' has requested a letter of recommendation from you. If you <br>
+						'.$fname.' '.$lname.' has requested a letter of recommendation from you. If you
 						are interested, please copy the uid and follow the link below.<br>
 						uid: ' .$_SESSION["id"].'<br><br>
 						<a href="http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpookyLlamas/rec_letter.php "> http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpookyLlamas/rec_l0etter.php </a>
@@ -539,9 +543,8 @@
     }
     
     //If the data was successfuly added to database, move to page 2
-    if ($done){
-      echo "done";
-      //header("Location:home.php"); 
+    if ($done) {
+      header("Location:home.php"); 
       die();
     }
     
