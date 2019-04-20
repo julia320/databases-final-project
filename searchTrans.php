@@ -25,11 +25,7 @@
          }
 
         // Connect to database
-        $servername = "localhost";
-        $username = "SELECT_team_name";
-        $password = "Password123!";
-        $dbname = "SELECT_team_name";
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
+        $connection = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
         
         // Check connection
         if(!$conn){

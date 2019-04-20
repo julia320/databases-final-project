@@ -14,11 +14,7 @@
         session_start();
 
         //connect to database
-        $servername = "localhost";
-        $username = "SELECT_team_name";
-        $password = "Password123!";
-        $dbname = "SELECT_team_name";
-        $connection = mysqli_connect($servername, $username, $password, $dbname);
+        $connection = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 
         //If they somehow got here without logging in, politely send them away
         if (!$_SESSION['loggedin']) {

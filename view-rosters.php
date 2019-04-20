@@ -34,12 +34,8 @@
             }
 
             //Connect to database
-            $search = $_POST['search'];
-            $servername = "localhost";
-            $username = "SELECT_team_name";
-            $password = "Password123!";
-            $dbname = "SELECT_team_name";
-            $connection = mysqli_connect($servername, $username, $password, $dbname);
+            $connection = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
+
             if (!$connection) {
                 die("Couldn't connect: ".mysqli_error());
             }         
