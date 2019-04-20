@@ -55,11 +55,7 @@
       </div>
   <?php
 
-	$server = "localhost";
-	$username = "markeilblow";
-	$password = "Mercedes01123!!";
-	$servername = "markeilblow";
-	$conn = mysqli_connect($server, $username, $password, $servername);
+  $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 
   if($mysqli->connect_error) {
    die("Connection failed: " . mysqli_connect_error());
@@ -101,7 +97,7 @@
           <?php echo $row["u_id"] . " " . $row["fname"] . " " . $row["lname"]; ?>
           <input hidden type="text" name="uid" value="<?php echo $row["u_id"]; ?>">
           <input type="submit" name="form1" value="View Form1">
-          <input type="submit" name="Transcript" value="View Transcript">
+          <!-- <input type="submit" name="Transcript" value="View Transcript"> -->
           <?php
           if ($row['program'] == 'phd'){
             ?>
@@ -130,7 +126,7 @@
 	           <?php echo $row["u_id"] . " " . $row["fname"] . " " . $row["lname"]; ?>
 	           <input hidden type="text" name="uid" value="<?php echo $row["u_id"]; ?>">
 	           <input type="submit" name="form1" value="View Form1">
-	           <input type="submit" name="Transcript" value="View Transcript">
+	           <!-- <input type="submit" name="Transcript" value="View Transcript"> -->
 
 	           <?php
 	            ?>
@@ -147,7 +143,7 @@
     if(isset($_POST['signout'])){
       session_unset();
       session_destroy();
-      header("Location: homepage.php");
+      header("Location: login.php");
     }
 
     if(isset($_POST['form1'])){
@@ -193,15 +189,15 @@
       $query = "SELECT * FROM student_courses WHERE u_id = '$uid'";
       $result = mysqli_query($conn, $query);
       while ($row = mysqli_fetch_assoc($result)){
-        ?>
-        <br>
+           ?>
+         <br>
         <div class="Transcript-info">
 
-        <?php
+         <?php
           echo "Course: " . $row["title"] . " Department: " . $row["dept"] . " semYear: " . $row["semYear"] . " Credits: " . $row["credit"] . " Grade:" . $row["lettergrade"] . " Program:" . $row["program"] . "<br/>";
-          ?>
+           ?>
             </div>
-          <?php
+           <?php
       }
 
 

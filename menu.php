@@ -62,12 +62,11 @@
         if ($type == "admin") {
             $editInfoPrompt = "Edit/Manage Profiles";
             $editInfoAction = "manageusers.php";
-        } else if ($type == "MS" || $type == "PHD" || $type == "inst" || $type == "secr") {
+        } else {
             $editInfoPrompt = "Edit Profile";
             $editInfoAction = "edit-info-reg.php";
-        } else {
-            $nextItem = false;
-        }
+        } 
+
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $editInfoAction . "\"><input type=\"submit\" value=\"" . $editInfoPrompt . "\"/></form></div>";
         } else {
@@ -99,7 +98,7 @@
 
         //TRANSCRIPTS
         $transPrompt = "";
-        if ($type == "admin" || $type == "secr" || $type == "inst") {
+        if ($type == "admin" || $type == "secr" || $type == "inst" || $type == "adv") {
             $transAction = "viewTransAdmin.php";
             $transPrompt = "View Transcripts";
         } else if ($type == "MS" || $type == "PHD") {
@@ -208,6 +207,21 @@
 
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $statAction . "\"><input type=\"submit\" value=\"" . $statPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
+        //ADVISING OPTIONS
+        $advPrompt = "";
+        $advAction = "Advisor.php";
+        if ($type == "admin" || $type == "adv") {
+            $advPrompt = "View Advising Options";
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $advAction . "\"><input type=\"submit\" value=\"" . $advPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
