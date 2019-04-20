@@ -45,20 +45,18 @@
 		session_start(); 
 
 		// connect to the database
-		$conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
+		$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 		if (!$conn) die("Connection failed: ".mysqli_connect_error());
 
 		// if they tried to log in, verify their information
 		if (isset($_POST['login'])) {
-			$_SESSION['username'] = $_POST['username_login'];
 			$_SESSION['id'] = $_POST['uid'];
 			verify_user($conn);
 		}
 
 		// if they tried to sign up, validate data and add to database
 		if (isset($_POST['signup'])) {
-			$_SESSION['username'] = $_POST['username'];
-			$_SESSION['role'] = 'A';
+			$_SESSION['type'] = 'App';
 			sign_up($conn);
 		}
 	?>
@@ -72,7 +70,6 @@
 			<?php echo $_SESSION['errL']; ?><br>
 			<form method="POST" action="login.php">
 				<input type="text" name="uid" placeholder="UID" required pattern="[0-9]*"><br/><br/>
-				<input type="text" name="username_login" placeholder="Username" required><br/><br/>
 				<input type="password" name="password_login" placeholder="Password" required><br/><br/>
 				<input type="submit" name="login" value="Log In">
 			</form>
@@ -93,9 +90,6 @@
 
 				<label for="email">Email:</label>
 				<input type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"><br/><br/>
-
-				<label for="username">Username:</label>
-				<input type="text" name="username" required><br/><br/>
 
 				<label for="password">Password:</label>
 				<input type="password" name="password" required><br/>
@@ -120,64 +114,53 @@
 	<?php
 		function verify_user ($conn)
 		{
-			// query the database for entered username
-			$query = 'SELECT role, userID, password FROM users WHERE username="'.$_SESSION['username'].'"';
+			// validate password
+			$query = 'SELECT type, password FROM user WHERE uid="'.$_SESSION['uid'].'"';
 			$result = mysqli_query($conn, $query);
-			
-			// validate the username and password
-			if (mysqli_num_rows($result)<=0) {
-				$_SESSION['errL'] = "<p class='error'>No users with that username. Try again:</p>";
+
+			$row = $result->fetch_assoc();
+			if ($_POST['password_login'] != $row['password']) {
+				$_SESSION['errL'] = "<p class='error'>Incorrect password, try again:</p>";
 			}
+			
 			else {
-				$row = $result->fetch_assoc();
-				if ($_POST['password_login'] != $row['password']) {
-					$_SESSION['errL'] = "<p class='error'>Incorrect password, try again:</p>";
-				}
-				else if ($_SESSION['id'] != $row['userID']) {
-					$_SESSION['errL'] = "<p class='error'>Incorrect ID, try again:</p>";
-				}
-				else {
-					// direct to application page
-					$_SESSION['role'] = $row['role'];
-					$_SESSION['errL'] = "";
-					header("Location: home.php");
-					die();
-				}
+				// direct to application page
+				$_SESSION['type'] = $row['type'];
+				$_SESSION['errL'] = "";
+				header("Location: home.php");
+				die();
 			}
 		}
 
 		function sign_up ($conn)
 		{
             // make sure they don't already have an account
-            if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE email='".$_POST['email']."'")) > 0)
+            if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM user WHERE email='".$_POST['email']."'")) > 0)
 		    $_SESSION['errS'] = "<p class='error'>There is already an account with that email address, try logging in:</p>";
 
-            // make sure username isn't taken
-            else if(mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE username='".$_POST['username']."'")) > 0)
-                    $_SESSION['errS'] = "<p class='error'>That username is taken, please select a different one:</p>";
-
+            
             // make sure their passwords matched
 			else if ($_POST['password'] == $_POST['password2']) {
 
 	            // create a user id for the new account by doing max+1
-	            $query = "SELECT MAX(userID) AS max FROM users";
+	            $query = "SELECT MAX(uid) AS max FROM user";
 	            $row = mysqli_query($conn, $query)->fetch_assoc();
 	            $_SESSION['id'] = $row['max'] + 1;
 
 	            // add info to the database
-	            $query = "INSERT INTO users VALUES ('A', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['username']."', '".$_POST['password']."', '".$_POST['email']."', ".$_SESSION['id'].")";
+	            $query = "INSERT INTO user (type, fname, lname, password, email, uid) VALUES ('App', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['password']."', '".$_POST['email']."', ".$_SESSION['id'].")";
 	            //JACK: I added these additional queries when creating a user to make the app forms work properly
 	            $query2 = "INSERT INTO app_review (uid, reviewerRole) VALUES (" .$_SESSION['id']. ", 'FR')";
 	            $query3 = "INSERT INTO app_review (uid, reviewerRole) VALUES (" .$_SESSION['id']. ", 'CAC')";	
-	            if (mysqli_query($conn, $query) && mysqli_query($conn, $query2) && mysqli_query($conn, $query3)) {
-					$_SESSION['role'] = 'A';
+	            if (mysqli_query($conn, $query)&&mysqli_query($conn, $query2)&&mysqli_query($conn, $query3)) {
+					$_SESSION['type'] = 'App';
 					$_SESSION['errS'] = "";
 					echo "redirect";
                     header("Location: home.php");
                     die();
             	}
                 else
-                    $_SESSION['errS'] = "<p class='error'>Failure creating account: ".mysqli_error()."</p>";
+                    $_SESSION['errS'] = "<p class='error'>Failure creating account: ".mysqli_error($conn)."</p>";
 			}
 
 			else 
