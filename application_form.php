@@ -4,7 +4,7 @@ session_start();
 	we're ready to move to the next page of the application */
 $done = false;
 // connect to mysql
-$conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
+$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 // Check connection
 if (!$conn) {
 	die("Connection failed: " . mysqli_connect_error());
@@ -25,19 +25,15 @@ if (isset($_POST['submit'])) {
 	$dataReady = true;
 
 	//make sure nothing's empty
-	if (empty($_POST["address"]) || empty($_POST["ssn"]) || empty($_POST["degreeType"]) ||
-	  empty($_POST["semester"]) || empty($_POST["appYear"]) || empty($_POST["gpa"]) || 
-	  empty($_POST["dYear"]) || empty($_POST["university"]) || empty($_POST["major"]) || 
-	  empty($_POST["type"]) || empty($_POST["fnameRec"]) || empty($_POST["lnameRec"]) ||
-	  empty($_POST["institution"]) || empty($_POST["email"])) {
+	if (empty($_POST["degreeType"]) || empty($_POST["semester"]) || empty($_POST["appYear"]) || 
+		empty($_POST["gpa"]) || empty($_POST["dYear"]) || empty($_POST["university"]) || 
+		empty($_POST["major"]) || empty($_POST["type"]) || empty($_POST["fnameRec"]) || 
+		empty($_POST["lnameRec"]) || empty($_POST["institution"]) || empty($_POST["email"])) {
 
 		$somethingEmpty = "One or more required fields are missing";
 		$dataReady = false;
 	}
 
-    $addressTest = $_POST["address"];
-    $ssnTest = $_POST["ssn"];
-    
     $appYearTest = $_POST["appYear"];
     $verbalTest = $_POST["verbal"];
     $quantitativeTest = $_POST["quantitative"];
@@ -77,15 +73,6 @@ if (isset($_POST['submit'])) {
     $type4 = $_POST["type4"];
 
     
-    function isValidSSN($value, $low = 0, $high = 999999999){
-    	$value = (int)$value;
-    	if ( $value > $high || $value < $low ) {
-   		  // return false (not a valid value)
-    	  return false;
-    	}
-    	//otherwise the year is valid so return true
-    	return true;
-    }
     function isValidYear($value, $low = 1950, $high = 2019){
     	$value = (int)$value;
     	if ( $value > $high || $value < $low ) {
@@ -131,29 +118,7 @@ if (isset($_POST['submit'])) {
     	//otherwise the year is valid so return true
     	return true;
     }
-   
-    if (!empty($addressTest) && !preg_match("/^[a-zA-Z0-9 ]+$/i",$addressTest)) {
-      $addressErr = "Only letters, numbers, and white space allowed";
-      $dataReady = false;
-    } 
-    else if (empty($addressTest)){
-      $addressErr = "Address is required";
-      $dataReady = false;
-    }
-    else{
-      $address = $addressTest;
-    }
-    if (!empty($ssnTest) && (!preg_match("/^[0-9]+$/i",$ssnTest) || !isValidSSN($ssnTest))) {
-      $ssnErr = "Not a valid social security number";
-      $dataReady = false;
-    }
-    else if (empty($ssnTest)){
-      $ssnErr = "SSN is required";
-      $dataReady = false;
-    } 
-    else{
-      $ssn = $ssnTest;
-    }
+    
     if (empty($_POST['degreeType'])){
       $degreeTypeErr = "Degree type required";
       $dataReady = false;
@@ -449,26 +414,12 @@ if (isset($_POST['submit'])) {
 	//Insert into database 
 	if ($dataReady == true) {
 		// use session id to extract fname and last name.
-		$sql = "SELECT fname, lname FROM users WHERE userID = " .$_SESSION['id'];
+		$sql = "SELECT fname, lname FROM user WHERE uid = " .$_SESSION['id'];
 		$result = mysqli_query($conn, $sql) or die ("Could not find user: ".mysqli_error($conn));
 		$value = mysqli_fetch_object($result);
 		$fname = $value->fname;
 		$lname = $value->lname;
 
-		// personal info
-		$sql = "SELECT uid FROM personal_info WHERE uid = " . $_SESSION['id'];
-		$result = mysqli_query($conn, $sql) or die ("Get personal info failed: ".mysqli_error($conn));
-
-		if (mysqli_num_rows($result) == 0){
-			// fill in personal_info table iniially
-			$sql1 = "INSERT INTO personal_info VALUES('".$fname."', '".$lname."', ".$_SESSION['id'].", '".$address."', ".$ssn.")";
-			$result1 = mysqli_query($conn, $sql1) or die ("Insert personal info failed: ".mysqli_error($conn));
-		}
-		else{
-			// update personal_info table
-			$sql1 = "UPDATE personal_info SET fname = '" .$fname. "', lname = '" .$lname. "', address = '" .$address. "', ssn = " .$ssn." WHERE uid = " .$_SESSION['id'];
-			$result1 = mysqli_query($conn, $sql1) or die ("Update personal info failed: ".mysqli_error($conn));
-		}
 
 		/* GRE INSERT */
 		$sql = "SELECT uid FROM gre WHERE uid = " . $_SESSION['id'];
@@ -577,13 +528,6 @@ if (isset($_POST['submit'])) {
   <body>
     
     <form id="mainform" method="post">
-      <h3> Personal Information </h3>
-      Address <!--(If you are and international student, enter country name. Otherwise, enter city, state, zip) <br> -->
-      <span class="field"><input type="text" name="address">
-      <span class="error"><?php echo " " . $addressErr;?></span></span><br>
-      SSN <span class="field"><input type="text" name="ssn">
-      <span class="error"><?php echo " " . $ssnErr;?></span></span><br> 
-      <hr>
       
       <h3> Academic Information </h3>
       What degree are you applying for? 
