@@ -146,9 +146,9 @@
                 $_SESSION['password'] = '123456';
                 $query = "";
                 if($customUID) {
-                    $query = "insert into user (fname, lname, password, active, type, address, phone, email, uid) values ('".$fname."','".$lname."','123456','".$active."','".$type."','".$street.", ".$city.",".$state." ".$zip."','".$phone."','".$email."',".$uid.")";	
+                    $query = "insert into user (fname, lname, password, active, type, street, city, state, zip, phone, email, uid) values ('".$fname."','".$lname."','123456','".$active."','".$type."','".$street."','".$city."','".$state."','".$zip."','".$phone."','".$email."',".$uid.")";	
                 } else {
-                    $query = "insert into user (fname, lname, password, active, type, address, phone, email) values ('".$fname."','".$lname."','123456','".$active."','".$type."','".$street.", ".$city.",".$state." ".$zip."','".$phone."','".$email."')";	
+                    $query = "insert into user (fname, lname, password, active, type, street, city, state, zip, phone, email) values ('".$fname."','".$lname."','123456','".$active."','".$type."','".$street."','".$city."','".$state."','".$zip."','".$phone."','".$email."')";	
                 }
 
                 $result	= mysqli_query($connection, $query);
