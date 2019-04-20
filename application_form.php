@@ -10,6 +10,12 @@ if (!$conn) {
 	die("Connection failed: " . mysqli_connect_error());
 }
 
+// If person is not an applicant, redirect
+if ($_SESSION['role'] != 'A') {
+	header("Location: home.php");
+	die();
+}
+
 //HANDLE FORM VALIDATION
 if (isset($_POST['submit'])) {
 
@@ -448,7 +454,7 @@ if (isset($_POST['submit'])) {
 		$value = mysqli_fetch_object($result);
 		$fname = $value->fname;
 		$lname = $value->lname;
-		
+
 		// personal info
 		$sql = "SELECT uid FROM personal_info WHERE uid = " . $_SESSION['id'];
 		$result = mysqli_query($conn, $sql) or die ("Get personal info failed: ".mysqli_error($conn));
@@ -468,14 +474,12 @@ if (isset($_POST['submit'])) {
 		$sql = "SELECT uid FROM gre WHERE uid = " . $_SESSION['id'];
 
 		if (mysqli_num_rows($result) == 0) {
-		  if($subject != NULL){
-		    $sql2 = "INSERT INTO gre VALUES(".$verbal.", ".$quantitative.", ".$year.", ".$advScore.", '".$subject."', " .$toefl.", ".$advYear.", ".$_SESSION['id'].")";
-		    $result2 = mysqli_query($conn, $sql2) or die ("GRE Error: ".mysqli_error($conn));
-		  }
-		  else{
-		  	$sql2 = "INSERT INTO gre VALUES(".$verbal.", ".$quantitative.", ".$year.", ".$advScore.", NULL, " .$toefl.", ".$advYear.", ".$_SESSION['id'].")";
-		    $result2 = mysqli_query($conn, $sql2) or die ("GRE Error: ".mysqli_error($conn));
-		  }
+		    $sql = "INSERT INTO gre VALUES(".$verbal.", ".$quantitative.", ".$year.", ".$advScore.", '".$subject."', " .$toefl.", ".$advYear.", ".$_SESSION['id'].")";
+		    $result = mysqli_query($conn, $sql) or die ("Insert GRE failed: ".mysqli_error($conn));
+		}
+		else { // if already something there, need to update
+			$sql = "UPDATE gre SET verbal=".$verbal.", quant=".$quantitative.", year=".$year.", advScore=".$advScore.", subject='".$subject."', toefl=".$toefl.", advYear=".$advYear;
+			$result = mysqli_query($conn, $sql) or die ("Update GRE failed: ".mysqli_error($conn));
 		}
 
 		/* ACADEMIC INFO INSERT */
