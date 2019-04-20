@@ -108,6 +108,7 @@ CREATE TABLE form1(
 
 CREATE TABLE academic_info (
   uid int(8) NOT NULL,
+  dated varchar(21),
   degreeType char(3),
   AOI varchar(30),
   experience varchar(100),
