@@ -16,7 +16,7 @@
 			color: #5689DF;
 		}
 
-	</style
+	</style>
 
 </head>
 
@@ -24,22 +24,22 @@
 	<?php
         session_start();
 
-        if (!isset($_SESSION['role'])) {
+        if (!isset($_SESSION['type'])) {
         	header("Location: login.php");
         	die();
     	}
 
         // connect to the database
-		$conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
+		$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 
 		// if no role is set, need to go all the way back to log in page
-		if (!isset($_SESSION['role'])) {
+		if (!isset($_SESSION['type'])) {
 	        header("Location: login.php");
 	        die();
 	    }
 
         // if user is an applicant, show their status
-        if ($_SESSION['role'] == "A") {
+        if ($_SESSION['type'] == "App") {
 
         	// page header info
         	echo "<div ><h2 style='text-align: center;'>Applicant Home Page</h2>
@@ -122,7 +122,7 @@
 
 
 		// if the user is a reviewer, show them the list of applicants
-		else if ($_SESSION['role'] == "FR" || $_SESSION['role'] == "CAC") {
+		else if ($_SESSION['type'] == "rev" || $_SESSION['type'] == "cac") {
 
 			// page header info
         	echo "<h2 style='text-align: center;'>Reviewer Home Page</h2>
@@ -143,7 +143,7 @@
 			for ($i=0; $i < $result->num_rows; $i++) {
 				$row = $result->fetch_assoc();
 				// the button will go to a different place based on role
-				if ($_SESSION['role'] == "FR")
+				if ($_SESSION['type'] == "rev")
 					$button = "<form action='application_form_review.php' method='post'>
 		    						<input type='submit' name='".$row['userID']."' value='Review Application'>
 						  		</form>";
@@ -163,7 +163,7 @@
 
 
 		// if the user is a Grad Secretary, let them search for applicants, mark docs as received
-		else if ($_SESSION['role'] == "GS") {
+		else if ($_SESSION['type'] == "secr" || $_SESSION['type'] == "admin") {
 
 			// header information
 			echo "<h2 style='text-align: center;'>Graduate Secretary Home Page</h2>
@@ -223,11 +223,11 @@
 		}// end-Grad secretary view
 
 
-		// if the user is a Systems admin
-		else if ($_SESSION['role'] == 'SA') {
-			header("Location: system_admin_page.php");
-        	die();
-		}
+		// // if the user is a Systems admin
+		// else if ($_SESSION['type'] == 'SA') {
+		// 	header("Location: system_admin_page.php");
+        // 	die();
+		// }
     ?>
 
 </body>

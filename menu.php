@@ -38,7 +38,7 @@
             $role = "Alumni";
         } else if ($type == "adv") {
             $role = "Advisor";
-        } else if ($type == "app") {
+        } else if ($type == "App") {
             $role = "Applicant";
         } else if ($type == "reg") {
             $role = "Registrar";
@@ -62,7 +62,7 @@
         if ($type == "admin") {
             $editInfoPrompt = "Edit/Manage Profiles";
             $editInfoAction = "manageusers.php";
-        } else if ($type == "MS" || $type == "PHD" || $type == "inst" || $type = "secr") {
+        } else if ($type == "MS" || $type == "PHD" || $type == "inst" || $type == "secr") {
             $editInfoPrompt = "Edit Profile";
             $editInfoAction = "edit-info-reg.php";
         } else {
@@ -87,6 +87,8 @@
             $schedulePrompt = "View My Schedule";
         } else if ($type == "secr") {
             $nextItem = false;
+        } else {
+            $nextItem = false;
         }
 
         if ($nextItem) {
@@ -104,6 +106,8 @@
             $transAction = "viewtrans.php";
             $transPrompt = "View My Transcript";
             $_SESSION["studuid"] = $_SESSION["uid"];
+        } else {
+            $nextItem = false;
         }
 
         if ($nextItem) {
@@ -129,11 +133,9 @@
                 $nextItem = false;
                 echo "To register for classes, you must be active. Contact a system admin to change your status.";
             }
-        } else if ($type == "secr" || $type == "inst") {
-            $nextItem = false;
         } else {
-            die("Error with add/drop user type logic");
-        }
+            $nextItem = false;
+        } 
 
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $addAction . "\"><input type=\"submit\" value=\"" . $addPrompt . "\"/></form></div>";
@@ -150,6 +152,8 @@
             $editAction = "edit-grades-inst.php";
             $editPrompt = "Edit Grades";
         } else if ($type == "MS" || $type == "PHD") {
+            $nextItem = false;
+        } else {
             $nextItem = false;
         }
 
@@ -187,6 +191,23 @@
 
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $reqAction . "\"><input type=\"submit\" value=\"" . $reqPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
+        //APPLICANT STATUS
+        $statPrompt = "";
+        $statAction = "home.php";
+        if ($type == "admin" || $type == "secr") {
+            $statPrompt = "View/Update Applicants' Status";
+        } else if ($type == "rev" || $type == "cac" || $type == "App") {
+            $statPrompt = "View Applicant Status";
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $statAction . "\"><input type=\"submit\" value=\"" . $statPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
