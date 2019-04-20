@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Log In to APPS</title>
-	<!--<link rel="stylesheet" type="text/css" href="style.css">
+	<title>ARGv Login</title>
+	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
 
- 	CSS Styling -->	
 	<style>
 		/* 2 columns for logging in/signing up */
 		.row {
@@ -50,7 +49,7 @@
 
 		// if they tried to log in, verify their information
 		if (isset($_POST['login'])) {
-			$_SESSION['id'] = $_POST['uid'];
+			$_SESSION['uid'] = $_POST['uid'];
 			verify_user($conn);
 		}
 
@@ -61,7 +60,7 @@
 		}
 	?>
 
-	<h2 style="text-align: center;">Graduate Application System</h2>
+	<h2 style="text-align: center;">ARGv Login</h2>
 	<div class="row">
 		<!-- Log in -->
 		<div class="column box">
@@ -115,7 +114,7 @@
 		function verify_user ($conn)
 		{
 			// validate password
-			$query = 'SELECT type, password FROM user WHERE uid="'.$_SESSION['uid'].'"';
+			$query = 'SELECT type, password, fname FROM user WHERE uid="'.$_SESSION['uid'].'"';
 			$result = mysqli_query($conn, $query);
 
 			$row = $result->fetch_assoc();
@@ -127,7 +126,9 @@
 				// direct to application page
 				$_SESSION['type'] = $row['type'];
 				$_SESSION['errL'] = "";
-				header("Location: home.php");
+				$_SESSION["loggedin"] = TRUE;
+				$_SESSION["fname"] = $row["fname"];
+				header("Location: menu.php");
 				die();
 			}
 		}
