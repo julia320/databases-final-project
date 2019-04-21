@@ -2,7 +2,9 @@
 <html>
 <head>
 	<title>ARGv Login</title>
-	<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" /> -->
 
 	<style>
 		/* 2 columns for logging in/signing up */
@@ -27,18 +29,18 @@
 			color: red;
 		}
 
-		.box {
-			background: rgb(255,255,255); /* Old browsers */
-			background: -moz-linear-gradient(left, rgba(255,255,255,1) 10%, rgba(165,165,165,1) 11%, rgba(165,165,165,1) 38%, rgba(165,165,165,1) 38%, rgba(165,165,165,1) 55%, rgba(165,165,165,1) 89%, rgba(255,255,255,1) 90%); /* FF3.6-15 */
-			background: -webkit-linear-gradient(left, rgba(255,255,255,1) 10%,rgba(165,165,165,1) 11%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 55%,rgba(165,165,165,1) 89%,rgba(255,255,255,1) 90%); /* Chrome10-25,Safari5.1-6 */
-			background: linear-gradient(to right, rgba(255,255,255,1) 10%,rgba(165,165,165,1) 11%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 55%,rgba(165,165,165,1) 89%,rgba(255,255,255,1) 90%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
-		}
+		/* .box {
+			background: rgb(255,255,255);
+			background: -moz-linear-gradient(left, rgba(255,255,255,1) 10%, rgba(165,165,165,1) 11%, rgba(165,165,165,1) 38%, rgba(165,165,165,1) 38%, rgba(165,165,165,1) 55%, rgba(165,165,165,1) 89%, rgba(255,255,255,1) 90%); 
+			background: -webkit-linear-gradient(left, rgba(255,255,255,1) 10%,rgba(165,165,165,1) 11%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 55%,rgba(165,165,165,1) 89%,rgba(255,255,255,1) 90%); 
+			background: linear-gradient(to right, rgba(255,255,255,1) 10%,rgba(165,165,165,1) 11%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 55%,rgba(165,165,165,1) 89%,rgba(255,255,255,1) 90%); 
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 );
+		} */
 
 	</style>	
 </head>
 
-<body>
+<body class="gray-bg">
 
 	<?php 
 		session_start(); 
@@ -63,9 +65,9 @@
 	<h2 style="text-align: center;">ARGv Login</h2>
 	<div class="row">
 		<!-- Log in -->
-		<div class="column box">
+		<div class="column box green-bg">
 			<h3>Log In</h3>
-			<p>Log in to complete your application, view its satus, or see the final decision</p>
+			<p>Log in to view your account</p>
 			<?php echo $_SESSION['errL']; ?><br>
 			<form method="POST" action="login.php">
 				<input type="text" name="uid" placeholder="UID" required pattern="[0-9]*"><br/><br/>
@@ -76,37 +78,36 @@
 
 
 		<!-- Sign up -->
-		<div class="column box">
+		<div class="column box green-bg">
 			<h3>Sign Up</h3>
-			<p>Sign up here if you don't already have an account to begin your application</p>
+			<p>Sign up here to begin your application if you don't already have an account</p>
 			<?php echo $_SESSION['errS']; ?><br>
 			<form method="POST" action="login.php">
-				<label for="fname">First name:</label>
-				<input type="text" name="fname" required><br/><br/>
+				<!-- <label for="fname">First name:</label> -->
+				<input type="text" name="fname" placeholder="First Name" required><br/><br/>
 
-				<label for="lname">Last name:</label>
-				<input type="text" name="lname" required><br/><br/>
+				<!-- <label for="lname">Last name:</label> -->
+				<input type="text" name="lname" placeholder="Last Name" required><br/><br/>
 
-				<label for="email">Email:</label>
-				<input type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"><br/><br/>
+				<!-- <label for="email">Email:</label> -->
+				<input type="email" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"><br/><br/>
 
-				<label for="password">Password:</label>
-				<input type="password" name="password" required><br/>
+				<!-- <label for="password">Password:</label> -->
+				<input type="password" name="password" placeholder="Password" required><br/>
 				
-				<label for="password2">Confirm Password:</label>
-				<input type="password" name="password2" required><br/><br/>
+				<!-- <label for="password2">Confirm Password:</label> -->
+				<input type="password" name="password2" placeholder="Confirm Password" required><br/><br/>
 
-			    	<input type="submit" name="signup" value="Create Account"><br/>
+			    <input type="submit" name="signup" value="Create Account"><br/>
 			</form>
 			<br/>
 		</div>
 	</div>
 
 	<!-- RESET button -->
-	<br/><br/><br/>
 	<div align='center';>
 		<form action="reset.php" method="POST">
-			<input type="submit" name="RESET" value="RESET">
+			<input type="submit" name="RESET" value="RESET DATABASE">
 		</form>
 	</div>
 
