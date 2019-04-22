@@ -211,11 +211,11 @@
             <option value="rev">Faculty Reviewer</option>
             <option value="adv">Faculty Advisor</option>
             <option value="inst">Faculty Instructor</option>
-            <option value="app">Applicant</option>
+            <option value="App">Applicant</option>
             <option value="MS">Masters Student</option>
             <option value="PHD">PhD Student</option>
             <option value="alum">Alum</option>
-            <option value="reg">Registrar</option>
+            <!-- <option value="reg">Registrar</option> -->
         </select>
         <br><br>
         Custom UID (optional): <input type="number" name="uid" value="<?php echo $uid;?>">

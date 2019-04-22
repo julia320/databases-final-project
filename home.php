@@ -2,8 +2,8 @@
 <head>
     <title>APPS Home Page</title>
 	<!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" /> -->
+    <link rel = "stylesheet" type="text/css" href="style.css"/>
 
 	<!-- CSS styling -->
 	<style>
@@ -39,7 +39,11 @@
 		if (!isset($_SESSION['type'])) {
 	        header("Location: login.php");
 	        die();
-	    }
+		}
+		
+		//"back to menu" button
+		echo "<div style=\"display: inline-block;\" class=\"menu-button\">";
+		echo "<form action=\"menu.php\"><input type=\"submit\" value=\"Menu\"/></form></div>";
 
         // if user is an applicant, show their status
         if ($_SESSION['type'] == "App") {

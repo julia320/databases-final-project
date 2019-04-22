@@ -52,9 +52,22 @@
           echo 'State: <input type="text" name="state" value="'.$row['state'].'"><br>';
           echo 'Zipcode: <input type="number" name="zip" value="'.$row['zip'].'"><br>';
           echo 'Phone: <input type="number" name="phone" value="'.$row['phone'].'"><br>';
-          echo 'Email: <input type="text" name="email" value="'.$row['email'].'"><br>';
+          echo 'Email: <input type="email" name="email" value="'.$row['email'].'"><br>';
           echo 'Active: <input type="text" name="active" value="'.$row['active'].'"><br>';
-          echo 'Type: <input type="text" name="type" value="'.$row['type'].'"><br>';
+          // echo 'Type: <input type="text" name="type" value="'.$row['type'].'"><br>';
+          echo 'Type: <select name="type">
+            <option value="admin">System Admin</option>
+            <option value="secr">Grad Secratary</option>
+            <option value="cac">Chair of Admissions Comm</option>
+            <option value="rev">Faculty Reviewer</option>
+            <option value="adv">Faculty Advisor</option>
+            <option value="inst">Faculty Instructor</option>
+            <option value="App">Applicant</option>
+            <option value="MS">Masters Student</option>
+            <option value="PHD">PhD Student</option>
+            <option value="alum">Alum</option></select><br>';
+            // <option value="reg">Registrar</option></select><br>';
+          
           echo 'Password: <input type="text" name="password"><br>';
           echo '<input type="submit" name="update" value="Update">';
           echo "</form>";
