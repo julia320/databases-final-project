@@ -55,7 +55,7 @@
         $nextItem = true;
 
         //LOGOUT
-        echo "<div class=\"main-menu\"><form action=\"logout.php\"><input type=\"submit\" value=\"Logout\"/></form></div>";
+        echo "<div class=\"logout\"><form action=\"logout.php\"><input type=\"submit\" value=\"Logout\"/></form></div>";
 
         //EDIT PROFILE (ADD/EDIT IF ADMIN)
         $editInfoPrompt = "";

@@ -11,8 +11,8 @@
             <form action="menu.php"><input type="submit" value="Menu"/></form>
         </div>
          <form action="manageusers.php" method="post">
-            Enter user ID: <input type="text" name="uid">
-            <input type="submit" name="search" value="Search"> <br>
+            Enter user ID: <input type="text" name="search">
+            <input type="submit" value="Search"> <br>
         </form>
         
         <div style="display: inline-block;">
@@ -38,7 +38,7 @@
             $connection = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 
             //no UID search
-            if(empty($_POST["uid"])) {
+            if(empty($_POST["search"])) {
             $query = "select fname, lname, uid, email, type, active from user order by lname";
             $result = mysqli_query($connection, $query);
             if (mysqli_num_rows($result) > 0) {
@@ -70,7 +70,7 @@
 
             //A specific UID was searched
             }else {
-                $query = "select fname, lname, uid, email, type, active from user where uid=".$_POST["uid"]." order by lname";
+                $query = "select fname, lname, uid, email, type, active from user where uid=".$_POST["search"]." order by lname";
             $result = mysqli_query($connection, $query);
             if (mysqli_num_rows($result) > 0) {
                 echo "<table>";
@@ -84,6 +84,12 @@
                     echo "<td>" . $row["email"] . "</td>";
                     echo "<td>" . $row["type"] . "</td>";
                     echo "<td>" . $row["active"] . "</td>";
+                    echo "<td>";
+                    echo "<form action=\"edit-info.php\" method=\"post\">";
+                    echo "<input type=\"hidden\" name=\"studuid\" value=\"" . $row["uid"] . "\">";
+                    echo "<input type=\"submit\" value=\"Edit\"/>";
+                    echo "</form>";
+                    echo "</td>";
                     echo "</tr>";
                 }
                 echo "</table>";
