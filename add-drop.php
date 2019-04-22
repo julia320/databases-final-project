@@ -92,6 +92,7 @@
             echo "<form action=\"view-schedule-reg.php\"><input type=\"submit\" value=\"View My Schedule\"/></form></div>";
 
             $isRegistered = true;
+            $search = $_POST['search'];
 
             //Display all courses or the search results
             if (is_null($search)) {
