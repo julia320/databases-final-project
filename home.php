@@ -35,11 +35,6 @@
         // connect to the database
 		$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 
-		// if no role is set, need to go all the way back to log in page
-		if (!isset($_SESSION['type'])) {
-	        header("Location: login.php");
-	        die();
-		}
 		
 		//"back to menu" button
 		echo "<div style=\"display: inline-block;\" class=\"menu-button\">";
@@ -136,7 +131,7 @@
         		<h4 style='text-align: center;'>View completed applications and review them here</h4>";
 
 			// get all the applicants whose application is complete
-			$result = mysqli_query($conn, "SELECT DISTINCT userID, fname, lname FROM users, app_review WHERE status>4 AND userID=uid");
+			$result = mysqli_query($conn, "SELECT DISTINCT uid, fname, lname FROM user, app_review WHERE status>4 AND user.uid=app_review.uid");
 
 			// start table
 			echo "<table border='1' align='center' style='border-collapse:collapse;'>
@@ -152,11 +147,11 @@
 				// the button will go to a different place based on role
 				if ($_SESSION['type'] == "rev")
 					$button = "<form action='application_form_review.php' method='post'>
-		    						<input type='submit' name='".$row['userID']."' value='Review Application'>
+		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
 						  		</form>";
 				else 
 					$button = "<form action='application_form_review_CAC.php' method='post'>
-		    						<input type='submit' name='".$row['userID']."' value='Review Application'>
+		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
 						  		</form>";
 
 				echo "<tr>
@@ -169,8 +164,7 @@
 
 
 
-		// if the user is a Grad Secretary, let them search for applicants, mark docs as received
-		else if ($_SESSION['type'] == "secr" || $_SESSION['type'] == "admin") {
+		// if the user is a Grad Secretary, let them search for applicants, mark docs as received else if ($_SESSION['type'] == "secr" || $_SESSION['type'] == "admin") {
 
 			// header information
 			echo "<h2 style='text-align: center;'>Graduate Secretary Home Page</h2>
@@ -185,7 +179,7 @@
 
 			// get all the applicants who match search and have a finished application
 			if (isset($_POST['submit'])) {
-				$result = mysqli_query($conn, "SELECT userID, fname, lname, status FROM users, app_review WHERE role='A' AND status>1 AND userID=uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+				$result = mysqli_query($conn, "SELECT uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
 
 				// if there were matches, show them
 				if ($result->num_rows > 0) {
@@ -207,16 +201,16 @@
 	        		        		<td>".$row['fname']."</td>
 					                <td>".$row['lname']."</td>
 	                    				<td><form align='center' action='add_documents.php' method='post'>
-	    							<input type='submit' name='".$row['userID']."' value='Check documents'>
+	    							<input type='submit' name='".$row['uid']."' value='Check documents'>
 							</form></td>
 							<td><form align='center' action='view_faculty_review.php' method='post'>
-								<input type='submit' name='".$row['userID']."' value='View review'>
+								<input type='submit' name='".$row['uid']."' value='View review'>
 							</form></td>
 							<td><form align='center' action='view_cac_review.php' method='post'>
-								<input type='submit' name='".$row['userID']."' value='View CAC review'>
+								<input type='submit' name='".$row['uid']."' value='View CAC review'>
 							</form></td>
 							<td><form align='center' action='final_decision.php' method='post'>
-								<input type='submit' name='".$row['userID']."' value='Update decision'>
+								<input type='submit' name='".$row['uid']."' value='Update decision'>
 							</form></td>
 				                </tr>";
 					}
