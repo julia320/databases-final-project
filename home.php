@@ -164,7 +164,8 @@
 
 
 
-		// if the user is a Grad Secretary, let them search for applicants, mark docs as received else if ($_SESSION['type'] == "secr" || $_SESSION['type'] == "admin") {
+		// if the user is a Grad Secretary, let them search for applicants, mark docs as received 
+		else if ($_SESSION['type'] == "secr" || $_SESSION['type'] == "admin") {
 
 			// header information
 			echo "<h2 style='text-align: center;'>Graduate Secretary Home Page</h2>
