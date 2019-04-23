@@ -219,7 +219,14 @@ insert into user (fname, lname, uid, ssn, street, city, state, zip, phone, email
   ("Aretha", "Franklin", 00001235,  666111111,"North Dakota Ave", "Washington", "DC", 20052, "4567890123", "afranklin@gwu.edu", "123456", "yes", "App"),
   ("Carlos", "Santana", 00001236, 777111111, "Nebraska Ave", "Washington", "DC", 20052, "4567890123", "csantana@gwu.edu", "123456", "yes", "App");
 
-  insert into room VALUES
+insert into app_review (uid, reviewerRole, status) VALUES
+  (55555555, "rev", 1), (55555555, "cac", 1),
+  (66666666, "rev", 1), (66666666, "cac", 1),
+  (00001234, "rev", 1), (00001234, "cac", 1),
+  (00001235, "rev", 1), (00001235, "cac", 1),
+  (00001236, "rev", 1), (00001236, "cac", 1);
+
+insert into room VALUES
 	(1, 24, "SEH", 1300),
 	(2, 24, "SEH", 1400),
 	(3, 24, "SEH", 1450),
