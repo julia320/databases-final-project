@@ -6,7 +6,7 @@
 
 	// open the sql file and read from it
 	$file = fopen("new_sql/script.sql", "r") or die ("File does not exist.");
-	$contents = fread($file, filesize($file));
+	$contents = fread($file, filesize("new_sql/script.sql"));
 	
 	// separate each query 
 	$queries = explode(';', $contents);
@@ -22,7 +22,7 @@
 	fclose($file);
 
 
-	// go back to original page
+	// refresh page
 	header("Location: login.php");
     die();
 ?>
