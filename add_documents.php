@@ -2,22 +2,22 @@
 <head>
     <title>Received Documents</title>
 	<!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+    <link rel = "stylesheet" type="text/css" href="style.css"/> 
 </head>
 
 <body>
 
 	<?php session_start(); 
 		// if they aren't the GS, redirect them
-		if ($_SESSION['role'] != 'GS') {
+		if ($_SESSION['type'] != 'secr') {
         	header("Location: home.php");
         	die();
     	}
 
     	// get the applicant the GS wants to update
-    	$conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
-    	$applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
+    	$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
+    	$applicants = mysqli_query($conn, "SELECT * FROM user WHERE type='App'");
 		while ($row = $applicants->fetch_assoc()) {
 			if (isset($_POST[$row['userID']])) {
 				$_SESSION['applicantID'] = $row['userID'];

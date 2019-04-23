@@ -3,21 +3,21 @@
 <head>
 	<title>Update Final Decision</title>
 	<!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+    <link rel = "stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
 
 	<?php session_start();
 
 		// if they aren't the GS, redirect them
-		if ($_SESSION['role'] != 'GS') {
+		if ($_SESSION['type'] != 'secr') {
         	header("Location: home.php");
         	die();
     	}
 
 		// connect to mysql
-		$conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
+		$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 		// Check connection
 		if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
@@ -49,7 +49,7 @@
 		}
 
 		// get the applicant the GS wants to update
-		$applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
+		$applicants = mysqli_query($conn, "SELECT * FROM user WHERE type='App'");
 		while ($row = $applicants->fetch_assoc()) {
 			if (isset($_POST[$row['userID']])) {
 		    	$_SESSION['applicantID'] = $row['userID'];
@@ -67,7 +67,7 @@
 		echo "<h2>Final decision for ".$name."</h2>";
 
 		// Get the decision made by the CAC 
-		$q = "SELECT status FROM app_review WHERE uid=".$_SESSION['applicantID']." AND reviewerRole='CAC'";
+		$q = "SELECT status FROM app_review WHERE uid=".$_SESSION['applicantID']." AND reviewerRole='cac'";
 		$result = mysqli_query($conn, $q);
 		$row = $result->fetch_assoc();
 

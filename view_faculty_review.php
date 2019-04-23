@@ -17,7 +17,7 @@
   //RETRIEVE INFORMATION
   ////////////////////////////////////////////////////
   //get the applicant the GS wants to update
-  $applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
+  $applicants = mysqli_query($conn, "SELECT * FROM user WHERE type='App'");
   while ($row = $applicants->fetch_assoc()) {
     if (isset($_POST[$row['userID']])) {
       $_SESSION['applicantID'] = $row['userID'];
@@ -31,11 +31,6 @@
   if (!$_SESSION['applicantID'])
     echo "Error: Applicant not found</br>";
 
-  // $sql = "SELECT fname, lname FROM users WHERE userID = " . $_SESSION['applicantID'] . "";
-  // $result = mysqli_query($conn, $sql) or die ("ERROR: failed to get applicant name");
-  // $value = mysqli_fetch_object($result);
-  // $fname = $value->fname;
-  // $lname = $value->lname;
 
   $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* ACADEMIC INFO SQL FAILED *************");
@@ -63,7 +58,7 @@
   $university = $value->institution;
 
   //Review info:
-  $sql = "SELECT rating, generic, credible FROM rec_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
+  $sql = "SELECT rating, generic, credible FROM rec_review WHERE reviewerRole = 'rev' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* retrieve rec review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $rating = $value->rating;
@@ -80,7 +75,7 @@
     $credible = "No";
   }
 
-  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
+  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE reviewerRole = 'rev' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* retrieve app review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $comments = $value->comments;
@@ -97,8 +92,8 @@
     Faculty Review
   </title>
   <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+    <link rel = "stylesheet" type="text/css" href="style.css"/> 
   
   <style>
     .field {
@@ -194,12 +189,12 @@
     	
 
       <?php
-        if ($_SESSION['role'] == 'CAC'){
+        if ($_SESSION['type'] == 'cac'){
             echo '<form id="mainform" method="post" action="application_form_review_CAC.php">
       	        <div class="bottomCentered"> <input type="submit" name="submit" value="Return"> </div>
      	        </form>';
      	}
-     	if($_SESSION['role'] == 'GS'){
+     	if($_SESSION['type'] == 'secr'){
      		echo '<form id="mainform" method="post" action="home.php">
       	        <div class="bottomCentered"> <input type="submit" name="submit" value="Return"> </div>
      	        </form>';

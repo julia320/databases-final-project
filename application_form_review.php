@@ -5,7 +5,7 @@
   $done = false;
 
   // connect to mysql
-  $conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
+  $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
   // Check connection
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -17,7 +17,7 @@
   //RETRIEVE INFORMATION
   ////////////////////////////////////////////////////
   // get the applicant the GS wants to update
-  $applicants = mysqli_query($conn, "SELECT * FROM users WHERE role='A'");
+  $applicants = mysqli_query($conn, "SELECT * FROM user WHERE type='App'");
   while ($row = $applicants->fetch_assoc()) {
     if (isset($_POST[$row['userID']])) {
       $_SESSION['applicantID'] = $row['userID'];
@@ -31,7 +31,7 @@
 
 
   //IF THIS STUDENT HAS ALREADY BEEN REVIEWED, TELL THE USER to go back
-  $sql = "SELECT rating FROM app_review WHERE reviewerRole = 'FR' AND uid = " .$_SESSION['applicantID'];
+  $sql = "SELECT rating FROM app_review WHERE reviewerRole = 'rev' AND uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql); //or die ("************* INITIAL TEST SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   if ($value->rating != NULL){
@@ -106,7 +106,7 @@
         die("Cannot Review: This applicant does not have a recommendation letter");
       }
       //set up foreign key reference between rec_review and app_review
-      $sql = "SELECT reviewID FROM app_review WHERE uid = ".$_SESSION['applicantID']." AND reviewerRole = 'FR'";
+      $sql = "SELECT reviewID FROM app_review WHERE uid = ".$_SESSION['applicantID']." AND reviewerRole = 'rev'";
       $result = mysqli_query($conn, $sql) or die ("************* GET reviewID FAILED*************");
       if (mysqli_num_rows($result) != 0){
         $value = mysqli_fetch_object($result);
@@ -117,11 +117,11 @@
       }
 
       //load general review info into datase
-      $sql = "UPDATE app_review SET reviewerRole = '" .$_SESSION['role']. "', rating = " .$action.", advisor = '" .$advisor. "', status = 3 WHERE reviewID = " .$reviewID. "";;
+      $sql = "UPDATE app_review SET reviewerRole = '" .$_SESSION['type']. "', rating = " .$action.", advisor = '" .$advisor. "', status = 3 WHERE reviewID = " .$reviewID. "";;
       $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO app_review SQL FAILED *************");
 
       //load rec review info into database
-      $sql = "INSERT INTO rec_review VALUES(" .$reviewID. ", '" .$_SESSION['role']. "', " .$rating.", " .$generic. ", " .$credible. ", " . $_SESSION['applicantID'].", ". $recID . ")";
+      $sql = "INSERT INTO rec_review VALUES(" .$reviewID. ", '" .$_SESSION['type']. "', " .$rating.", " .$generic. ", " .$credible. ", " . $_SESSION['applicantID'].", ". $recID . ")";
       $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO rec_review SQL FAILED *************");
       
       //check if defiency is empty. If not, update app review
@@ -154,8 +154,8 @@
   
   <title>Review Form</title>
   <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+    <link rel = "stylesheet" type="text/css" href="style.css"/> 
   
   <style>
     .field {
