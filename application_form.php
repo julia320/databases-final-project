@@ -11,7 +11,7 @@ if (!$conn) {
 }
 
 // If person is not an applicant, redirect
-if ($_SESSION['role'] != 'A') {
+if ($_SESSION['type'] != 'App') {
 	header("Location: home.php");
 	die();
 }
@@ -502,32 +502,30 @@ if (isset($_POST['submit'])) {
 ?>
 
 <html>
-  
-  <title>Application Form</title>
-  <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-  <link rel = "stylesheet" type="text/css" href="style.css"/> -->
-  
-  <style>
-    .field {
-      position: absolute;
-      left: 140px;
-    }
-    body{line-height: 1.6;}
-    .bottomCentered{
-       position: fixed;   
-       text-align: center;
-       bottom: 30px;
-       width: 100%;
-    }
-    .error {color: #FF0000;}
-  </style>
-  
-   <h1> Application Form </h1>
-   
+  <head>
+	  <title>Application Form</title>
+	  <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+	  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+	  <link rel = "stylesheet" type="text/css" href="style.css"/> 
+	  
+	  <style>
+	    .field {
+	      position: absolute;
+	      left: 140px;
+	    }
+	    body{line-height: 1.6;}
+	    .bottomCentered{
+	       position: fixed;   
+	       text-align: center;
+	       bottom: 30px;
+	       width: 100%;
+	    }
+	    .error {color: #FF0000;}
+	  </style>
+  </head>    
   
   <body>
-    
+    <h1> Application Form </h1>
     <form id="mainform" method="post">
       
       <h3> Academic Information </h3>
