@@ -180,7 +180,7 @@
 
 			// get all the applicants who match search and have a finished application
 			if (isset($_POST['submit'])) {
-				$result = mysqli_query($conn, "SELECT uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+				$result = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
 
 				// if there were matches, show them
 				if ($result->num_rows > 0) {
@@ -219,17 +219,10 @@
 
 				// if there were no matches, tell them
 				else 
-					echo "There are no applicants matching that name.";
+					echo "<p style='text-align:center; color:red;''>There are no applicants matching that name.</p>";
 			}
 	
 		}// end-Grad secretary view
-
-
-		// // if the user is a Systems admin
-		// else if ($_SESSION['type'] == 'SA') {
-		// 	header("Location: system_admin_page.php");
-        // 	die();
-		// }
     ?>
 
 </body>
