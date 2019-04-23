@@ -133,5 +133,12 @@
 
     <b>Areas of Interest: </b> <u> <?php echo $aoi; ?> </u> <br>
     <b>Experience: </b> <u> <?php echo $experience; ?> </u> <br><br>
+
+
+    <!-- back button -->
+    <form action="home.php" method="post">
+      <input type=submit value="Back">
+    </form>
+    
   </body>
 </html>
