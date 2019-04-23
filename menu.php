@@ -199,7 +199,9 @@
         $statAction = "home.php";
         if ($type == "admin" || $type == "secr") {
             $statPrompt = "View/Update Applicants' Status";
-        } else if ($type == "rev" || $type == "cac" || $type == "App") {
+        } else if ($type == "rev" || $type == "cac") {
+            $statPrompt = "Review Applications";
+        } else if ($type == "App") {
             $statPrompt = "View Applicant Status";
         } else {
             $nextItem = false;
