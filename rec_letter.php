@@ -1,7 +1,7 @@
 <?php
   session_start(); 
-  // connect to mysql
-  $conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
+  //connect to database
+  $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
   // Check connection
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());

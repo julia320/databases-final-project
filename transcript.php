@@ -18,15 +18,11 @@ body {
 <!DOCTYPE html>
 <html>
   <?php
-	$server = "localhost";
-	$username = "markeilblow";
-	$password = "Mercedes01123!!";
-	$servername = "markeilblow";
-	$mysqli = mysqli_connect($server, $username, $password, $servername);
+	$mysqli = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
   if($mysqli->connect_error) {
    die("Connection failed: " . mysqli_connect_error());
   }
-   $sessionID = $_SESSION["u_id"];
+   $sessionID = $_SESSION["uid"];
     
   ?>
 

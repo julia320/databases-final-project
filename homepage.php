@@ -3,11 +3,8 @@
 	$user_id = $_POST['uid'];
 	$pswd = $_POST['pswd'];
 	$_SESSION["uid"] = $user_id;
-	$server = "localhost";
-	$username = "markeilblow";
-	$password = "Mercedes01123!!";
-	$servername = "markeilblow";
-  $conn = mysqli_connect($server, $username, $password, $servername);
+	//connect to database
+	$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 	if(!$conn){
 		die("Connection failed: " . mysqli_connect_error());
 	}

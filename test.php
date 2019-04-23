@@ -61,11 +61,8 @@
       </div>
   <?php
 
-	$server = "localhost";
-	$username = "markeilblow";
-	$password = "Mercedes01123!!";
-	$servername = "markeilblow";
- $conn = mysqli_connect($server, $username, $password, $servername);
+    //connect to database
+    $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 
 
 

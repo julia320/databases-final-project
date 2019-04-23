@@ -6,12 +6,8 @@
   if we're ready to move to the next page of the application */
   $done = false;
 
-  // connect to mysql
-  $servername = "localhost";
-  $user = "TheSpookyLlamas";
-  $pass = "TSL_jjy_2019";
-  $dbname = "TheSpookyLlamas";
-  $conn = mysqli_connect($servername, $user, $pass, $dbname);
+  //connect to database
+  $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
   // Check connection
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());

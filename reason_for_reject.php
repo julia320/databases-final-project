@@ -3,8 +3,8 @@
   /*Important variable that will be used later to determine 
   if we're ready to move to the next page of the application */
 
-  // connect to mysql
-  $conn = mysqli_connect("localhost", "TheSpookyLlamas", "TSL_jjy_2019", "TheSpookyLlamas");
+  //connect to database
+  $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
   // Check connection
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());

@@ -14,11 +14,8 @@ session_start();
   <body>
 
     <?php
-	$server = "localhost";
-	$username = "markeilblow";
-	$password = "Mercedes01123!!";
-	$servername = "markeilblow";
-    $mysqli = new mysqli($server,$username,$password,$servername);
+      //connect to database
+      $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
     if($mysqli->connect_error) {
       echo "Failed to connect to MySQL: " . mysqli_connect_error();
     }
