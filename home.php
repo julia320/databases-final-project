@@ -53,10 +53,10 @@
         		<h4 style='text-align: center;'>Complete your application or view its status here</h4>";
 
         	// tell them their uid
-        	echo "<h4 style='text-align:center'>Your UID is:</h4> <p style='color:red; text-align:center'>".$_SESSION['id']."</p>";
+        	echo "<h4 style='text-align:center'>Your UID is:</h4> <p style='color:red; text-align:center'>".$_SESSION['uid']."</p>";
 
 			// find status of the applicant
-			$result = mysqli_query($conn, "SELECT uid, status FROM app_review WHERE uid=".$_SESSION['id']);
+			$result = mysqli_query($conn, "SELECT uid, status FROM app_review WHERE uid=".$_SESSION['uid']);
 			$row = $result->fetch_assoc();
 			
 			echo "<p style='text-align: center;'><strong>Status: </strong>";
