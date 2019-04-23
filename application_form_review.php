@@ -19,8 +19,8 @@
   // get the applicant the GS wants to update
   $applicants = mysqli_query($conn, "SELECT * FROM user WHERE type='App'");
   while ($row = $applicants->fetch_assoc()) {
-    if (isset($_POST[$row['userID']])) {
-      $_SESSION['applicantID'] = $row['userID'];
+    if (isset($_POST[$row['uid']])) {
+      $_SESSION['applicantID'] = $row['uid'];
       $fname = $row['fname'];
       $lname = $row['lname'];
       $name = $fname." ".$lname;

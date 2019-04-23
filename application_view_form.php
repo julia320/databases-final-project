@@ -15,11 +15,10 @@
   //RETRIEVE INFORMATION
   ////////////////////////////////////////////////////
   // get the applicant the GS wants to update
-  //$_SESSION['applicantID'] = '';
   $applicants = mysqli_query($conn, "SELECT * FROM user WHERE type='App'");
   while ($row = $applicants->fetch_assoc()) {
-    if (isset($_POST[$row['userID']])) {
-      $_SESSION['applicantID'] = $row['userID'];
+    if (isset($_POST[$row['uid']])) {
+      $_SESSION['applicantID'] = $row['uid'];
       $fname = $row['fname'];
       $lname = $row['lname'];
       $name = $fname." ".$lname;
@@ -31,7 +30,7 @@
 
 
   $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['applicantID'];
-  $result = mysqli_query($conn, $sql) or die ("************* ACADEMIC INFO SQL FAILED *************");
+  $result = mysqli_query($conn, $sql) or die ("Select acadmic info failed: ".mysqli_error($conn));
   $value = mysqli_fetch_object($result);
   $degreeType = $value->degreeType;
   $aoi = $value->AOI;
@@ -40,7 +39,7 @@
   $year = $value->year;
 
   $sql = "SELECT verbal, quant, year, advScore, subject, toefl, advYear FROM gre WHERE uid= " .$_SESSION['applicantID'];
-  $result = mysqli_query($conn, $sql) or die ("************* GRE SQL FAILED *************");
+  $result = mysqli_query($conn, $sql) or die ("Select GRE info failed: ".mysqli_error($conn));
   $value = mysqli_fetch_object($result);
   $verbal = $value->verbal;
   $quant = $value->quant;
@@ -51,7 +50,7 @@
   $advYear = $value->advYear;
 
   $sql = "SELECT institution FROM rec_letter WHERE uid = " .$_SESSION['applicantID'];
-  $result = mysqli_query($conn, $sql) or die ("************* REC LETTER SQL FAILED *************");
+  $result = mysqli_query($conn, $sql) or die ("Select rec letter info failed: ".mysqli_error($conn));
   $value = mysqli_fetch_object($result);
   $university = $value->institution;
   /////////////////////////////////////////////////////////////

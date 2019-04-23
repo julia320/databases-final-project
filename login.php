@@ -152,8 +152,8 @@
 	            // add info to the database
 	            $query = "INSERT INTO user (type, fname, lname, password, email, uid) VALUES ('App', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['password']."', '".$_POST['email']."', ".$_SESSION['id'].")";
 	            //JACK: I added these additional queries when creating a user to make the app forms work properly
-	            $query2 = "INSERT INTO app_review (uid, reviewerRole) VALUES (" .$_SESSION['id']. ", 'FR')";
-	            $query3 = "INSERT INTO app_review (uid, reviewerRole) VALUES (" .$_SESSION['id']. ", 'CAC')";	
+	            $query2 = "INSERT INTO app_review (uid, reviewerRole) VALUES (" .$_SESSION['id']. ", 'rev')";
+	            $query3 = "INSERT INTO app_review (uid, reviewerRole) VALUES (" .$_SESSION['id']. ", 'cac')";	
 	            if (mysqli_query($conn, $query)&&mysqli_query($conn, $query2)&&mysqli_query($conn, $query3)) {
 					$_SESSION['type'] = 'App';
 					$_SESSION['errS'] = "";
