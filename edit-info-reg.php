@@ -51,7 +51,7 @@
           echo 'State: <input type="text" name="state" value="'.$row['state'].'"><br>';
           echo 'Zipcode: <input type="number" name="zip" value="'.$row['zip'].'"><br>';
           echo 'Phone: <input type="number" name="phone" value="'.$row['phone'].'"><br>';
-          echo 'Email: <input type="text" name="email" value="'.$row['email'].'"><br>';
+          echo 'Email: <input type="email" name="email" value="'.$row['email'].'"><br>';
           echo 'Password: <input type="text" name="password"><br>';
           echo '<input type="submit" name="update" value="Update">';
           echo "</form>";

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>JARS Main Menu</title>
+    <title>Main Menu</title>
     <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/>
@@ -55,7 +55,7 @@
         $nextItem = true;
 
         //LOGOUT
-        echo "<div class=\"main-menu\"><form action=\"logout.php\"><input type=\"submit\" value=\"Logout\"/></form></div>";
+        echo "<div class=\"logout\"><form action=\"logout.php\"><input type=\"submit\" value=\"Logout\"/></form></div>";
 
         //EDIT PROFILE (ADD/EDIT IF ADMIN)
         $editInfoPrompt = "";

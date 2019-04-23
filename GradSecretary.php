@@ -20,7 +20,15 @@ form.back{
 </style>
 
 <!DOCTYPE html>
-<html>
+<html>  
+
+  <head>
+    <title>Welcome to the alumni page</title>
+    <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
+  </head>
+  
   <?php
    // require_once('config.php');
 	
@@ -51,9 +59,7 @@ form.back{
     // declaring variables
   ?>
 
-  <head>
-    <title>Welcome to the alumni page</title>
-  </head>
+
   <?php if(!empty($_GET["action"])){ 
 switch($_GET["action"]){ 
      
