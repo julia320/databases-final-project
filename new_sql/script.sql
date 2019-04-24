@@ -104,6 +104,12 @@ CREATE TABLE form1(
    foreign key(u_id) references user(uid)
   );
 
+CREATE TABLE thesis_status(
+   u_id int(8),
+   status varchar(25),
+   primary key(u_id)
+);
+
 
 CREATE TABLE academic_info (
   uid int(8) NOT NULL,
