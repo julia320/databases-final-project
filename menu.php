@@ -268,7 +268,9 @@
         }
 
         if ($nextItem) {
-            echo "<div class=\"main-menu\"><form action=\"" . $gradAction . "\"><input type=\"submit\" value=\"" . $gradPrompt . "\"/></form></div>";
+            echo "<div class=\"main-menu\"><form action=\"" . $gradAction . "\">";
+            echo "<input type=\"submit\" value=\"" . $gradPrompt . "\"/>";
+            echo "</form></div>";
         } else {
             $nextItem = true;
         }

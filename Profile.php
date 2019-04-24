@@ -8,18 +8,8 @@
     <meta charset="utf-8">
     <title>Student Profile</title>
     <style type = "text/css">
-      body{
-        background-color: grey;
-      }
-      div.title{
-          font-family: Tahoma, Geneva, sans-serif;
-          font-size: 3em;
-          text-align: center;
-          color: white;
-          background-color: orange;
-            }
       ul {
-        color: orange;
+        /* color: orange; */
         font-weight:normal;
         list-style: none;
         padding-left: 0px;
@@ -30,15 +20,11 @@
       li {
         width: 150px;
         display: inline-block;
-
-
-
       }
 
       li.nonCScourse{
-          display: inline-block;
-          width: 200px;
-
+        display: inline-block;
+        width: 200px;
       }
 
       li.bGrade{
@@ -75,43 +61,30 @@
         color: orange;
         font-weight: bold;
       }
-      div.signout{
-        float: right;
-      }
       div.courseHistory{
-
         width: 600px;
         float: left;
         color: white;
         border: solid white;
-
-
-
       }
+
       form{
         width: 350px;
         float: left;
       }
-
-
+      
     </style>
-    <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
+    <link rel = "stylesheet" type="text/css" href="style.css"/>
   </head>
     <body>
-
-    <div class="title">Graduation</div>
+    <div style="display: inline-block;" class="menu-button">
+      <form action="menu.php"><input type="submit" value="Menu"/></form>
+    </div>
+    <h2>Graduation</h2>
+    <hr>
   <?php
-
-  //replace with session variable of logged-in $username
-  //$uid = 11111111;
-  //$_SESSION['uid'] = 11111111;
-  //connect to DB
-  /*$servername = "localhost";
-  $username = "TheAdvisor";
-  $password = "Advisor7!";
-  $dbname = "TheAdvisor";*/
 
   //connect to database
   $conn= mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
@@ -454,12 +427,12 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
 
    ?>
 
-    <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+    <!-- <form action="<?php //echo $_SERVER["PHP_SELF"];?>" method="post">
     <div class="signout">
       <input type="submit" name="signout" value="Sign out">
     </div>
     <input type="submit" name="backBttn" value="Back" formaction="mainPage.php">
-</form>
+</form> -->
 
 
 
@@ -480,11 +453,11 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
 
 
 
-if($_POST['signout']){
-  session_unset();
-  session_destroy();
-  header("Location: homepage.php");
-}
+// if($_POST['signout']){
+//   session_unset();
+//   session_destroy();
+//   header("Location: homepage.php");
+// }
 
 
 ?>
@@ -668,8 +641,5 @@ if (($result->num_rows) > 0){
 
 
   </body>
-<?php
-
-   ?>
 </html>
 
