@@ -130,36 +130,36 @@
         	echo "<h2 style='text-align: center;'>Reviewer Home Page</h2>
         		<h4 style='text-align: center;'>View completed applications and review them here</h4>";
 
-			// get all the applicants whose application is complete
-			$result = mysqli_query($conn, "SELECT DISTINCT uid, fname, lname FROM user, app_review WHERE status>4 AND user.uid=app_review.uid");
+        	// search bar for reviewer to find applicants
+			echo "<form align='center' method='post' action='home.php'>
+				<input name='search' type='text'>
+				<input name='appSearch' type='submit' value='Search for applicant'>
+				</form></br></br>";
 
-			// start table
-			echo "<table border='1' align='center' style='border-collapse:collapse;'>
-	            	<tr>
-	                	<th>First Name</th>
-		                <th>Last Name</th>
-		                <th></th>
-					</tr>";
-
-			// show each applicant with a button to the review page
-			for ($i=0; $i < $result->num_rows; $i++) {
-				$row = $result->fetch_assoc();
-				// the button will go to a different place based on role
-				if ($_SESSION['type'] == "rev")
-					$button = "<form action='application_form_review.php' method='post'>
-		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
-						  		</form>";
-				else 
-					$button = "<form action='application_form_review_CAC.php' method='post'>
-		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
-						  		</form>";
-
-				echo "<tr>
-                    	<td>".$row['fname']."</td>
-	                    <td>".$row['lname']."</td>
-	                    <td>".$button."</td>
-	                </tr>";
+			// get all the applicants who match search and have a finished application
+			if (isset($_POST['appSearch'])) {
+				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
 			}
+
+			// get all the applicants whose application is complete
+			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status>1 AND user.uid=app_review.uid");
+
+
+			// Show completed apps that match the search
+			if ($resultSearch->num_rows > 0) 
+				reviewTable($resultSearch);
+			else if (isset($_POST['appSearch']))
+				echo "<p style='text-align:center; color:red;'>There are no finished applications with that name.</p>";
+
+			// Show the rest of the completed applications
+			if ($resultAll->num_rows > 0) {
+				// show all other applicants
+				echo "</table><br/>&nbsp<br/>&nbsp<br/> <h3 style='text-align:center;'>All Applicants:</h3>";
+				reviewTable($resultAll);
+			}
+			else 
+				echo "<p style='text-align:center;'>There are currently no applications to review</p>";
+
 		}// end-reviewer view
 
 
@@ -178,51 +178,87 @@
 				<input name='submit' type='submit' value='Search for applicant'>
 				</form></br></br>";
 
-			// get all the applicants who match search and have a finished application
+			// get all the applicants who match search and have submitted an application
 			if (isset($_POST['submit'])) {
 				$result = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+				$msg = "<p style='text-align:center; color:red;'>There are currently no applications under that name.</p>";
+			}
+			// or just get all completed applications
+			else {
+				$result = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status=5 AND user.uid=app_review.uid");
+				$msg = "<p style='text-align:center;'>There are currently no submitted applications.</p>";
+			}
 
-				// if there were matches, show them
-				if ($result->num_rows > 0) {
-					// start table
-					echo "<table border='1' align='center'; style='border-collapse: collapse;'>
-			        	    	<tr>
-	        		        		<th>First Name</th>
-							<th>Last Name</th>
-							<th></th>
-							<th></th>
-							<th></th>
-							<th></th>
-						</tr>";
-					
-					// show each applicant with a button to the review page
-					for ($i=0; $i < $result->num_rows; $i++) {
-						$row = $result->fetch_assoc();
-						echo "<tr>
-	        		        		<td>".$row['fname']."</td>
-					                <td>".$row['lname']."</td>
-	                    				<td><form align='center' action='add_documents.php' method='post'>
-	    							<input type='submit' name='".$row['uid']."' value='Check documents'>
-							</form></td>
+			// if there were matches, show them
+			if ($result->num_rows > 0) {
+				// start table
+				echo "<table border='1' align='center'; style='border-collapse: collapse;'>
+		        	<tr>
+    		        	<th>First Name</th>
+						<th>Last Name</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>";
+				
+				// show each applicant with a button to the review page
+				for ($i=0; $i < $result->num_rows; $i++) {
+					$row = $result->fetch_assoc();
+					echo "<tr>
+        		        	<td>".$row['fname']."</td>
+				            <td>".$row['lname']."</td>
+                    		<td><form align='center' action='add_documents.php' method='post'>
+    							<input type='submit' name='".$row['uid']."' value='Check documents'>
+								</form></td>
 							<td><form align='center' action='view_faculty_review.php' method='post'>
 								<input type='submit' name='".$row['uid']."' value='View review'>
-							</form></td>
+								</form></td>
 							<td><form align='center' action='view_cac_review.php' method='post'>
 								<input type='submit' name='".$row['uid']."' value='View CAC review'>
-							</form></td>
+								</form></td>
 							<td><form align='center' action='final_decision.php' method='post'>
 								<input type='submit' name='".$row['uid']."' value='Update decision'>
-							</form></td>
-				                </tr>";
-					}
+								</form></td>
+			            </tr>";
 				}
-
-				// if there were no matches, tell them
-				else 
-					echo "<p style='text-align:center; color:red;''>There are no applicants matching that name.</p>";
 			}
+			// if there were no matches, tell them
+			else 
+				echo $msg;
 	
 		}// end-Grad secretary view
+
+
+		function reviewTable ($results)
+		{
+			// start table
+			echo "<table border='1' align='center' style='border-collapse:collapse;'>
+		          	<tr>
+	               		<th>First Name</th>
+		            	<th>Last Name</th>
+		                <th></th>
+					</tr>";
+
+			for ($i=0; $i < $results->num_rows; $i++) {
+				$row = $results->fetch_assoc();
+				// the button will go to a different place based on role
+				if ($_SESSION['type'] == "rev")
+					$button = "<form action='application_form_review.php' method='post'>
+		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
+						  		</form>";
+				else 
+					$button = "<form action='application_form_review_CAC.php' method='post'>
+		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
+						  		</form>";
+
+				echo "<tr>
+                    	<td>".$row['fname']."</td>
+	                    <td>".$row['lname']."</td>
+	                    <td>".$button."</td>
+	                </tr>";
+			}
+		}
     ?>
 
 </body>
