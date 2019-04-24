@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css?family=Karla');
+
+:root {
+  --main-color: #b33e99;
+  --main-font: 'Karla', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--main-font);
+  background-color: #f4f4f4;
+  font-size: 20px;
+}
+
+.karla {
+  font-family: var(--main-font);
+}
+
+input[type=submit], input[type=text], input[type=number], input[type=password], input[type=email] {
+  font-family: var(--main-font);
+  font-size: 20px;
+}
+
+option, select {
+  font-family: var(--main-font);
+  font-size: 20px;
+}
+
+.green-bg {
+  background-color: var(--main-color);
+}
+
+.gray-bg {
+  background-color: #f4f4f4;
+}
+
+.gray-text {
+  color: #757575;
+}
+
+.box {
+  position: relative;
+  max-width: 45%;
+  margin: 0 auto 100px;
+  padding: 45px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+table {
+  border: 1px solid #cbcbcb;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: var(--main-font);
+  background-color: white;
+}
+
+table td, table th {
+  border-left: 1px solid #838383;/*  inner column border */
+  border-width: 0 0 0 1px;
+  margin: 0;
+  padding: 0.5em 1em;
+}
+
+thead {
+  background-color: #d3d3d3;
+  color: #000;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+.menu-button input[type=submit] {
+  background-color: var(--main-color);
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  font-size: 20px;
+}
+
+.menu-button input[type=submit]:hover {
+  background-color: var(--main-color);
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  font-size: 20px;
+}
+
+.main-menu input[type=submit] {
+  background-color: var(--main-color);
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  width: 70%;
+}
+
+.main-menu input[type=submit]:hover {
+  background-color: var(--main-color);
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 80%;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.logout input[type=submit] {
+  background-color: rgb(153, 39, 39);
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  width: 70%;
+}
+
+.logout input[type=submit]:hover {
+  background-color: rgb(153, 39, 39);
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 80%;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
