@@ -4,14 +4,9 @@
   session_start();
   
   //CHECK FOR CORRECT USER
-  echo "Student: " . $_SESSION["uid"] . "<br/>";
+  // echo "Student: " . $_SESSION["uid"] . "<br/>";
   
   //CONNECT TO SERVER
-  /*$server = "localhost";
-	$username = "ARGv";
-	$password = "CSCI2541_sp19";
-	$servername = "ARGv";
-  $conn = mysqli_connect($server, $username, $password, $servername);*/
   $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
    
     //SET VARIABLES FOR INSERT
@@ -142,135 +137,86 @@
           {
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$one')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$two')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$three')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$four')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$five')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$six')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$seven')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
-              program,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$eight')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$nine')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$ten')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$eleven')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
               u_id,
-              fname,      
-              lname,
               crn)
               VALUES
               ('$user',
-              '$first',
-              '$last',
               '$twelve')";
             $result = mysqli_query($conn,$query);
             
@@ -399,135 +345,86 @@
           {
             $query = "INSERT INTO form1(
                           u_id,
-                          fname,
-                          lname,
                           crn)
                           VALUES
                           ('$user',
-                          '$first',
-                          '$last',
                           '$one')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                           u_id,
-                          fname,
-                          lname,
                           crn)
                           VALUES
                           ('$user',
-                          '$first',
-                          '$last',
                           '$two')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                       u_id,
-                      fname,
-                      lname,
                       crn)
                       VALUES
                       ('$user',
-                      '$first',
-                      '$last',
                       '$three')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                       u_id,
-                      fname,
-                      lname,
                       crn)
                       VALUES
                       ('$user',
-                      '$first',
-                      '$last',
                       '$four')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                       u_id,
-                      fname,
-                      lname,
                       crn)
                       VALUES
                       ('$user',
-                      '$first',
-                      '$last',
                       '$five')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                       u_id,
-                      fname,
-                      lname,
                       crn)
                       VALUES
                       ('$user',
-                      '$first',
-                      '$last',
                       '$six')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                       u_id,
-                      fname,
-                      lname,
                       crn)
                       VALUES
                       ('$user',
-                      '$first',
-                      '$last',
                       '$seven')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                       u_id,
-                      fname,
-                      lname,
-                      program,
                       crn)
                       VALUES
                       ('$user',
-                      '$first',
-                      '$last',
                       '$eight')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                       u_id,
-                      fname,
-                      lname,
                       crn)
                       VALUES
                       ('$user',
-                      '$first',
-                      '$last',
                       '$nine')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                       u_id,
-                      fname,
-                      lname,
                       crn)
                       VALUES
                       ('$user',
-                      '$first',
-                      '$last',
                       '$ten')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                       u_id,
-                      fname,
-                      lname,
                       crn)
                       VALUES
                       ('$user',
-                      '$first',
-                      '$last',
                       '$eleven')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
                       u_id,
-                      fname,      
-                      lname,
                       crn)
                       VALUES
                       ('$user',
-                      '$first',
-                      '$last',
                       '$twelve')";
             $result = mysqli_query($conn,$query);
 
@@ -560,63 +457,12 @@
     <meta charset="utf-8">
    <title>Form 1</title>
     <style type = "text/css">
-      body
-      {
-        background-color: grey;
-      }
-      div.title
-      {
-          font-family: Tahoma, Geneva, sans-serif;
-          font-size: 3em;
-          text-align: center;
-          color: white;
-          background-color: orange;
-      }
-      ul 
-      {
-        color: orange;
-        font-weight:normal;
-        list-style: none;
-        padding-left: 20px;
-        margin: 0;
-        width: 600px;
-      }
-      li 
-      {
-        width: 150px;
-        display: inline-block;
-      }
-      span 
-      {
-        color: red;
-      }
-      div.suspension
-      {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin:auto;
-        text-align: center;
-        width: 200px;
-        height: 200px;
-        color: orange;
-        font-weight: bold;
-      }
-      div.signout
-      {
-        float: right;
-      }
       label
       {
         display:inline-block;
         width:200px;
         margin-right:30px;
         text-align:right;
-      }
-      input
-      {
       }
       #wrap 
       {
@@ -634,13 +480,17 @@
         width:500px;
       }
     </style>
-    <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
+    <link rel = "stylesheet" type="text/css" href="style.css"/>
   </head>
 
 <body>
-        <div class="title">Form 1</div>
+    <div style="display: inline-block;" class="menu-button">
+      <form action="menu.php"><input type="submit" value="Menu"/></form>
+    </div>
+    <h2>Form 1</h2>
+    <hr>
   <p>Please enter your graduation plan.</p>
   
   <p>For the MS program, your plan must include the following:<br>
@@ -655,19 +505,27 @@
     <div id="left_col">
 <?php
 //CHANGED TO ARGV SQL
-          $query = "SELECT * FROM course";
+          $query = "SELECT * FROM course where semester='spring' and year=2019";
           $result = mysqli_query($conn, $query);
           echo "Available Courses: <br/><br/>";
+          echo "<table>";
+          echo "<thead><tr><th>Dept</th><th>Number</th><th>Name</th><th>CRN</th></tr></thead>";
         while($row = $result->fetch_assoc())
         {
-                echo $row["courseno"] . "    " . $row["name"] . " " . $row["crn"] . "<br/>";
-	      }
+          echo "<tr>";
+          echo "<td>" . $row["dept"] . "</td>";
+          echo "<td>" . $row["courseno"] . "</td>";
+          echo "<td>" . $row["name"] . "</td>";
+          echo "<td>" . $row["crn"] . "</td>";
+          echo "</tr>";
+        }
+        echo "</table>"
 ?>
     </div>
     <div id="right_col">
 <fieldset>
   <form method="post">
-    User ID (8 digits): <br/>
+    User ID: <br/>
     <input type="text" name="tUser" /><br/>
 
 
