@@ -243,6 +243,36 @@
             $nextItem = true;
         }
 
+        //FORM 1 FROM ADS
+        $form1Prompt = "";
+        $form1Action = "mainPage.php";
+        if ($type == "MS" || $type == "PHD") {
+            $form1Prompt = "View/Create Form 1";
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $form1Action . "\"><input type=\"submit\" value=\"" . $form1Prompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
+        //APPLY TO GRADUATE (ADS)
+        $gradPrompt = "";
+        $gradAction = "Profile.php";
+        if ($type == "MS" || $type == "PHD") {
+            $gradPrompt = "Apply to Graduate";
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $gradAction . "\"><input type=\"submit\" value=\"" . $gradPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
         echo "</div></div>";
 
     ?>
