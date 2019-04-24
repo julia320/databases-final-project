@@ -29,14 +29,6 @@
 			color: red;
 		}
 
-		/* .box {
-			background: rgb(255,255,255);
-			background: -moz-linear-gradient(left, rgba(255,255,255,1) 10%, rgba(165,165,165,1) 11%, rgba(165,165,165,1) 38%, rgba(165,165,165,1) 38%, rgba(165,165,165,1) 55%, rgba(165,165,165,1) 89%, rgba(255,255,255,1) 90%); 
-			background: -webkit-linear-gradient(left, rgba(255,255,255,1) 10%,rgba(165,165,165,1) 11%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 55%,rgba(165,165,165,1) 89%,rgba(255,255,255,1) 90%); 
-			background: linear-gradient(to right, rgba(255,255,255,1) 10%,rgba(165,165,165,1) 11%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 38%,rgba(165,165,165,1) 55%,rgba(165,165,165,1) 89%,rgba(255,255,255,1) 90%); 
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 );
-		} */
-
 	</style>	
 </head>
 
@@ -100,12 +92,11 @@
 
 			    <input type="submit" name="signup" value="Create Account"><br/>
 			</form>
-			<br/>
 		</div>
 	</div>
 
 	<!-- RESET button -->
-	<div align='center';>
+	<div style="text-align: center;">
 		<form action="reset.php" method="POST">
 			<input type="submit" name="RESET" value="RESET DATABASE">
 		</form>

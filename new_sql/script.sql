@@ -30,7 +30,7 @@ CREATE TABLE user (
   major varchar(10),
   gradYear varchar(20),
   active varchar(5),
-  donation int(15),
+  donation int(15) DEFAULT 0,
   advisor int(8),
   phone varchar(10),
   PRIMARY KEY (uid)

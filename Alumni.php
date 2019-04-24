@@ -22,7 +22,7 @@
     // echo $_SESSION['uid'];
     
     //connect to database
-    $connection = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
+    $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 
 
   ?>
@@ -62,9 +62,9 @@
 
       if(isset($_POST['submit'])){
         $amount = $_POST['donateAmount'];
-        $query = "UPDATE user SET donation = donation + $amount WHERE uid = '$_SESSION[uid]'";
+        $query = "update user set donation = donation + ".$amount." where uid = ".$_SESSION['uid'];
         $result = mysqli_query($conn, $query);
-        echo "Thank you for your donation";
+        echo "Thank you for your donation!";
       }
 
 

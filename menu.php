@@ -228,6 +228,21 @@
             $nextItem = true;
         }
 
+        //DONATE
+        $donPrompt = "";
+        $donAction = "Alumni.php";
+        if ($type == "admin" || $type == "alum") {
+            $donPrompt = "Donate";
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $donAction . "\"><input type=\"submit\" value=\"" . $donPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
         echo "</div></div>";
 
     ?>
