@@ -8,11 +8,11 @@
 	<!-- CSS styling -->
 	<style>
 		tbody tr:nth-child(odd) {
-  			background-color: #ff33cc;
+  			background-color: #edb1ed;
 		}
 
 		tbody tr:nth-child(even) {
-  			background-color: #e495e4;
+  			background-color: #c9efef;
 		}
 
 		h2 {
@@ -138,11 +138,11 @@
 
 			// get all the applicants who match search and have a finished application
 			if (isset($_POST['appSearch'])) {
-				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status=5 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
 			}
 
 			// get all the applicants whose application is complete
-			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status>1 AND user.uid=app_review.uid");
+			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status=5 AND user.uid=app_review.uid");
 
 
 			// Show completed apps that match the search
@@ -171,8 +171,7 @@
 			echo "<h2 style='text-align: center;'>Graduate Secretary Home Page</h2>
 			<h4 style='text-align: center;'>When an applicant's documents have been received, mark them as such here</h4>";
 
-
-			// search bar for the GS to find applicants
+			// search bar for the secretary to find applicants
 			echo "<form align='center' method='post' action='home.php'>
 				<input name='search' type='text'>
 				<input name='submit' type='submit' value='Search for applicant'>
@@ -180,83 +179,77 @@
 
 			// get all the applicants who match search and have submitted an application
 			if (isset($_POST['submit'])) {
-				$result = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
-				$msg = "<p style='text-align:center; color:red;'>There are currently no applications under that name.</p>";
+				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
 			}
-			// or just get all completed applications
-			else {
-				$result = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status=5 AND user.uid=app_review.uid");
-				$msg = "<p style='text-align:center;'>There are currently no submitted applications.</p>";
-			}
+			
+			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status>1 AND user.uid=app_review.uid");
+			
 
-			// if there were matches, show them
-			if ($result->num_rows > 0) {
-				// start table
-				echo "<table border='1' align='center'; style='border-collapse: collapse;'>
-		        	<tr>
-    		        	<th>First Name</th>
-						<th>Last Name</th>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>";
-				
-				// show each applicant with a button to the review page
-				for ($i=0; $i < $result->num_rows; $i++) {
-					$row = $result->fetch_assoc();
-					echo "<tr>
-        		        	<td>".$row['fname']."</td>
-				            <td>".$row['lname']."</td>
-                    		<td><form align='center' action='add_documents.php' method='post'>
-    							<input type='submit' name='".$row['uid']."' value='Check documents'>
-								</form></td>
-							<td><form align='center' action='view_faculty_review.php' method='post'>
-								<input type='submit' name='".$row['uid']."' value='View review'>
-								</form></td>
-							<td><form align='center' action='view_cac_review.php' method='post'>
-								<input type='submit' name='".$row['uid']."' value='View CAC review'>
-								</form></td>
-							<td><form align='center' action='final_decision.php' method='post'>
-								<input type='submit' name='".$row['uid']."' value='Update decision'>
-								</form></td>
-			            </tr>";
-				}
+			// Show completed apps that match the search
+			if ($resultSearch->num_rows > 0) 
+				secrTable($resultSearch);
+			else if (isset($_POST['submit']))
+				echo "<p style='text-align:center; color:red;'>There are currently no applications under that name.</p>";			
+
+			// Show the rest of the completed applications
+			if ($resultAll->num_rows > 0) {
+				// show all other applicants
+				echo "</table><br/>&nbsp<br/>&nbsp<br/> <h3 style='text-align:center;'>All Applicants:</h3>";
+				secrTable($resultAll);
 			}
-			// if there were no matches, tell them
 			else 
-				echo $msg;
+				echo "<p style='text-align:center;'>There are currently no submitted applications.</p>";
 	
 		}// end-Grad secretary view
 
 
+
+		/* Displays the table seen by the reviewers */
 		function reviewTable ($results)
 		{
 			// start table
 			echo "<table border='1' align='center' style='border-collapse:collapse;'>
-		          	<tr>
-	               		<th>First Name</th>
-		            	<th>Last Name</th>
-		                <th></th>
-					</tr>";
+		          	<tr><th>First Name</th><th>Last Name</th><th></th></tr>";
 
 			for ($i=0; $i < $results->num_rows; $i++) {
 				$row = $results->fetch_assoc();
-				// the button will go to a different place based on role
-				if ($_SESSION['type'] == "rev")
-					$button = "<form action='application_form_review.php' method='post'>
-		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
-						  		</form>";
-				else 
-					$button = "<form action='application_form_review_CAC.php' method='post'>
-		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
-						  		</form>";
 
-				echo "<tr>
-                    	<td>".$row['fname']."</td>
-	                    <td>".$row['lname']."</td>
-	                    <td>".$button."</td>
-	                </tr>";
+				// button will go to a different place based on role
+				if ($_SESSION['type'] == "rev")
+					$action = "application_form_review.php";
+				else 
+					$action = "application_form_review_CAC.php";
+
+				$button = "<form action='".$action."' method='post'>
+		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
+						  	</form>";
+
+				echo "<tr><td>".$row['fname']."</td><td>".$row['lname']."</td><td>".$button."</td></tr>";
+			}
+		}
+
+
+		/* Displays the table seen by the Graduate Secretary */
+		function secrTable ($results)
+		{
+			// start table
+			echo "<table border='1' align='center'; style='border-collapse: collapse;'>
+	        	<tr><th>First Name</th><th>Last Name</th><th></th><th></th><th></th><th></th></tr>";
+
+	        // show each applicant with a button to the review page
+			for ($i=0; $i < $results->num_rows; $i++) {
+				$row = $results->fetch_assoc();
+
+				echo "<tr><td>".$row['fname']."</td><td>".$row['lname']."</td>
+                		<td><form align='center' action='add_documents.php' method='post'>
+							<input type='submit' name='".$row['uid']."' value='Check documents'></form></td>
+						<td><form align='center' action='view_faculty_review.php' method='post'>
+							<input type='submit' name='".$row['uid']."' value='View review'></form></td>
+						<td><form align='center' action='view_cac_review.php' method='post'>
+							<input type='submit' name='".$row['uid']."' value='View CAC review'></form></td>
+						<td><form align='center' action='final_decision.php' method='post'>
+							<input type='submit' name='".$row['uid']."' value='Update decision'></form></td>
+		            </tr>";
 			}
 		}
     ?>
