@@ -441,7 +441,7 @@ if (isset($_POST['submit'])) {
         die();
     }
 }
-?>
+?>	
 
 <html>
   <head>
