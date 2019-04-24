@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Karla');
+@import url('https://fonts.googleapis.com/css?family=Cabin');
 
 :root {
-  --main-color: #b33e99;
-  --main-font: 'Karla', sans-serif;
+  --main-color: #faca62;
+  --main-font: 'Cabin', sans-serif;
 }
 
 * {
