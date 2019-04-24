@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Requirements Page</title>
-    <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
+    <link rel = "stylesheet" type="text/css" href="style.css"/>
     <style type = "text/css">
-      body {
+      /* body {
         background-color: grey;
-      }
-      div.Title{
+      } */
+      /* div.Title{
         font-family: Tahoma, Geneva, sans-serif;
         font-size: 3em;
         text-align: center;
         color: white;
         background-color: orange;
-      }
+      } */
       form.student-info{
         color: white;
       }
@@ -65,14 +65,17 @@
     </style>
   </head>
   <body>
-<form class="signout" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
-        <input type="submit" value="Back" formaction="admin.php">
-        <input type="submit" name="signout" value="Sign out">
-</form>
+    <div style="display: inline-block;" class="menu-button">
+      <form action="menu.php"><input type="submit" value="Menu"/></form>
+    </div>
+<!-- <form class="signout" action="<?php //echo $_SERVER["PHP_SELF"];?>" method="post"> -->
+        <!-- <input type="submit" value="Back" formaction="admin.php"> -->
+        <!-- <input type="submit" name="signout" value="Sign out"> -->
+<!-- </form> -->
 
-      <div class="Title">
-        Update Page
-      </div>
+      <!-- <div class="Title"> -->
+      <h2>Update Page</h2><hr>
+      <!-- </div> -->
 
   <form class="degrees" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
     <input type="submit" name="MS" value="Master">
@@ -477,11 +480,11 @@ form.student-info{
           echo "Failed to add course";
         }
     }
-    if(isset($_POST['signout'])){
-      session_unset();
-      session_destroy();
-      header("Location: homepage.php");
-    }
+    // if(isset($_POST['signout'])){
+    //   session_unset();
+    //   session_destroy();
+    //   header("Location: homepage.php");
+    // }
 ?>
 </body>
 </html>
