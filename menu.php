@@ -273,6 +273,21 @@
             $nextItem = true;
         }
 
+        //COURSE CATALOG (ADS)
+        $catPrompt = "View Course Catalog";
+        $catAction = "catalog.php";
+        // if ($type == "MS" || $type == "PHD") {
+        //     $catPrompt = "Apply to Graduate";
+        // } else {
+        //     $nextItem = false;
+        // }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $catAction . "\"><input type=\"submit\" value=\"" . $catPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
         echo "</div></div>";
 
     ?>

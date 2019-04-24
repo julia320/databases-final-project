@@ -2,44 +2,14 @@
 // Start the session
 session_start();
 ?>
-
-<style>
-html {
-    font-family:arial;
-    font-size: 18px;
-}
-td {
-border: 1px solid #726E6D;
-padding: 15px;
-}
-thead{
-    font-weight:bold;
-    text-align:center;
-background: #625D5D;
-color:white;
-}
-table {
-    border-collapse: collapse;
-}
-.footer {
-    text-align:right;
-    font-weight:bold;
-}
-tbody >tr:nth-child(odd) {
-background: #D1D0CE;
-}
-</style>
-
-
-
 <!DOCTYPE html>
 <html>
 <!-- This code is the main page and provides the dropdown button and search button -->
 <head>
-<title>The Advisor</title>
-    <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+<title>Course Catalog</title>
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
+    <link rel = "stylesheet" type="text/css" href="style.css"/>
 
 </head>
 
@@ -58,33 +28,36 @@ background: #D1D0CE;
     ?>
 
 <body>
+    <div style="display: inline-block;" class="menu-button">
+      <form action="menu.php"><input type="submit" value="Menu"/></form>
+    </div>
 
 <!-- ############################################################################################################################################  -->
 <!-- This is where i have the main table declaration-->
-<head>
-<h2 align = "center"> Course Catalog </h2>
-</head>
+
+<h2> Course Catalog </h2>
+<hr>
 <table style="width:100%">
 <form method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
 <thead>
 <tr>
-<td colspan="4">Course </td>
-<td rowspan="2"> Credits </td>
-<td colspan="3"> Prerequisites </td>
+<th colspan="3">Course </th>
+<th rowspan="2"> Credits </th>
+<th colspan="2"> Prerequisites </th>
 </tr>
 <tr>
-<td>Dept</td>
-<td>Course Number</td>
-<td colspan="2">Title </td>
-<td> PreReq1</td>
-<td> PreReq2</td>
+<th>Title</th>
+<th>Dept</th>
+<th>Number</th>
+<th>PreReq1</th>
+<th>PreReq2</th>
 </tr>
 </thead>
 <tbody>
 
 
 <?php
-    $sql = "SELECT title,credit,dept,crn,pre_req1,pre_req2 FROM course_catalog";
+    $sql = "SELECT distinct name,courseno,credits,dept,prereq1,prereq2 FROM course";
     // Prepare a select statement
     $result = $mysqli->query($sql);
     if($result->num_rows > 0) {
@@ -102,12 +75,12 @@ background: #D1D0CE;
 
 
 <tr>
-<td colspan="2"><?php echo $row['title'] ; ?></td>
+<td><?php echo $row['name'] ; ?></td>
 <td><?php echo $row["dept"] ; ?></td>
-<td><?php echo $row["crn"] ; ?></td>
-<td><?php echo $row["credit"] ; ?></td>
-<td><?php echo $row["pre_req1"] ; ?></td>
-<td><?php echo $row["pre_req2"] ; ?></td>
+<td><?php echo $row["courseno"] ; ?></td>
+<td><?php echo $row["credits"] ; ?></td>
+<td><?php echo $row["prereq1"] ; ?></td>
+<td><?php echo $row["prereq2"] ; ?></td>
 
 </tr>
 </form>

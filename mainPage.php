@@ -7,54 +7,10 @@ session_start();
 
 <html>        <!-- This code is the main page and provides the dropdown button and search button -->
   <head>
-    <title>The Advisor</title>
+    <title>View Form 1</title>
     <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/>
-    <!-- <style>
-      html {
-        font-family:arial;
-        font-size: 18px;
-      }
-      td {
-        border: 1px solid #726E6D;
-        padding: 15px;
-      }
-      thead{
-        font-weight:bold;
-        text-align:center;
-        background: #625D5D;
-        color:white;
-      }
-      table {
-        border-collapse: collapse;
-      }
-      .footer {
-        text-align:right;
-        font-weight:bold;
-      }
-      tbody >tr:nth-child(odd) {
-        background: #D1D0CE;
-      }
-      #apply,
-      #search,
-      #bar,
-      #type,
-      #catalog {
-          display: inline;
-          height: 40px;
-          color: black;
-          font-size: 25px;
-          text-decoration: none;
-          line-height: 36px;
-          box-sizing: border-box;
-          padding: 1px 0 0 0;
-          text-align: center;
-          background-color: #FFA319;
-          border-radius: 4px;
-          margin-top: 30px;
-      }
-    </style> -->
   </head>
 
             <?php
@@ -84,12 +40,13 @@ if($mysqli->connect_error) {
           <form action="menu.php"><input type="submit" value="Menu"/></form>
         </div>
         <h2>Student Report</h2>
+        <hr>
 
                         <!-- This is to deal with the header bar button which enables the user to do a lot of stuffs-->
                     <div id="buttonzone">
                              <form action="catalog.php" method="post" >
                                 <!-- <input type="submit" name="applyToGraduate" value="Apply To graduate" id="apply"> -->
-                                <input type="submit" name="courseCatalog" value="Course Catalog" id="catalog">
+                                <!-- <input type="submit" name="courseCatalog" value="Course Catalog" id="catalog"> -->
                                 <!-- <input type="text" placeholder="Search.." name="searchProduct" id = "bar" > -->
 				                            <!-- <input type="submit" name="signout" value="Sign out"> -->
                                         <!-- <input type="submit" name="Search" value="Search" id="search"> -->
@@ -150,25 +107,15 @@ if($mysqli->connect_error) {
 <?php
 
 if(isset($_POST['viewForm1']) || true){
-  ?>
-    <!-- <style type = "text/css">
-      div.w3-container{
-        display: none;
-      }
-	    table.headers{
-	    display: none;
-	    }
-    </style> -->
-
-  <?php
   $query = "SELECT * FROM form1 WHERE u_id = '$_SESSION[uid]'";
   $result = $mysqli->query($query);
   if ($result->num_rows == 0) {
-    echo "You don't have a form1";
+    echo "ERROR";
+    echo "You don't have a Form 1!";
   } else{
      while($row = $result->fetch_assoc()) {
        ?>
-        <span class = "formdata"> <?php echo "Dept: " . $row["dept"] . " semYear: " . $row["crn"] . "<br/>"; ?> </span>
+        <span class = "formdata"> <?php echo "CRN: " . $row["crn"] . "<br/>"; ?> </span>
        <?php
      }
   }
