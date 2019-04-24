@@ -38,7 +38,7 @@
 		session_start(); 
 
 		// connect to the database
-		$conn = mysqli_connect("localhost", "markeilblow", "Mercedes01123!!", "markeilblow");
+		$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
 		if (!$conn) die("Connection failed: ".mysqli_connect_error());
 
 		// if they tried to log in, verify their information
