@@ -98,7 +98,7 @@
             if (is_null($search)) {
 
                 //no search terms - select all courses from current year
-                $query = "select crn, dept, courseno, name, credits, day, tme, prereq1, prereq2, lname from course, user where semester = 'spring' and year = '2019' and tme is not null and course.instructor=user.uid and dept='".$dept."' order by dept, courseno";
+                $query = "select * from course, user where semester = 'spring' and year = '2019' and tme is not null and course.instructor=user.uid and dept='".$dept."' order by dept, courseno";
                 $result = mysqli_query($connection, $query);
                 
                 if (mysqli_num_rows($result) > 0) {
@@ -150,7 +150,7 @@
 
                 } else {
                     //If nothing came back from the query, there was a problem
-                    die("Bad query: ".mysqli_error());
+                    die("Bad query: ".$query);
                 }
             } else {
                 //There WERE search terms, so display same info as above but for only the relevant courses

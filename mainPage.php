@@ -3,7 +3,7 @@
 session_start();
 ?>
 
-<style>
+<!-- <style>
     html {
       font-family:arial;
       font-size: 18px;
@@ -46,21 +46,19 @@ session_start();
         border-radius: 4px;
         margin-top: 30px;
     }
-</style>
+</style> -->
 
 
 
 <!DOCTYPE html>
 
 <html>        <!-- This code is the main page and provides the dropdown button and search button -->
-            <head>
-                <title>The Advisor</title>
-                <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+  <head>
+    <title>The Advisor</title>
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
-                <h2>Student Report</h2>
-
-            </head>
+    <link rel = "stylesheet" type="text/css" href="style.css"/>
+  </head>
 
             <?php
 //alter user 'larissab1'@'localhost' identified with mysql_native_password by '';
@@ -85,6 +83,7 @@ if($mysqli->connect_error) {
         ?>
 
         <body>
+        <h2>Student Report</h2>
 
                         <!-- This is to deal with the header bar button which enables the user to do a lot of stuffs-->
                     <div id="buttonzone">

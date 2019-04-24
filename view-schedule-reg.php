@@ -34,7 +34,7 @@
         $tempErr = "";
 
         // Connect to database
-        $connection = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
+        $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
         
         // Check connection
         if(!$conn){
