@@ -224,9 +224,9 @@ insert into user (fname, lname, uid, ssn, street, city, state, zip, phone, email
   ("Carlos", "Santana", 00001236, 777111111, "Nebraska Ave", "Washington", "DC", 20052, "4567890123", "csantana@gwu.edu", "123456", "yes", "App");
 
 insert into app_review (uid, reviewerRole, status) VALUES
-  (55555555, "rev", 1), (55555555, "cac", 1),
-  (66666666, "rev", 1), (66666666, "cac", 1),
-  (00001234, "rev", 1), (00001234, "cac", 1),
+  (55555555, "rev", 5), (55555555, "cac", 1),
+  (66666666, "rev", 4), (66666666, "cac", 1),
+  (00001234, "rev", 8), (00001234, "cac", 1),
   (00001235, "rev", 1), (00001235, "cac", 1),
   (00001236, "rev", 1), (00001236, "cac", 1);
 
