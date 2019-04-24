@@ -6,56 +6,19 @@
   <head>
     <meta charset="utf-8">
     <title>Advisor Page</title>
-    <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/> -->
-    <style type = "text/css">
-
-      body {
-        background-color: grey;
-
-      }
-
-      div.Title{
-        font-family: Tahoma, Geneva, sans-serif;
-        font-size: 3em;
-        text-align: center;
-        color: white;
-        background-color: orange;
-      }
-      form.student-info{
-        color: white;
-      }
-      div.form1-info{
-        color: white;
-        border: solid orange;
-        width: 400px;
-      }
-      div.Transcript-info{
-        color: white;
-        border: solid orange;
-          width: 400px;
-      }
-      form.signout{
-        float: right;
-        top: 100px;
-      }
-
-      form.back{
-        float: right;
-        top: 100px;
-      }
-
-    </style>
+    <link rel = "stylesheet" type="text/css" href="style.css"/>
   </head>
   <body>
-  <form class="signout" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+    <div style="display: inline-block;" class="menu-button">
+      <form action="menu.php"><input type="submit" value="Menu"/></form>
+    </div>
+  <!-- <form class="signout" action="<?php //echo $_SERVER["PHP_SELF"];?>" method="post">
     <input type="submit" name="signout" value="Sign out">
-</form>
-
-      <div class="Title">
-        Advisor Page
-      </div>
+</form> -->
+    <h2>Advisor Page</h2>
+    <hr>
   <?php
 
   $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
@@ -79,16 +42,16 @@
 	  
     if($_SESSION['uid'] == 0)
     {?>
-          <form class="back" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+          <!-- <form class="back" action="<?php //echo $_SERVER["PHP_SELF"];?>" method="post">
         <input type="submit" value="Back" formaction="admin.php">
-</form>
+</form> -->
 <?php
     }
     else
     {?>
-          <form class="back" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+          <!-- <form class="back" action="<?php //echo $_SERVER["PHP_SELF"];?>" method="post">
         <input type="submit" value="Back" formaction="Advisor.php">
-</form>
+</form> -->
 <?php
     }
     $query = "SELECT * FROM students s WHERE a_id = $aid";
@@ -143,11 +106,11 @@
 	     }
 
 
-    if(isset($_POST['signout'])){
-      session_unset();
-      session_destroy();
-      header("Location: login.php");
-    }
+    // if(isset($_POST['signout'])){
+    //   session_unset();
+    //   session_destroy();
+    //   header("Location: login.php");
+    // }
 
     if(isset($_POST['form1'])){
 			?>
