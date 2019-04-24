@@ -184,18 +184,16 @@ CREATE TABLE prior_degrees (
   FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
-insert into user (fname, lname, uid, street, city, state, zip, phone, email, password, active, type) VALUES
-
-  ("Dietrich", "Reidenbaugh", 1, "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin"),
-
-  ("Maya", "Shende", 2, "Massachusetts Ave", "Washington", "DC", 20052, "4567890123", "mshende@gwu.edu", "123456", "yes", "secr"),
-
-  ("Bhagi", "Narahari", 3, "South Carolina Ave", "Washington", "DC", 20052, "4567890123", "bnarahari@gwu.edu", "123456", "yes", "inst"),
-  ("Hyeong-Ah", "Choi", 4, "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "choi@gwu.edu", "123456", "yes", "inst"),
-  ("Gabe", "Parmer", 5, "Virignia Ave", "Washington", "DC", 20052, "4567890123", "gparmer@gwu.edu", "123456", "yes", "adv"),
-  ("Tim", "Wood", 6, "Maryland Ave", "Washington", "DC", 20052, "4567890123", "wood@gwu.edu", "123456", "yes", "rev"),
-  ("Rachelle", "Heller", 7, "New York Ave", "Washington", "DC", 20052, "4567890123", "heller@gwu.edu", "123456", "yes", "rev"),
-  ("John", "Smith", 8, "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "yes", "cac");
+insert into user (fname, lname, street, city, state, zip, phone, email, password, active, type) VALUES
+  ("Dietrich", "Reidenbaugh", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin"),
+  ("Maya", "Shende", "Massachusetts Ave", "Washington", "DC", 20052, "4567890123", "mshende@gwu.edu", "123456", "yes", "secr"),
+  ("Bhagi", "Narahari", "South Carolina Ave", "Washington", "DC", 20052, "4567890123", "bnarahari@gwu.edu", "123456", "yes", "inst"),
+  ("Hyeong-Ah", "Choi", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "choi@gwu.edu", "123456", "yes", "inst"),
+  ("Gabe", "Parmer", "Virignia Ave", "Washington", "DC", 20052, "4567890123", "gparmer@gwu.edu", "123456", "yes", "adv"),
+  ("Tim", "Wood", "Maryland Ave", "Washington", "DC", 20052, "4567890123", "wood@gwu.edu", "123456", "yes", "rev"),
+  ("Rachelle", "Heller", "New York Ave", "Washington", "DC", 20052, "4567890123", "heller@gwu.edu", "123456", "yes", "rev"),
+  ("Richard", "Sear", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "searri@gwu.edu", "123456", "yes", "MS"),
+  ("John", "Smith", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "yes", "cac");
 
 insert into user (fname, lname, uid, street, city, state, zip, phone, email, password, active, type) VALUES
 
