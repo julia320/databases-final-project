@@ -2,6 +2,7 @@
 
 :root {
   --main-color: #b33e99;
+  --main-font: 'Karla', sans-serif;
 }
 
 * {
@@ -9,22 +10,22 @@
 }
 
 body {
-  font-family: 'Karla', sans-serif;
+  font-family: var(--main-font);
   background-color: #f4f4f4;
   font-size: 20px;
 }
 
 .karla {
-  font-family: 'Karla', sans-serif;
+  font-family: var(--main-font);
 }
 
 input[type=submit], input[type=text], input[type=number], input[type=password], input[type=email] {
-  font-family: 'Karla';
+  font-family: var(--main-font);
   font-size: 20px;
 }
 
 option, select {
-  font-family: 'Karla';
+  font-family: var(--main-font);
   font-size: 20px;
 }
 
@@ -52,7 +53,7 @@ table {
   border: 1px solid #cbcbcb;
   border-collapse: collapse;
   border-spacing: 0;
-  font-family: 'Karla', sans-serif;
+  font-family: var(--main-font);
   background-color: white;
 }
 
