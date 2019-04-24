@@ -38,7 +38,7 @@
 		session_start(); 
 
 		// connect to the database
-		$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
+		$conn = mysqli_connect("localhost", "", "", "");
 		if (!$conn) die("Connection failed: ".mysqli_connect_error());
 
 		// if they tried to log in, verify their information
@@ -81,11 +81,26 @@
 				<!-- <label for="lname">Last name:</label> -->
 				<input type="text" name="lname" placeholder="Last Name" required><br/><br/>
 
+                <!-- <label for="ssn">SSN:</label> -->
+				<input type="number" name="ssn" placeholder="SSN" required><br/><br/>
+
+                <!-- <label for="street">Street:</label> -->
+				<input type="text" name="street" placeholder="Street" required><br/><br/>
+
+                <!-- <label for="city">City:</label> -->
+				<input type="text" name="city" placeholder="City" required><br/><br/>
+
+                <!-- <label for="state">State:</label> -->
+				<input type="text" name="state" placeholder="State" required><br/><br/>
+
+                <!-- <label for="zip">Zip:</label> -->
+				<input type="text" name="zip" placeholder="Zip Code" required><br/><br/>
+
 				<!-- <label for="email">Email:</label> -->
-				<input type="email" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"><br/><br/>
+				<input type="text" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"><br/><br/>
 
 				<!-- <label for="password">Password:</label> -->
-				<input type="password" name="password" placeholder="Password" required><br/>
+				<input type="password" name="password" placeholder="Password" required><br/><br/>
 				
 				<!-- <label for="password2">Confirm Password:</label> -->
 				<input type="password" name="password2" placeholder="Confirm Password" required><br/><br/>
@@ -141,15 +156,16 @@
 	            $_SESSION['id'] = $row['max'] + 1;
 
 	            // add info to the database
-	            $query = "INSERT INTO user (type, fname, lname, password, email, uid) VALUES ('App', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['password']."', '".$_POST['email']."', ".$_SESSION['id'].")";
+	            $query = "INSERT INTO user (type, fname, lname, ssn, street, city, state, zip, password, email, uid, active) VALUES ('App', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['ssn']."', '".$_POST['street']."', '".$_POST['city']."', '".$_POST['state']."', '".$_POST['zip']."', '".$_POST['password']."', '".$_POST['email']."', ".$_SESSION['id'].", "yes")";
 	            //JACK: I added these additional queries when creating a user to make the app forms work properly
 	            $query2 = "INSERT INTO app_review (uid, reviewerRole) VALUES (" .$_SESSION['id']. ", 'rev')";
 	            $query3 = "INSERT INTO app_review (uid, reviewerRole) VALUES (" .$_SESSION['id']. ", 'cac')";	
 	            if (mysqli_query($conn, $query)&&mysqli_query($conn, $query2)&&mysqli_query($conn, $query3)) {
 					$_SESSION['type'] = 'App';
-					$_SESSION['errS'] = "";
+                    $_SESSION['errS'] = "";
+                    $_SESSION["loggedin"] = TRUE;
 					echo "redirect";
-                    header("Location: home.php");
+                    header("Location: menu.php");
                     die();
             	}
                 else
