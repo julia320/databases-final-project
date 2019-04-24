@@ -99,11 +99,10 @@ CREATE TABLE corereq(
 
 CREATE TABLE form1(
    u_id int(8) NOT NULL,
-   fname  varchar(25) NOT NULL,
-   lname  varchar(25) NOT NULL,
    crn int(10) NOT NULL,
-   primary key(crn,u_id)
-   );
+   primary key(crn,u_id),
+   foreign key(u_id) references user(uid)
+  );
 
 
 CREATE TABLE academic_info (
@@ -267,5 +266,11 @@ VALUES
 	("CSCI", 6233, "Networks 2", 3, "CSCI 6232", null, "T", "1800-2030",1,2018,"Fall",6,2),
 	("CSCI", 6220, "Machine Learning", 3, null, null, null, null,null,2018,"Fall",null,null),
 	("CSCI", 6325, "Algorithms 2", 3, "CSCI 6212", null, null, null,null,2018,"Fall",null,null);
+
+insert into form1 values
+  (8, 23),
+  (8, 24),
+  (8, 25),
+  (8, 26);
 
 

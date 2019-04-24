@@ -3,53 +3,6 @@
 session_start();
 ?>
 
-<!-- <style>
-    html {
-      font-family:arial;
-      font-size: 18px;
-    }
-    td {
-      border: 1px solid #726E6D;
-      padding: 15px;
-    }
-    thead{
-      font-weight:bold;
-      text-align:center;
-      background: #625D5D;
-      color:white;
-    }
-    table {
-      border-collapse: collapse;
-    }
-    .footer {
-      text-align:right;
-      font-weight:bold;
-    }
-    tbody >tr:nth-child(odd) {
-      background: #D1D0CE;
-    }
-    #apply,
-    #search,
-    #bar,
-    #type,
-    #catalog {
-        display: inline;
-        height: 40px;
-        color: black;
-        font-size: 25px;
-        text-decoration: none;
-        line-height: 36px;
-        box-sizing: border-box;
-        padding: 1px 0 0 0;
-        text-align: center;
-        background-color: #FFA319;
-        border-radius: 4px;
-        margin-top: 30px;
-    }
-</style> -->
-
-
-
 <!DOCTYPE html>
 
 <html>        <!-- This code is the main page and provides the dropdown button and search button -->
@@ -58,6 +11,50 @@ session_start();
     <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/>
+    <!-- <style>
+      html {
+        font-family:arial;
+        font-size: 18px;
+      }
+      td {
+        border: 1px solid #726E6D;
+        padding: 15px;
+      }
+      thead{
+        font-weight:bold;
+        text-align:center;
+        background: #625D5D;
+        color:white;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      .footer {
+        text-align:right;
+        font-weight:bold;
+      }
+      tbody >tr:nth-child(odd) {
+        background: #D1D0CE;
+      }
+      #apply,
+      #search,
+      #bar,
+      #type,
+      #catalog {
+          display: inline;
+          height: 40px;
+          color: black;
+          font-size: 25px;
+          text-decoration: none;
+          line-height: 36px;
+          box-sizing: border-box;
+          padding: 1px 0 0 0;
+          text-align: center;
+          background-color: #FFA319;
+          border-radius: 4px;
+          margin-top: 30px;
+      }
+    </style> -->
   </head>
 
             <?php
