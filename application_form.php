@@ -20,7 +20,7 @@ if ($_SESSION['type'] != 'App') {
 if (isset($_POST['submit'])) {
 
     // set the date
-    $date = date("Y/m/d, H:i:s");
+    $date = date("Y/m/d");
 
     $dataReady = true;
 
@@ -475,8 +475,8 @@ if (isset($_POST['submit'])) {
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <span class="error"><?php echo " " . $degreeTypeErr; ?></span><br>
-      <input type="radio" name="degreeType" value="Mas" > MS<br>
-      <input type="radio" name="degreeType" value="PhD"> PhD<br><br>
+      <input type="radio" name="degreeType" value="MS" > MS<br>
+      <input type="radio" name="degreeType" value="PHD"> PhD<br><br>
       Year <span class="field"><input type="text" name="appYear">
       <span class="error"><?php echo " " . $appYearErr; ?></span></span><br>
       Semester <span class="error">

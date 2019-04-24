@@ -73,6 +73,21 @@
             $nextItem = true;
         }
 
+        // VIEW USERS
+        if ($type == "secr") {
+            $viewStudentsPrompt = "View Students";
+            $viewStudentsAction = "viewstudents.php";
+        }
+        else {
+            $nextItem = false;
+        }
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $viewStudentsAction . "\"><input type=\"submit\" value=\"" . $viewStudentsPrompt . "\"/></form></div>";
+        } 
+        else {
+            $nextItem = true;
+        }
+
         //VIEW SCHEDULE
         $schedulePrompt = "";
         if ($type == "admin") {
