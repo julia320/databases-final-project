@@ -11,13 +11,8 @@
 <!DOCTYPE html>
 <html>
 <?php
-   // require_once('config.php');
 	
-	$server = "localhost";
-	$username = "ARGv";
-	$password = "CSCI2541_sp19";
-	$servername = "ARGv";
-	$mysqli = mysqli_connect($server, $username, $password, $servername);
+	$mysqli = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
     
     if($mysqli->connect_error) 
     {
@@ -58,10 +53,15 @@
         switch($_GET["action"])
         { 
             case "add":
-                echo "user selected" . $_GET["uid"];
-                echo "the action that was selected is:" . $_GET["action"];
-    
-                echo "Connected successfully <br/>";
+                echo "User selected: ".$_GET["uid"]."<br/>";
+
+                // get the recommended advisor
+                $q = "SELECT app_review.advisor FROM app_review, user WHERE type IN ('MS, PHD') AND user.uid=app_review.uid AND user.uid=".$_GET['uid'];
+                $result = mysqli_query($mysqli, $q);
+                $row = $result->fetch_assoc();
+                if ($result->num_rows > 0)
+                    echo "Recommended advisor based on application: ".$row['advisor']."<br/>";
+
                 $aQuery = "SELECT uid FROM user WHERE type = 'adv' ORDER BY rand() LIMIT 1";
                 $aResult = mysqli_query($mysqli, $aQuery);
               
@@ -131,7 +131,7 @@
                         <td><?php echo $row["major"] ; ?></td>
                         <td><?php echo $row["program"] ; ?></td>
                         <td>
-                            <form class="example" action="assignAdvisor.php?action=add&u_id=<?php echo $row['u_id']; ?>" method="post"  >
+                            <form class="example" action="assignAdvisor.php?action=add&uid=<?php echo $row['uid']; ?>" method="post"  >
                                 <button class="Add_An_Advisor">
                                     Assign Advisor
                                 </button>
@@ -180,7 +180,7 @@
                     <td><?php echo $row["major"] ; ?></td>
                     <td><?php echo $row["program"] ; ?></td>
                     <td>
-                        <form class="example" action="assignAdvisor.php?action=add&u_id=<?php echo $row['u_id']; ?>" method="post"  >
+                        <form class="example" action="assignAdvisor.php?action=add&uid=<?php echo $row['uid']; ?>" method="post"  >
                             <button class="Add_An_Advisor">
                                 Assign Advisor
                             </button>
@@ -219,7 +219,7 @@
                     <td><?php echo $row["major"] ; ?></td>
                     <td><?php echo $row["program"] ; ?></td>
                     <td>
-                        <form class="example" action="assignAdvisor.php?action=add&u_id=<?php echo $row['u_id']; ?>" method="post"  >
+                        <form class="example" action="assignAdvisor.php?action=add&uid=<?php echo $row['uid']; ?>" method="post"  >
                             <button class="Add_An_Advisor">
                                 Assign Advisor
                             </button>
