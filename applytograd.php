@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <?php
     session_start();
-  
+
  ?>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Student Profile</title>
+    <title>Graduation App</title>
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+    <link rel = "stylesheet" type="text/css" href="style.css"/>
+
     <style type = "text/css">
+      body{
+        background-color: grey;
+      }
+      div.title{
+          font-family: Tahoma, Geneva, sans-serif;
+          font-size: 3em;
+          text-align: center;
+          color: white;
+          background-color: #76b852;
+            }
       ul {
-        /* color: orange; */
+        color: #76b852;
         font-weight:normal;
         list-style: none;
         padding-left: 0px;
@@ -20,11 +34,15 @@
       li {
         width: 150px;
         display: inline-block;
+
+
+
       }
 
       li.nonCScourse{
-        display: inline-block;
-        width: 200px;
+          display: inline-block;
+          width: 200px;
+
       }
 
       li.bGrade{
@@ -45,7 +63,7 @@
         text-align: center;
         width: 200px;
         height: 200px;
-        color: orange;
+        color: #76b852;
         font-weight: bold;
       }
       div.Congrats{
@@ -58,42 +76,46 @@
         text-align: center;
         width: 200px;
         height: 200px;
-        color: orange;
+        color: #76b852;
         font-weight: bold;
       }
+      div.signout{
+        float: right;
+      }
       div.courseHistory{
+
         width: 600px;
         float: left;
         color: white;
         border: solid white;
-      }
 
+
+
+      }
       form{
         width: 350px;
         float: left;
       }
-      
+
+
     </style>
-    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-    <link rel = "stylesheet" type="text/css" href="style.css"/>
   </head>
-    <body>
-    <div style="display: inline-block;" class="menu-button">
-      <form action="menu.php"><input type="submit" value="Menu"/></form>
-    </div>
-    <h2>Graduation</h2>
-    <hr>
+    <body class="gray-bg">
+
+    <div class="title">Graduation Application</div>
   <?php
 
-  //connect to database
-  $conn= mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
+        $server = "localhost";
+        $username = "ARGv";
+        $password = "CSCI2541_sp19";
+        $servername = "ARGv";
+  $conn = mysqli_connect($server, $username, $password, $servername);
 
   if($mysqli->connect_error) {
      die("Connection failed: " . mysqli_connect_error());
   }
 
-$query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
+$query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR type ='PHD'";
   $result = mysqli_query($conn, $query);
   while ($row = mysqli_fetch_assoc($result)){
     if($row["grad_status"] != NULL){
@@ -102,7 +124,7 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
           form.GraduateForm{
             display: none;
           }
-          
+
         </style>
       <?php
     }
@@ -129,7 +151,7 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
             WHERE f.uid = s.uid AND f.uid = sc.uid AND f.crn = sc.crn AND f.semYear = sc.semYear;" */
 
         //get program type
-        $query = "SELECT program FROM students WHERE u_id = '$_SESSION[uid]'";
+        $query = "SELECT program FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR type = 'PHD'";
         $result = mysqli_query($conn, $query);
         $row = mysqli_fetch_assoc($result);
         /* if == masters
@@ -147,7 +169,7 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
           $row = mysqli_fetch_assoc($result);*/
           $query = "SELECT * FROM requirements WHERE program = 'MS'";
           $result = mysqli_query($conn, $query);
-          	while ($row = mysqli_fetch_assoc($result)){
+                while ($row = mysqli_fetch_assoc($result)){
 
             if($_SESSION["credits"] < $row["NumCredits"]){
               $creditErr = "You don't have enough credits";
@@ -186,7 +208,7 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
             </style>
             <?php
 
-            $query = "UPDATE students SET curr_status = 'suspension' WHERE u_id = '$_SESSION[uid]'";
+            $query = "UPDATE user SET active = 'susp' WHERE u_id = '$_SESSION[uid]'";
             $result = mysqli_query($conn, $query);
             ?>
               <div class="suspension"> <?php echo $suspension; ?>  </div>
@@ -237,7 +259,7 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
             </style>
             <div class="Congrats"> Application Complete, your application is now under review</div>
             <?php
-            $query = "UPDATE students SET grad_status = 'MS' WHERE u_id = '$_SESSION[uid]'";
+            $query = "UPDATE user SET grad_status = 'ready' WHERE uid = '$_SESSION[uid]'";
             $result = mysqli_query($conn, $query);
             $row = mysqli_fetch_assoc($result);
             $_SESSION["MSgranted"] = 'yes';
@@ -271,7 +293,7 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
 
                 $query = "SELECT * FROM requirements WHERE program = 'PhD'";
                 $result = mysqli_query($conn, $query);
-                	while ($row = mysqli_fetch_assoc($result)){
+                        while ($row = mysqli_fetch_assoc($result)){
                   if($_SESSION["credits"] < $row["NumCredits"]){
                     $creditErr = "You don't have enough credits";
                   }
@@ -302,6 +324,7 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
                     display: none;
                   }
 
+
                   div.suspension{
                     top: 200px;
                   }
@@ -309,7 +332,7 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
                   </style>
                   <?php
 
-                  $query = "UPDATE students SET curr_status = 'suspension' WHERE u_id = '$_SESSION[uid]'";
+                  $query = "UPDATE user SET active = 'susp' WHERE uid = '$_SESSION[uid]'";
                   $result = mysqli_query($conn, $query);
                   ?>
                     <div class="suspension"> <?php echo $suspension; ?>  </div>
@@ -359,13 +382,19 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
                   <div class="Congrats"> Application Complete, your application is now under review</div>
                   <?php
                   if(!empty($_POST["PhDselect"]) && !empty($_POST["MSselect"]) && $_SESSION["MSgranted"] == 'yes'){
-                    $query = "UPDATE students SET grad_status = 'PhD/MS' WHERE u_id = '$_SESSION[uid]'";
+                    $query = "UPDATE students SET grad_status = 'read' WHERE uid = '$_SESSION[uid]'";
                     $result = mysqli_query($conn, $query);
                     $row = mysqli_fetch_assoc($result);
 
                   }
                   else{
-                  $query = "UPDATE students SET grad_status = 'PhD' WHERE u_id = '$_SESSION[uid]'";
+                  $query = "UPDATE user SET grad_status = 'ready' WHERE uid = '$_SESSION[uid]'";
+                    $result = mysqli_query($conn, $query);
+                    $row = mysqli_fetch_assoc($result);
+
+                  }
+                  else{
+                  $query = "UPDATE user SET grad_status = 'ready' WHERE uid = '$_SESSION[uid]'";
                   $result = mysqli_query($conn, $query);
                   $row = mysqli_fetch_assoc($result);
                 }
@@ -427,12 +456,12 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
 
    ?>
 
-    <!-- <form action="<?php //echo $_SERVER["PHP_SELF"];?>" method="post">
+    <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
     <div class="signout">
-      <input type="submit" name="signout" value="Sign out">
+      <input type="submit" name="signout" value="Logout" formaction="logout.php">
     </div>
-    <input type="submit" name="backBttn" value="Back" formaction="mainPage.php">
-</form> -->
+    <input type="submit" name="backBttn" value="Back" formaction="menu.php">
+</form>
 
 
 
@@ -452,12 +481,12 @@ $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
   }
 
 
-
-// if($_POST['signout']){
-//   session_unset();
-//   session_destroy();
-//   header("Location: homepage.php");
-// }
+   
+if($_POST['signout']){
+  session_unset();
+  session_destroy();
+  header("Location: logout.php");
+}
 
 
 ?>
@@ -492,15 +521,13 @@ $query = "SELECT title, crn,lettergrade,numgrade,credit,semYear,dept FROM studen
 //$totalCredit = $totalCredit+ $row["credit"];
 if($row["lettergrade"]!= "IP"){
 $totalCredit = $totalCredit + $row["credit"];
-             //	echo  $totalCredit;
+             // echo  $totalCredit;
       $totalNumGrade = $totalNumGrade + $row["numgrade"];
 $weightedGpa = $weightedGpa + $row["credit"] * $row["numgrade"] ;
 $_SESSION['numgrade'] = $weightedGpa/$totalCredit;
       }
     }
 }
-
-
 
 
 ?>
@@ -590,9 +617,6 @@ else{
       <br>
       <li class ="requiredCourses"> PhD Course Check <?php echo $_SESSION['PhDreq']; ?></li>
       <span class = "err"><?php echo $PhDreqErr; ?></span>
-      <?php
-
-
 
 //check if thesis is yes or no
 $query = "SELECT Thesis FROM requirements WHERE program = 'MS'";
@@ -641,5 +665,7 @@ if (($result->num_rows) > 0){
 
 
   </body>
-</html>
+<?php
 
+   ?>
+</html>
