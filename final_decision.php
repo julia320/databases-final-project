@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>Update Final Decision</title>
-	<!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+	<link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
@@ -30,17 +30,17 @@
 		}
 		else if (isset($_POST['submit'])) {
 			if ($_POST['decision'] == 'Reject') {
-				$r = mysqli_query($conn, "UPDATE app_review SET status=6 WHERE uid=".$_SESSION['applicantID']);
+				$r = mysqli_query($conn,"UPDATE app_review SET status=8 WHERE uid=".$_SESSION['applicantID']);
 				if (!$r)
 					echo "Error: ".mysqli_error();
 			}
 			else if ($_POST['decision']=='Borderline Admit' || $_POST['decision']=='Admit Without Aid') {
-				$r = mysqli_query($conn, "UPDATE app_review SET status=4 WHERE uid=".$_SESSION['applicantID']);
+				$r = mysqli_query($conn,"UPDATE app_review SET status=6 WHERE uid=".$_SESSION['applicantID']);
 				if (!$r)
 					echo "Error: ".mysqli_error();
 			}
 			else if ($_POST['decision'] == 'Admit With Aid') {
-				$r = mysqli_query($conn, "UPDATE app_review SET status=5 WHERE uid=".$_SESSION['applicantID']);
+				$r = mysqli_query($conn,"UPDATE app_review SET status=7 WHERE uid=".$_SESSION['applicantID']);
 				if (!$r)
 					echo "Error: ".mysqli_error();
 			}
@@ -83,11 +83,11 @@
 
 		// if CAC has reviewed, show the final decision
 		else {
-			if ($row['status'] == 4) 
+			if ($row['status'] == 6) 
 				echo "<p>The final decision made by the CAC was to admit without aid</p>";
-			else if ($row['status'] == 5) 
+			else if ($row['status'] == 7) 
 				echo "<p>The final decision made by the CAC was to admit with aid</p>";
-			else if ($row['status'] == 6) 
+			else if ($row['status'] == 8) 
 				echo "<p>The final decision made by the CAC was to reject the student</p>";
 			else 
 				echo "<p>Error: The CAC made a review but an invalid decision is stored</p>";
