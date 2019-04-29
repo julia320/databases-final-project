@@ -244,24 +244,55 @@
             $nextItem = true;
         }
 
-        //FORM 1 FROM ADS
-        $form1Prompt = "";
-        $form1Action = "mainPage.php";
-        if ($type == "MS" || $type == "PHD") {
-            $form1Prompt = "View/Create Form 1";
+        //ASSIGN ADVISORS
+        $assignPrompt = "";
+        $assignAction = "";
+        if ($type == "secr") {
+            $assignAction = "assignAdvisor.php";
+            $assignPrompt = "Assign Students Advisors";
         } else {
             $nextItem = false;
         }
 
         if ($nextItem) {
-            echo "<div class=\"main-menu\"><form action=\"" . $form1Action . "\"><input type=\"submit\" value=\"" . $form1Prompt . "\"/></form></div>";
+            echo "<div class=\"main-menu\"><form action=\"" . $assignAction . "\"><input type=\"submit\" value=\"" . $assignPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
+        //FORM 1 FROM ADS
+        $form1Prompt = "";
+        $form1Action = "";
+        if ($type == "MS" || $type == "PHD") 
+        {
+            $query = "SELECT * FROM form1 WHERE u_id = '$sessionID'";
+            $result = mysqli_query($conn, $query);
+            //$result = $mysqli->query($query);
+            if (mysqli_num_rows($result) == 0) 
+            {
+                $form1Prompt = "Create Form 1";
+                $form1Action = "form1.php";
+            }
+            else
+            {
+                $form1Prompt = "View Form 1";
+                $form1Action = "viewform.php";
+            }
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) 
+        {
+            
+                echo "<div class=\"main-menu\"><form action=\"" . $form1Action . "\"><input type=\"submit\" value=\"" . $form1Prompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
 
         //APPLY TO GRADUATE (ADS)
         $gradPrompt = "";
-        $gradAction = "Profile.php";
+        $gradAction = "applytograd.php";
         if ($type == "MS" || $type == "PHD") {
             $gradPrompt = "Apply to Graduate";
         } else {
