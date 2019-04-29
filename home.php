@@ -109,6 +109,9 @@
 				if ($row['status'] == 7) {
 					echo "<p style='text-align: center;'>You have also been selected for financial aid, please speak to our office about that.</p>";
 				}
+
+				// Matriculation
+				echo "<p style='text-align: center;'>NOTE: In order to accept your spot, you must send in a $50 deposit by mail. Once this deposit has been received, you will be able to register for classes.</p>";
 			}
 
 			// if they were rejected
@@ -174,11 +177,11 @@
 			// search bar for the secretary to find applicants
 			echo "<form align='center' method='post' action='home.php'>
 				<input name='search' type='text'>
-				<input name='submit' type='submit' value='Search for applicant'>
+				<input name='searchSubmit' type='submit' value='Search for applicant'>
 				</form></br></br>";
 
 			// get all the applicants who match search and have submitted an application
-			if (isset($_POST['submit'])) {
+			if (isset($_POST['searchSubmit'])) {
 				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
 			}
 			
@@ -188,7 +191,7 @@
 			// Show completed apps that match the search
 			if ($resultSearch->num_rows > 0) 
 				secrTable($resultSearch);
-			else if (isset($_POST['submit']))
+			else if (isset($_POST['searchSubmit']))
 				echo "<p style='text-align:center; color:red;'>There are currently no applications under that name.</p>";			
 
 			// Show the rest of the completed applications
