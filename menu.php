@@ -73,20 +73,6 @@
             $nextItem = true;
         }
 
-        // VIEW USERS
-        if ($type == "secr") {
-            $viewStudentsPrompt = "View Students";
-            $viewStudentsAction = "viewstudents.php";
-        }
-        else {
-            $nextItem = false;
-        }
-        if ($nextItem) {
-            echo "<div class=\"main-menu\"><form action=\"" . $viewStudentsAction . "\"><input type=\"submit\" value=\"" . $viewStudentsPrompt . "\"/></form></div>";
-        } 
-        else {
-            $nextItem = true;
-        }
 
         //VIEW SCHEDULE
         $schedulePrompt = "";
@@ -115,7 +101,7 @@
         $transPrompt = "";
         if ($type == "admin" || $type == "secr" || $type == "inst" || $type == "adv") {
             $transAction = "viewTransAdmin.php";
-            $transPrompt = "View Transcripts";
+            $transPrompt = "View Student Transcripts";
         } else if ($type == "MS" || $type == "PHD") {
             $transAction = "viewtrans.php";
             $transPrompt = "View My Transcript";
