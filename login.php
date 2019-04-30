@@ -50,6 +50,7 @@
 		// if they tried to sign up, validate data and add to database
 		if (isset($_POST['signup'])) {
 			$_SESSION['type'] = 'App';
+			
 			sign_up($conn);
 		}
 	?>
@@ -156,13 +157,14 @@
 	            $_SESSION['id'] = $row['max'] + 1;
 
 	            // add info to the database
-	            $query = "INSERT INTO user (type, fname, lname, ssn, street, city, state, zip, password, email, uid) VALUES ('App', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['ssn']."', '".$_POST['street']."', '".$_POST['city']."', '".$_POST['state']."', '".$_POST['zip']."', '".$_POST['password']."', '".$_POST['email']."', ".$_SESSION['id'].")";
+	            $query = "INSERT INTO user (type, fname, lname, ssn, street, city, state, zip, password, email, uid, active) VALUES ('App', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['ssn']."', '".$_POST['street']."', '".$_POST['city']."', '".$_POST['state']."', '".$_POST['zip']."', '".$_POST['password']."', '".$_POST['email']."', ".$_SESSION['id'].", 'yes')";
 	            //JACK: I added these additional queries when creating a user to make the app forms work properly
 	            $query2 = "INSERT INTO app_review (uid, reviewerRole) VALUES (" .$_SESSION['id']. ", 'rev')";
 	            $query3 = "INSERT INTO app_review (uid, reviewerRole) VALUES (" .$_SESSION['id']. ", 'cac')";	
 	            if (mysqli_query($conn, $query)&&mysqli_query($conn, $query2)&&mysqli_query($conn, $query3)) {
 					$_SESSION['type'] = 'App';
-                    $_SESSION['errS'] = "";
+					$_SESSION['errS'] = "";
+					$_SESSION['uid'] = $_SESSION['id'];
                     $_SESSION["loggedin"] = TRUE;
 					echo "redirect";
                     header("Location: menu.php");
