@@ -415,12 +415,9 @@ if (isset($_POST['submit'])) {
 					<title>Invitation To Write Recommendation Letter</title>
 				</head>
 				<body>
-					<p>
-						' . $fname . ' ' . $lname . ' has requested a letter of recommendation from you. If you
-						are interested, please copy the uid and follow the link below.<br>
-						uid: ' . $_SESSION["id"] . '<br><br>
+					<p>'. $fname.' '.$lname.' has requested a letter of recommendation from you. If you are interested, please copy the UID and follow the link below.<br>
+						UID: ' . $_SESSION["uid"].'<br><br>
 						<a href="http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpookyLlamas/rec_letter.php "> http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpookyLlamas/rec_l0etter.php </a>
-
 					</p>
 				</body>
 				</html>';
@@ -446,8 +443,8 @@ if (isset($_POST['submit'])) {
 <html>
   <head>
 	  <title>Application Form</title>
-	  <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-	  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+	  <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+	  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
 	  <link rel = "stylesheet" type="text/css" href="style.css"/>
 
 	  <style>
