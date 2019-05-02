@@ -41,7 +41,7 @@
 		echo "<form action=\"menu.php\"><input type=\"submit\" value=\"Menu\"/></form></div>";
 
         // if user is an applicant, show their status
-        if ($_SESSION['type'] == "App") {
+        if (strpos($_SESSION['type'], "App")!=FALSE) {
 
         	// page header info
         	echo "<div ><h2 style='text-align: center;'>Applicant Home Page</h2>
@@ -127,7 +127,7 @@
 
 
 		// if the user is a reviewer, show them the list of applicants
-		else if ($_SESSION['type'] == "rev" || $_SESSION['type'] == "cac") {
+		else if (strpos($_SESSION['type'], "rev") != FALSE || strpos($_SESSION['type'], "cac")!=FALSE) {
 
 			// page header info
         	echo "<h2 style='text-align: center;'>Reviewer Home Page</h2>
@@ -165,10 +165,9 @@
 
 		}// end-reviewer view
 
-
-
+		
 		// if the user is a Grad Secretary, let them search for applicants, mark docs as received 
-		else if ($_SESSION['type'] == "secr" || $_SESSION['type'] == "admin") {
+		else if (strpos($_SESSION['type'], "secr")!=FALSE || strpos($_SESSION['type'],"admin")!=FALSE) {
 
 			// header information
 			echo "<h2 style='text-align: center;'>Graduate Secretary Home Page</h2>
