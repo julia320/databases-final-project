@@ -33,6 +33,7 @@ CREATE TABLE user (
   donation int(15) DEFAULT 0,
   advisor int(8),
   phone varchar(10),
+  hold varchar(5),
   PRIMARY KEY (uid)
 );
 
