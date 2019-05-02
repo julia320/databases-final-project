@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS room CASCADE;
 DROP TABLE IF EXISTS user CASCADE;
 
 CREATE TABLE user (
-  type varchar(5),
+  type varchar(50),
   uid int(8) auto_increment,
   password varchar(20),
   fname varchar(20),

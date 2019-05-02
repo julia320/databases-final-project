@@ -27,34 +27,34 @@
         $role = "";
         for($i=0; $i<count($typeArray); $i++) {
             if ($typeArray[$i] == "admin") {
-                $role += "Admin";
+                $role = $role."Admin";
             } else if ($typeArray[$i] == "MS") {
-                $role += "Masters Student";
+                $role = $role."Masters Student";
             } else if ($typeArray[$i] == "PHD") {
-                $role += "PhD Student";
+                $role = $role."PhD Student";
             } else if ($typeArray[$i] == "inst") {
-                $role += "Instructor";
+                $role = $role."Instructor";
             } else if ($typeArray[$i] == "secr") {
-                $role += "Secretary";
+                $role = $role."Secretary";
             } else if ($typeArray[$i] == "alum") {
-                $role += "Alumni";
+                $role = $role."Alumni";
             } else if ($typeArray[$i] == "adv") {
-                $role += "Advisor";
+                $role = $role."Advisor";
             } else if ($typeArray[$i] == "App") {
-                $role += "Applicant";
+                $role = $role."Applicant";
             } else if ($typeArray[$i] == "reg") {
-                $role += "Registrar";
+                $role = $role."Registrar";
             } else if ($typeArray[$i] == "cac") {
-                $role += "CAC";
+                $role = $role."CAC";
             } else if ($typeArray[$i] == "rev") {
-                $role += "Reviewer";
+                $role = $role."Reviewer";
             } else {
                 echo "ERROR";
                 die();
             }
             
-            if(count($typeArray)>1) {
-                $role += ", ";
+            if($i!=(count($typeArray)-1)) {
+                $role = $role.", ";
             }
         }
 
