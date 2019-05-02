@@ -74,8 +74,8 @@
   <title>
     Recomendation Letter
   </title>
-  <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" /> -->
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/>
   
   <style>
@@ -84,18 +84,16 @@
       left: 140px;
     }
     body{line-height: 1.6;}
-    .bottomCentered{
-       position: fixed;   
-       text-align: center;
-       bottom: 30px;
-       width: 100%;
-    }
     .error {color: #FF0000;}
   </style>
-  
-   <h1> Write Your Recommendation </h1>
    
   <body>
+
+    <form class="menu-button" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+        <input type="submit" value="Back" formaction="menu.php">
+    </form>
+
+    <h2> Write Your Recommendation </h2>
     
     <form id="mainform" method="post">
       Enter the student's uid that was supplied in the email: <br>
@@ -104,10 +102,11 @@
       <br><br>
       
       <h3> Write recommendation below </h3>
-      <textarea rows="50" cols="100" name="rec" form="mainform"> Enter Recommendation (250 words max)</textarea> <br>
+      <h5>(250 words maximum)</h5>
+      <textarea rows="50" cols="100" name="rec" form="mainform"></textarea> <br>
       <span class="error"><?php echo " " . $recErr;?></span></span>
 
-      <div class="bottomCentered"><input type="submit" name="submit" value="Submit Recommendation"> </div>
+      <input type="submit" name="submit" value="Submit Recommendation">
 
     </form>
       
