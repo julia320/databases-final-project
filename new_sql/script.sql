@@ -75,42 +75,40 @@ CREATE TABLE transcript (
   foreign key (crn) references course(crn)
 );
 
-
 CREATE TABLE requirements(
-     program varchar(25) NOT NULL,
-     GPA DECIMAL(3,2),
-     NumCredits int(5),
-     Thesis varchar(25),
-     CScredits int(5),
-     nonCScourses int(5),
-     Blower int(5),
-     suspensionCount int(5),
-     primary key(program)
-   );
+  program varchar(25) NOT NULL,
+  GPA DECIMAL(3,2),
+  NumCredits int(5),
+  Thesis varchar(25),
+  CScredits int(5),
+  nonCScourses int(5),
+  Blower int(5),
+  suspensionCount int(5),
+  primary key(program)
+);
 
 CREATE TABLE corereq(
-     crn int(10) NOT NULL,
-     dept varchar(30) NOT NULL,
-     program varchar(20),
-     primary key(crn, program),
-     foreign key(program) REFERENCES requirements(program),
-     foreign key(crn) REFERENCES course(crn)
-   );
+  crn int(10) NOT NULL,
+  dept varchar(30) NOT NULL,
+  program varchar(20),
+  primary key(crn, program),
+  foreign key(program) REFERENCES requirements(program),
+  foreign key(crn) REFERENCES course(crn)
+);
 
 
 CREATE TABLE form1(
-   u_id int(8) NOT NULL,
-   crn int(10) NOT NULL,
-   primary key(crn,u_id),
-   foreign key(u_id) references user(uid)
-  );
-
-CREATE TABLE thesis_status(
-   u_id int(8),
-   status varchar(25),
-   primary key(u_id)
+  u_id int(8) NOT NULL,
+  crn int(10) NOT NULL,
+  primary key(crn,u_id),
+  foreign key(u_id) references user(uid)
 );
 
+CREATE TABLE thesis_status(
+  u_id int(8),
+  status varchar(25),
+  primary key(u_id)
+);
 
 CREATE TABLE academic_info (
   uid int(8) NOT NULL,
@@ -195,12 +193,12 @@ insert into user (fname, lname, street, city, state, zip, phone, email, password
   ("Maya", "Shende", "Massachusetts Ave", "Washington", "DC", 20052, "4567890123", "mshende@gwu.edu", "123456", "yes", "secr"),
   ("Bhagi", "Narahari", "South Carolina Ave", "Washington", "DC", 20052, "4567890123", "bnarahari@gwu.edu", "123456", "yes", "inst"),
   ("Hyeong-Ah", "Choi", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "choi@gwu.edu", "123456", "yes", "inst"),
-  ("Gabe", "Parmer", "Virignia Ave", "Washington", "DC", 20052, "4567890123", "gparmer@gwu.edu", "123456", "yes", "adv"),
+  ("Gabe", "Parmer", "Virignia Ave", "Washington", "DC", 20052, "4567890123", "gparmer@gwu.edu", "123456", "yes", "adv,inst"),
   ("Tim", "Wood", "Maryland Ave", "Washington", "DC", 20052, "4567890123", "wood@gwu.edu", "123456", "yes", "rev"),
   ("Rachelle", "Heller", "New York Ave", "Washington", "DC", 20052, "4567890123", "heller@gwu.edu", "123456", "yes", "rev"),
   ("Richard", "Sear", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "searri@gwu.edu", "123456", "yes", "MS"),
   ("Selin", "Onal", "Pennsylvania Ave", "Washington", "DC", 20052, "2345678901", "selingonal@gwu.edu", "123456", "no", "PHD"),
-  ("John", "Smith", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "yes", "cac");
+  ("John", "Smith", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "yes", "cac,rev,inst");
 
 insert into user (fname, lname, uid, street, city, state, zip, phone, email, password, active, type) VALUES
 
