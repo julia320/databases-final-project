@@ -57,6 +57,7 @@
                 $role = $role.", ";
             }
         }
+        $_SESSION['types'] = $typeArray;
 
         echo "<div style=\"text-align: center;\"><div style=\"display: inline-block; width: 80%;\">";
         echo "Welcome, " . $_SESSION['fname'] . ". You are logged in with " . $role . " privileges.<br><br>";

@@ -34,14 +34,13 @@
 
         // connect to the database
 		$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
-
 		
 		//"back to menu" button
 		echo "<div style=\"display: inline-block;\" class=\"menu-button\">";
 		echo "<form action=\"menu.php\"><input type=\"submit\" value=\"Menu\"/></form></div>";
 
         // if user is an applicant, show their status
-        if (strpos($_SESSION['type'], "App")!=FALSE) {
+        if (in_array("App", $_SESSION['types'])) {
 
         	// page header info
         	echo "<div ><h2 style='text-align: center;'>Applicant Home Page</h2>
@@ -127,7 +126,7 @@
 
 
 		// if the user is a reviewer, show them the list of applicants
-		else if (strpos($_SESSION['type'], "rev") != FALSE || strpos($_SESSION['type'], "cac")!=FALSE) {
+		else if (in_array("rev", $_SESSION['types']) || in_array("cac", $_SESSION['types'])) {
 
 			// page header info
         	echo "<h2 style='text-align: center;'>Reviewer Home Page</h2>
@@ -167,7 +166,7 @@
 
 		
 		// if the user is a Grad Secretary, let them search for applicants, mark docs as received 
-		else if (strpos($_SESSION['type'], "secr")!=FALSE || strpos($_SESSION['type'],"admin")!=FALSE) {
+		else if (in_array("secr", $_SESSION['types']) || in_array("admin", $_SESSION['types'])) {
 
 			// header information
 			echo "<h2 style='text-align: center;'>Graduate Secretary Home Page</h2>
