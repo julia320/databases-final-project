@@ -18,7 +18,6 @@ Updated 4/29/19
 - Update all UIs
 - Implement Advising Hold
 - Fill out form to lift Hold
-- Update Menu to handle multiple user types
 - Generate list of admitted students based on semester, year, or program (accessed by GS)
 - Generate list of current students based on degree or admit year (accessed by GS)
 - Generate transcript for student
