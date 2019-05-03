@@ -46,7 +46,7 @@
 
 			// display results
 			if ($searchResult->num_rows > 0) 
-				showTable($searchResult);
+				echo getTable($searchResult);
 			else
 				echo "<p style='text-align:center; color:red;'>There are currently no accepted students with that name.</p>";
 		}
@@ -58,7 +58,7 @@
 	    // Show the rest of the completed applications
 		if ($result->num_rows > 0) {
 			echo "</table><br/>&nbsp<br/>&nbsp<br/> <h3 style='text-align:center;'>All Applicants:</h3>";
-			showTable($result);
+			echo getTable($result);
 		}
 		else 
 			echo "<p style='text-align:center;'>There are currently no submitted applications.</p>";
@@ -74,7 +74,7 @@
 			for ($i=0; $i < $ppl->num_rows; $i++) {
 				$row = $ppl->fetch_assoc();
 				if (isset($_POST[$row['uid']])) {
-					echo "<br/>".$row['uid']." has been given student priveleges.";
+					echo "<br/><p style='text-align:center;'>".$row['uid']." has been given student priveleges.</p>";
 					// get what program they applied for 
 					$q = "SELECT degreeType FROM academic_info WHERE uid=".$row['uid'];
 					$r = mysqli_query($conn,$q) or die ("Error finding degree program: ".mysqli_error($conn));
@@ -88,19 +88,20 @@
 		}
 
 
-        function showTable ($results)
+        function getTable ($results)
         {
         	// start table
-			echo "<table border='1' align='center'; style='border-collapse: collapse;'>
+			$table = "<table border='1' align='center'; style='border-collapse: collapse;'>
 	        	<tr><th>First Name</th><th>Last Name</th><th>Deposit Received?</th></tr>";
 
 		    // show each applicant with a box to check if the deposit was received
 			for ($i=0; $i < $results->num_rows; $i++) {
 				$row = $results->fetch_assoc();
 
-				echo "<tr><td>".$row['fname']."</td><td>".$row['lname']."</td>
+				$table .= "<tr><td>".$row['fname']."</td><td>".$row['lname']."</td>
 	              	<td><input type='checkbox' name='".$row['uid']."' value='1'></td></tr>";
 			}
+			return $table;
         }
     ?>
 </body>
