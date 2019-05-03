@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta charset="utf-8">
-  <title>Advisor Page</title>
-  <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-  <link rel = "stylesheet" type="text/css" href="style.css"/>
+    <meta charset="utf-8">
+    <title>Advisor Page</title>
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+    <link rel = "stylesheet" type="text/css" href="style.css"/>
 </head>
 
 <body>
@@ -38,9 +38,9 @@
       echo "<p>You do not have any advisees.</p>";
 
     while ($row = mysqli_fetch_assoc($result)) {
-      ?>
+      ?><div class="student-info">
         <form class="student-info" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
-            <div class="student-info">
+            
             <?php echo $row["uid"] . " " . $row["fname"] . " " . $row["lname"]; ?>
             <input hidden type="text" name="uid" value="<?php echo $row['uid']; ?>">
             <input type="submit" name="form1" value="View Form1">
@@ -49,10 +49,17 @@
                 echo "<input type='submit' name='Thesis' value='Approve Thesis'>";
             }
           ?>
-            </div>
+
+        <?php
+            if ($row['hold'] == 'yes') {
+                echo '<input type="submit" name="hold" value="View & Approve Advising Form">';
+            }
+          ?>
+            
         </form>
+        </div>
     <?php
-    }// End: viewing students
+    }// End: viewing studentsdsfa;dd
 
 
 	// Advisor views alumni
@@ -90,6 +97,12 @@
             echo "<br/>CRN: ".$row["form1.crn"]." Department: ".$row["dept"]." Semester: ".$row["semester"]." Year: ".$row['year']."<br/>";
         }
         echo "</div>";
+    }
+
+    if(isset($_POST['hold'])){
+        header("Location: approve-adv-form.php");
+        $_SESSION['studuid'] = $_POST['uid'];
+        die();
     }
 //}
 
