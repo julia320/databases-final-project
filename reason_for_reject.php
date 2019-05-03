@@ -27,13 +27,11 @@
 ?>
 
 <html>
-  
-  <title>
-    Reject
-  </title>
-  <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" /> -->
-    <link rel = "stylesheet" type="text/css" href="style.css"/>
+<head>
+  <title>Reject</title>
+  <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" /> 
+  <link rel = "stylesheet" type="text/css" href="style.css"/>
   
   <style>
     body{
@@ -47,21 +45,28 @@
     }
     .error {color: #FF0000;}
   </style>
+</head>
   
+<body>
+
   <h2> Reason for rejecting applicant: </h2>
 
-  <body>
-    <!--app entity list -->
-    <form id="mainform" method="post">
+  <form class="menu-button" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+    <input type="submit" value="Back" formaction="menu.php">
+  </form>
 
-      A <input type="radio" name="reason" value="A" > Incomplete record <br>
-      B <input type="radio" name="reason" value="B" > Does not meet minimum requirements <br>
-      C <input type="radio" name="reason" value="C" > Problems with letters <br>
-      D <input type="radio" name="reason" value="D" > Not competitive <br>
-      E <input type="radio" name="reason" value="E" > Other reasons <br>
+  <!--app entity list -->
+  <form id="mainform" method="post">
 
-      <div class="bottomCentered"><input type="submit" name="submit" value="Submit Review">
-      <span class="error"><?php echo $somethingEmpty;?></span></div>
-    </form>
-  </body>
+    A <input type="radio" name="reason" value="A" > Incomplete record <br>
+    B <input type="radio" name="reason" value="B" > Does not meet minimum requirements <br>
+    C <input type="radio" name="reason" value="C" > Problems with letters <br>
+    D <input type="radio" name="reason" value="D" > Not competitive <br>
+    E <input type="radio" name="reason" value="E" > Other reasons <br>
+
+    <div class="bottomCentered"><input type="submit" name="submit" value="Submit Review">
+      <span class="error"><?php echo $somethingEmpty;?></span>
+    </div>
+  </form>
+</body>
 </html>
