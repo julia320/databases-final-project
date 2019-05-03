@@ -133,13 +133,19 @@
         } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
             $activeQuery = "select active from user where uid=" . $_SESSION["uid"];
             $activeOrNot = mysqli_fetch_assoc(mysqli_query($connection, $activeQuery))["active"];
-            if ($activeOrNot == "yes") {
+            $holdQuery = "select hold from user where uid=" . $_SESSION["uid"];
+            $holdOrNot = mysqli_fetch_assoc(mysqli_query($connection, $holdQuery))["hold"];
+            if ($activeOrNot == "yes" && $holdOrNot == "no") {
                 $addAction = "add-drop.php";
                 $_SESSION["studuid"] = $_SESSION["uid"];
                 $addPrompt = "Add/Drop Classes";
             } else {
                 $nextItem = false;
-                echo "To register for classes, you must be active. Contact a system admin to change your status.";
+                if($activeOrNot == "no") {
+                    echo "To register for classes, you must be active. Contact a system admin to change your status.";
+                } else if($holdOrNot == "yes") {
+                    echo "↓    Before you register, your advisor must approve your advising form    ↓";
+                }
             }
         } else {
             $nextItem = false;
@@ -147,6 +153,39 @@
 
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $addAction . "\"><input type=\"submit\" value=\"" . $addPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
+        //ADVISING FORMS
+        $advFormPrompt = "";
+        $advFormAction = "";
+        if (in_array("admin", $typeArray) || in_array("adv", $typeArray)) {
+            $advFormAction = "approve-adv-form.php";
+            $advFormPrompt = "Approve Student Advising Forms";
+        } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
+            $advFormQuery = "select hold from user where uid=" . $_SESSION["uid"];
+            $holdOrNot = mysqli_fetch_assoc(mysqli_query($connection, $advFormQuery))["hold"];
+            if ($holdOrNot == "yes") {
+                $advFormQuery = "select * from adv_form where uid=" . $_SESSION["uid"];
+                $awaitingApproval = mysqli_query($connection, $activeQuery);
+                if(mysqli_num_rows($awaitingApproval) <= 0) {
+                    $nextItem = true;
+                    $advFormAction = "submit-adv-form.php";
+                    $advFormPrompt = "Submit Advising Form";
+                } else {
+                    echo "<br>Your form has been submitted. Check back when you advisor approves it.<br>";
+                    $nextItem = false;
+                }
+            } else {
+                $nextItem = false;
+            }
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $advFormAction . "\"><input type=\"submit\" value=\"" . $advFormPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
