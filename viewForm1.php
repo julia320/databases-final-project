@@ -35,7 +35,7 @@
 
             //Connect to database
             $servername = "localhost";
-            $username = "ARGV";
+            $username = "ARGv";
             $password = "CSCI2541_sp19";
             $dbname = "ARGv";
             $connection = mysqli_connect($servername, $username, $password, $dbname);
@@ -48,7 +48,7 @@
             //no UID search
             if($_SESSION['type'] == "adv")
             {
-                $query = "select fname, lname, uid, email, type from user where advisor = '$uid' and type = 'MS' or type = 'PHD'";
+                $query = "select distinct u.fname, u.lname, u.uid, u.email, u.type from user u, form1 f where advisor = '$uid' and f.uid = u.uid and (u.type = 'MS' or u.type = 'PHD')";
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
                     echo "<table>";
@@ -75,17 +75,20 @@
                 else 
                 {
                     //If nothing came back from the query, there was a problem
-                    die("Bad query: ".mysqli_error());
+                    die("Bad query: None of your advisees have completed Form1.");
                 } 
             }
-            else if(empty($_POST["uid"])) {
-                $query = "select fname, lname, uid, email, type from user where type = 'MS' or type = 'PHD'";
+            else if(empty($_POST["uid"])) 
+            {
+                $query = "select distinct u.fname, u.lname, u.uid, u.email, u.type from user u, form1 f where f.uid = u.uid and (type = 'MS' or type = 'PHD')";
                 $result = mysqli_query($connection, $query);
-                if (mysqli_num_rows($result) > 0) {
+                if (mysqli_num_rows($result) > 0) 
+                {
                     echo "<table>";
                     //Display a table of all the students
                     echo "<thead><tr><th>First Name</th><th>Last Name</th><th>UID</th><th>Email</th><th>Student Type</th></tr></thead>";
-                    while ($row = mysqli_fetch_assoc($result)) {
+                    while ($row = mysqli_fetch_assoc($result)) 
+                    {
                         echo "<tr>";
                         echo "<td>" . $row["fname"] . "</td>";
                         echo "<td>" . $row["lname"] . "</td>";
@@ -102,9 +105,10 @@
                     }
                     echo "</table>";
 
-                } else {
+                } 
+                else {
                     //If nothing came back from the query, there was a problem
-                    die("Bad query: ".mysqli_error());
+                    die("Bad query: No students have completed Form1.");
                 }
 
             //A specific UID was searched
