@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Cabin');
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin');
 
 :root {
-  --main-color: #522e8b;
-  --main-font: 'Cabin', sans-serif;
+  --main-color: #2e698b;
+  --main-font: 'Libre Franklin', sans-serif;
 }
 
 * {

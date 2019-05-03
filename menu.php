@@ -21,35 +21,44 @@
             die();
         }
 
-        //determine what type of user is currently logged in
+        //determine the user types of the logged in user
         $type = $_SESSION['type'];
+        $typeArray = explode(",", $type);
         $role = "";
-        if ($type == "admin") {
-            $role = "Admin";
-        } else if ($type == "MS") {
-            $role = "Masters Student";
-        } else if ($type == "PHD") {
-            $role = "PhD Student";
-        } else if ($type == "inst") {
-            $role = "Instructor";
-        } else if ($type == "secr") {
-            $role = "Secretary";
-        } else if ($type == "alum") {
-            $role = "Alumni";
-        } else if ($type == "adv") {
-            $role = "Advisor";
-        } else if ($type == "App") {
-            $role = "Applicant";
-        } else if ($type == "reg") {
-            $role = "Registrar";
-        } else if ($type == "cac") {
-            $role = "CAC";
-        } else if ($type == "rev") {
-            $role = "Reviewer";
-        } else {
-            header("Location: login-regs.php");
-            die();
+        for($i=0; $i<count($typeArray); $i++) {
+            if ($typeArray[$i] == "admin") {
+                $role = $role."Admin";
+            } else if ($typeArray[$i] == "MS") {
+                $role = $role."Masters Student";
+            } else if ($typeArray[$i] == "PHD") {
+                $role = $role."PhD Student";
+            } else if ($typeArray[$i] == "inst") {
+                $role = $role."Instructor";
+            } else if ($typeArray[$i] == "secr") {
+                $role = $role."Secretary";
+            } else if ($typeArray[$i] == "alum") {
+                $role = $role."Alumni";
+            } else if ($typeArray[$i] == "adv") {
+                $role = $role."Advisor";
+            } else if ($typeArray[$i] == "App") {
+                $role = $role."Applicant";
+            } else if ($typeArray[$i] == "reg") {
+                $role = $role."Registrar";
+            } else if ($typeArray[$i] == "cac") {
+                $role = $role."CAC";
+            } else if ($typeArray[$i] == "rev") {
+                $role = $role."Reviewer";
+            } else {
+                echo "ERROR";
+                die();
+            }
+            
+            if($i!=(count($typeArray)-1)) {
+                $role = $role.", ";
+            }
         }
+        $_SESSION['types'] = $typeArray;
+
         echo "<div style=\"text-align: center;\"><div style=\"display: inline-block; width: 80%;\">";
         echo "Welcome, " . $_SESSION['fname'] . ". You are logged in with " . $role . " privileges.<br><br>";
         $nextItem = true;
@@ -59,13 +68,13 @@
 
         //EDIT PROFILE (ADD/EDIT IF ADMIN)
         $editInfoPrompt = "";
-        if ($type == "admin") {
+        if (in_array("admin", $typeArray)) {
             $editInfoPrompt = "Edit/Manage Profiles";
             $editInfoAction = "manageusers.php";
         } else {
             $editInfoPrompt = "Edit Profile";
             $editInfoAction = "edit-info-reg.php";
-        } 
+        }
 
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $editInfoAction . "\"><input type=\"submit\" value=\"" . $editInfoPrompt . "\"/></form></div>";
@@ -73,19 +82,18 @@
             $nextItem = true;
         }
 
-
         //VIEW SCHEDULE
         $schedulePrompt = "";
-        if ($type == "admin") {
+        if (in_array("admin", $typeArray)) {
             $scheduleAction = "view-schedule-admin.php";
             $schedulePrompt = "View Schedules";
-        } else if ($type == "MS" || $type == "PHD") {
+        } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
             $scheduleAction = "view-schedule-reg.php";
             $schedulePrompt = "View My Schedule";
-        } else if ($type == "inst") {
+        } else if (in_array("inst", $typeArray)) {
             $scheduleAction = "view-schedule-inst.php";
             $schedulePrompt = "View My Schedule";
-        } else if ($type == "secr") {
+        } else if (in_array("secr", $typeArray)) {
             $nextItem = false;
         } else {
             $nextItem = false;
@@ -99,10 +107,10 @@
 
         //TRANSCRIPTS
         $transPrompt = "";
-        if ($type == "admin" || $type == "secr" || $type == "inst" || $type == "adv") {
+        if (in_array("admin", $typeArray) || in_array("secr", $typeArray) || in_array("inst", $typeArray) || in_array("adv", $typeArray)) {
             $transAction = "viewTransAdmin.php";
             $transPrompt = "View Student Transcripts";
-        } else if ($type == "MS" || $type == "PHD") {
+        } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
             $transAction = "viewtrans.php";
             $transPrompt = "View My Transcript";
             $_SESSION["studuid"] = $_SESSION["uid"];
@@ -119,10 +127,10 @@
         //ADD/DROP
         $addPrompt = "";
         $addAction = "";
-        if ($type == "admin") {
+        if (in_array("admin", $typeArray)) {
             $addAction = "add-drop-admin.php";
             $addPrompt = "Edit Student Schedules (Add/Drop)";
-        } else if ($type == "MS" || $type == "PHD") {
+        } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
             $activeQuery = "select active from user where uid=" . $_SESSION["uid"];
             $activeOrNot = mysqli_fetch_assoc(mysqli_query($connection, $activeQuery))["active"];
             if ($activeOrNot == "yes") {
@@ -135,7 +143,7 @@
             }
         } else {
             $nextItem = false;
-        } 
+        }
 
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $addAction . "\"><input type=\"submit\" value=\"" . $addPrompt . "\"/></form></div>";
@@ -145,13 +153,13 @@
 
         //EDIT GRADES
         $editPrompt = "";
-        if ($type == "admin" || $type == "secr") {
+        if (in_array("admin", $typeArray) || in_array("secr", $typeArray)) {
             $editAction = "edit-grades-admin.php";
             $editPrompt = "Edit Grades";
-        } else if ($type == "inst") {
+        } else if (in_array("inst", $typeArray)) {
             $editAction = "edit-grades-inst.php";
             $editPrompt = "Edit Grades";
-        } else if ($type == "MS" || $type == "PHD") {
+        } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
             $nextItem = false;
         } else {
             $nextItem = false;
@@ -166,9 +174,12 @@
         //ROSTERS
         $rostPrompt = "";
         $rostAction = "";
-        if ($type == "admin" || $type == "secr") {
+        if (in_array("admin", $typeArray) || in_array("secr",$typeArray)) {
             $rostAction = "view-rosters.php";
             $rostPrompt = "View Course Rosters";
+        } else if (in_array("inst", $typeArray)) {
+            $rostAction = "view-rosters-inst.php";
+            $rostPrompt = "View My Rosters";
         } else {
             $nextItem = false;
         }
@@ -182,7 +193,7 @@
         //GRADUATION REQUIREMENTS
         $reqPrompt = "";
         $reqAction = "";
-        if ($type == "admin") {
+        if (in_array("admin", $typeArray)) {
             $reqAction = "req.php";
             $reqPrompt = "View Graduation Requirements";
         } else {
@@ -198,11 +209,11 @@
         //APPLICANT STATUS
         $statPrompt = "";
         $statAction = "home.php";
-        if ($type == "admin" || $type == "secr") {
+        if (in_array("admin", $typeArray) || in_array("secr", $typeArray)) {
             $statPrompt = "View/Update Applicants' Status";
-        } else if ($type == "rev" || $type == "cac") {
+        } else if (in_array("rev", $typeArray) || in_array("cac", $typeArray)) {
             $statPrompt = "Review Applications";
-        } else if ($type == "App") {
+        } else if (in_array("App", $typeArray)) {
             $statPrompt = "View Applicant Status";
         } else {
             $nextItem = false;
@@ -217,7 +228,7 @@
         //ADVISING OPTIONS
         $advPrompt = "";
         $advAction = "Advisor.php";
-        if ($type == "admin" || $type == "adv") {
+        if (in_array("admin", $typeArray) || in_array("adv", $typeArray)) {
             $advPrompt = "View Advising Options";
         } else {
             $nextItem = false;
@@ -232,7 +243,7 @@
         //DONATE
         $donPrompt = "";
         $donAction = "Alumni.php";
-        if ($type == "admin" || $type == "alum") {
+        if (in_array("admin", $typeArray) || in_array("alum", $typeArray)) {
             $donPrompt = "Donate";
         } else {
             $nextItem = false;
@@ -247,7 +258,7 @@
         //ASSIGN ADVISORS
         $assignPrompt = "";
         $assignAction = "";
-        if ($type == "secr") {
+        if (in_array("secr", $typeArray)) {
             $assignAction = "assignAdvisor.php";
             $assignPrompt = "Assign Students Advisors";
         } else {
@@ -263,18 +274,14 @@
         //FORM 1 FROM ADS
         $form1Prompt = "";
         $form1Action = "";
-        if ($type == "MS" || $type == "PHD") 
-        {
-            $query = "SELECT * FROM form1 WHERE u_id = '$sessionID'";
+        if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
+            $query = "SELECT * FROM form1 WHERE u_id = '".$_SESSION['uid']."'";
             $result = mysqli_query($conn, $query);
             //$result = $mysqli->query($query);
-            if (mysqli_num_rows($result) == 0) 
-            {
+            if (mysqli_num_rows($result) == 0) {
                 $form1Prompt = "Create Form 1";
                 $form1Action = "form1.php";
-            }
-            else
-            {
+            } else {
                 $form1Prompt = "View Form 1";
                 $form1Action = "viewform.php";
             }
@@ -282,10 +289,8 @@
             $nextItem = false;
         }
 
-        if ($nextItem) 
-        {
-            
-                echo "<div class=\"main-menu\"><form action=\"" . $form1Action . "\"><input type=\"submit\" value=\"" . $form1Prompt . "\"/></form></div>";
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $form1Action . "\"><input type=\"submit\" value=\"" . $form1Prompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
@@ -293,7 +298,7 @@
         //APPLY TO GRADUATE (ADS)
         $gradPrompt = "";
         $gradAction = "applytograd.php";
-        if ($type == "MS" || $type == "PHD") {
+        if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
             $gradPrompt = "Apply to Graduate";
         } else {
             $nextItem = false;
@@ -310,7 +315,7 @@
         //COURSE CATALOG (ADS)
         $catPrompt = "View Course Catalog";
         $catAction = "catalog.php";
-        // if ($type == "MS" || $type == "PHD") {
+        // if (in_array( "MS" || in_array( "PHD") {
         //     $catPrompt = "Apply to Graduate";
         // } else {
         //     $nextItem = false;

@@ -19,6 +19,7 @@
         <?php
             session_start();
             $dept = $_POST['coursedept'];
+            $_SESSION['redir'] = "view-rosters.php";
 
             //Ensure user is logged in
             $loggedin = $_SESSION['loggedin'];
@@ -28,7 +29,7 @@
             }
 
             //send to menu page if they don't have sufficient permissions
-            if(!($_SESSION['type']=="secr" || $_SESSION['type']=="admin")) {
+            if(!(in_array("secr", $_SESSION['types']) || in_array("admin", $_SESSION['types']))) {
                 header("Location: menu.php");
                 die();
             }
@@ -112,7 +113,7 @@
 
                 } else {
                     //If nothing came back from the query, there was a problem
-                    die("Bad query: ".mysqli_error());
+                    die("QUERY ERROR");
                 }
             } else {
                 //There WERE search terms, so display same info as above but for only the relevant courses
