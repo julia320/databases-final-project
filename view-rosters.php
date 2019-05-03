@@ -19,6 +19,7 @@
         <?php
             session_start();
             $dept = $_POST['coursedept'];
+            $_SESSION['redir'] = "view-rosters.php";
 
             //Ensure user is logged in
             $loggedin = $_SESSION['loggedin'];
@@ -112,7 +113,7 @@
 
                 } else {
                     //If nothing came back from the query, there was a problem
-                    die("Bad query: ".mysqli_error());
+                    die("QUERY ERROR");
                 }
             } else {
                 //There WERE search terms, so display same info as above but for only the relevant courses

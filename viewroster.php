@@ -46,7 +46,7 @@
             
             //Link to View Schedule
             echo "<div style=\"display: inline-block;\">";
-            echo "<form action=\"view-rosters.php\"><input type=\"submit\" value=\"Back to Course Selection\"/></form></div>";
+            echo "<form action=\"".$_SESSION['redir']."\"><input type=\"submit\" value=\"Back to Course Selection\"/></form></div>";
 
             $query = "select u.lname, u.fname, u.uid, u.email from user u, transcript t where t.uid=u.uid and t.grade='IP' and t.crn=".$crn." order by u.lname";
             $result = mysqli_query($connection, $query);

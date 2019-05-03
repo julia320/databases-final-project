@@ -177,6 +177,9 @@
         if (in_array("admin", $typeArray) || in_array("secr",$typeArray)) {
             $rostAction = "view-rosters.php";
             $rostPrompt = "View Course Rosters";
+        } else if (in_array("inst", $typeArray)) {
+            $rostAction = "view-rosters-inst.php";
+            $rostPrompt = "View My Rosters";
         } else {
             $nextItem = false;
         }
