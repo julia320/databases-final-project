@@ -145,7 +145,7 @@
 			}
 
 			// get all the applicants whose application is complete
-			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status=5 AND user.uid=app_review.uid");
+			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status=5 AND type='App' AND user.uid=app_review.uid");
 
 
 			// Show completed apps that match the search
@@ -182,10 +182,10 @@
 
 			// get all the applicants who match search and have submitted an application
 			if (isset($_POST['searchSubmit'])) {
-				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND type='App' AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
 			}
 			
-			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status>1 AND user.uid=app_review.uid");
+			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status>1 AND type='App' AND user.uid=app_review.uid");
 			
 
 			// Show completed apps that match the search
