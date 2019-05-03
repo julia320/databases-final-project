@@ -13,9 +13,7 @@
 
 	// run each query 
 	foreach ($queries as $q) {
-		$result = mysqli_query($conn, $q);
-		if (!result)
-			die ("Query failed: ".mysqli_error());
+		$result = mysqli_query($conn, $q) or die ("Query failed: ".$q."<br/>".mysqli_error($conn));
 	}
 
 	// close the file

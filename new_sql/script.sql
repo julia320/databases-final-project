@@ -200,7 +200,7 @@ CREATE TABLE adv_form(
 INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password, active, type) VALUES
   ("Dietrich", "Reidenbaugh", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin"),
   ("Maya", "Shende", "Massachusetts Ave", "Washington", "DC", 20052, "4567890123", "mshende@gwu.edu", "123456", "yes", "secr"),
-  ("Bhagi", "Narahari", "South Carolina Ave", "Washington", "DC", 20052, "4567890123", "bnarahari@gwu.edu", "123456", "yes", "inst"),
+  ("Bhagi", "Narahari", "South Carolina Ave", "Washington", "DC", 20052, "4567890123", "bnarahari@gwu.edu", "123456", "yes", "inst,adv"),
   ("Hyeong-Ah", "Choi", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "choi@gwu.edu", "123456", "yes", "inst"),
   ("Gabe", "Parmer", "Virignia Ave", "Washington", "DC", 20052, "4567890123", "gparmer@gwu.edu", "123456", "yes", "adv"),
   ("Tim", "Wood", "Maryland Ave", "Washington", "DC", 20052, "4567890123", "wood@gwu.edu", "123456", "yes", "rev"),
@@ -208,8 +208,8 @@ INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password
   ("Selin", "Onal", "Pennsylvania Ave", "Washington", "DC", 20052, "2345678901", "selingonal@gwu.edu", "123456", "no", "PHD"),
   ("John", "Smith", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "yes", "cac,rev,inst");
 
-INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password, active, type, hold) VALUES
-  ("Richard", "Sear", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "searri@gwu.edu", "123456", "yes", "MS", "yes");
+INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password, active, type, hold, advisor) VALUES
+  ("Richard", "Sear", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "searri@gwu.edu", "123456", "yes", "MS", "yes", 3);
   
 INSERT INTO user (fname, lname, uid, street, city, state, zip, phone, email, password, active, type) VALUES
   ("Eric", "Clapton", 7777777, "North Carolina Ave", "Washington", "DC", 20052, "4567890123", "eclapton@gwu.edu", "123456", "yes", "alum"),
@@ -240,7 +240,6 @@ INSERT INTO academic_info VALUES
   (00001234, "2017/01/07", "MS", "Cyber Security", "none", "FA", "2017", 1, 1), #Louis Armstrong
   (00001235, "2016/12/05", "MS", "Quantum Computing", "built a quantum computer", "FA", "2017", 1, 1), #Aretha Franklin
   (00001236, "2016/11/29", "PHD", "Cybersecurity", "government internship", "FA", "2017", 1, 1); #Carlos Santana
-
 
 INSERT INTO rec_letter VALUES
   ("Professor", "Man", "prof@gwu.edu", "George Washington University", 55555555, 1, "This is John Lennon's recommendation"),

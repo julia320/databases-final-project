@@ -117,7 +117,7 @@
       }
 
       //load general review info into datase
-      $sql = "UPDATE app_review SET reviewerRole = '" .$_SESSION['type']. "', rating = " .$action.", advisor = '" .$advisor. "', status = 3 WHERE reviewID = " .$reviewID. "";;
+      $sql = "UPDATE app_review SET reviewerRole = '" .$_SESSION['type']. "', rating = " .$action.", advisor = '" .$advisor. "', status = 5 WHERE reviewID = " .$reviewID. "";;
       $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO app_review SQL FAILED *************");
 
       //load rec review info into database

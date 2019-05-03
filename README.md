@@ -16,7 +16,6 @@ Updated 4/29/19
 
 ### Rick Sear
 - Update all UIs
-- Fill out form to lift Hold
 - Generate list of admitted students based on semester, year, or program (accessed by GS)
 - Generate list of current students based on degree or admit year (accessed by GS)
 - Generate transcript for student

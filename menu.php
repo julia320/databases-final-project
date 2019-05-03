@@ -160,16 +160,13 @@
         //ADVISING FORMS
         $advFormPrompt = "";
         $advFormAction = "";
-        if (in_array("admin", $typeArray) || in_array("adv", $typeArray)) {
-            $advFormAction = "approve-adv-form.php";
-            $advFormPrompt = "Approve Student Advising Forms";
-        } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
+        if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
             $advFormQuery = "select hold from user where uid=" . $_SESSION["uid"];
             $holdOrNot = mysqli_fetch_assoc(mysqli_query($connection, $advFormQuery))["hold"];
             if ($holdOrNot == "yes") {
                 $advFormQuery = "select * from adv_form where uid=" . $_SESSION["uid"];
-                $awaitingApproval = mysqli_query($connection, $activeQuery);
-                if(mysqli_num_rows($awaitingApproval) <= 0) {
+                $awaitingApproval = mysqli_query($connection, $advFormQuery);
+                if(!(mysqli_num_rows($awaitingApproval) > 0)) {
                     $nextItem = true;
                     $advFormAction = "submit-adv-form.php";
                     $advFormPrompt = "Submit Advising Form";

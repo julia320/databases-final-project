@@ -9,15 +9,15 @@
   }
   
   //FORM VALIDATION
-  function isValidUID($value){
-  	if (strlen($value) != 8){
-  		return false;
-  	}
-  	if (!is_numeric($value)){
-  		return false;
-  	}
-	return true;
-  }
+  // function isValidUID($value){
+  // 	if (strlen($value) != 8){
+  // 		return false;
+  // 	}
+  // 	if (!is_numeric($value)){
+  // 		return false;
+  // 	}
+	// return true;
+  // }
 
   $dataReady = true;
   if (isset($_POST['submit'])){
@@ -33,10 +33,10 @@
     	$uidErr = "Applicant uid is required";
     	$dataReady = false;
     }
-    else if (!isValidUID($uidTest)){
-    	$uidErr = "Invalid uid";
-    	$dataReady = false;
-    }
+    // else if (!isValidUID($uidTest)){
+    // 	$uidErr = "Invalid uid";
+    // 	$dataReady = false;
+    // }
     else{
     	$sql = "SELECT * FROM rec_letter WHERE uid = " .$uidTest. "";
     	$result = mysqli_query($conn, $sql) or die ("************* Select query failed *************");
@@ -89,15 +89,11 @@
    
   <body>
 
-    <form class="menu-button" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
-        <input type="submit" value="Back" formaction="menu.php">
-    </form>
-
     <h2> Write Your Recommendation </h2>
     
     <form id="mainform" method="post">
       Enter the student's uid that was supplied in the email: <br>
-      <input type="text" name="uid">
+      <input type="number" name="uid">
       <span class="error"><?php echo " " . $uidErr;?></span></span>
       <br><br>
       
