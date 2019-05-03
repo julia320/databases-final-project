@@ -8,6 +8,10 @@
 </head>
 <body>
 
+	<form class="menu-button" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+        <input type="submit" value="Menu" formaction="menu.php">
+    </form>
+
 	<?php session_start();
 
 		// if they aren't the GS, redirect them
@@ -71,42 +75,46 @@
 		$result = mysqli_query($conn, $q);
 		$row = $result->fetch_assoc();
 
-		// if no decision made, give them the option of viewing the application
-		if ($result->num_rows == 0 || $row['status'] < 4) {
-			echo "<p>The CAC has not reviewed this application yet, but you may still view the application and make a final decision.</p><br/>";
+		// only show if the application is complete
+		if ($row['status'] >= 5) {
 
-			// button to view the application
-			echo "<form action='application_view_form.php' method='post'>
-				<input type='submit' name='".$_SESSION['applicantID']."' value='View application'>
-				</form><br/>";
-		}
+			// if no decision made, give them the option of viewing the application
+			if ($row['status'] == 5) {
+				echo "<p>The CAC has not reviewed this application yet, but you may still view the application and make a final decision.</p><br/>";
 
-		// if CAC has reviewed, show the final decision
-		else {
-			if ($row['status'] == 6) 
-				echo "<p>The final decision made by the CAC was to admit without aid</p>";
+				// button to view the application
+				echo "<form action='application_view_form.php' method='post'>
+					<input type='submit' name='".$_SESSION['applicantID']."' value='View application'>
+					</form><br/>";
+			}
+			else if ($row['status'] == 6) 
+				echo "<p>The decision made by the CAC was to admit without aid</p>";
 			else if ($row['status'] == 7) 
-				echo "<p>The final decision made by the CAC was to admit with aid</p>";
+				echo "<p>The decision made by the CAC was to admit with aid</p>";
 			else if ($row['status'] == 8) 
-				echo "<p>The final decision made by the CAC was to reject the student</p>";
-			else 
-				echo "<p>Error: The CAC made a review but an invalid decision is stored</p>";
+				echo "<p>The decision made by the CAC was to reject the student</p>";
+
+
+			// now have the option to change the final decision
+			echo "<br/><br/><p>Update the final decision (not required):</p>";
+			echo "<form action='final_decision.php' method='post'>
+					Reject:<input type='radio' name='decision' value='Reject'><br/>
+					Borderline Admit:<input type='radio' name='decision' value='Borderline Admit'><br/>
+					Admit Without Aid:<input type='radio' name='decision' value='Admit Without Aid'><br/>
+					Admit With Aid:<input type='radio' name='decision' value='Admit With Aid'><br/>
+					<input type='submit' name='submit' value='Submit'><br/><br/>
+				</form>";
 		}
 
-		// now have the option to change the final decision
-		echo "<br/><br/><p>Update the final decision (not required):</p>";
-		echo "<form action='final_decision.php' method='post'>
-				Reject:<input type='radio' name='decision' value='Reject'><br/>
-				Borderline Admit:<input type='radio' name='decision' value='Borderline Admit'><br/>
-				Admit Without Aid:<input type='radio' name='decision' value='Admit Without Aid'><br/>
-				Admit With Aid:<input type='radio' name='decision' value='Admit With Aid'><br/>
-				<input type='submit' name='submit' value='Submit'><br/><br/>
-			</form>";
+		// otherwise, tell them they can't make a decision right now
+		else
+			echo "<p>This application is incomplete; you cannot update the final decision at this time.</p>";
+		
 
 
 		// home button
 		echo "<form action='home.php' method='post'>
-				<input type='submit' name='home' value='Back to Home'>
+				<input type='submit' name='home' value='Back'>
 			</form>";
 
 	?>
