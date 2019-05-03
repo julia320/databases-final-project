@@ -264,6 +264,19 @@
             $nextItem = true;
         }
 
+        // MATRICULATE STUDENTS
+        if (in_array("admin", $typeArray) || in_array("secr", $typeArray)) {
+            $matPrompt = "Matriculate Students";
+            $matAction = "matriculate.php";
+        }
+        else
+            $nextItem = false;
+
+        if ($nextItem)
+            echo "<div class=\"main-menu\"><form action=\"" . $matAction . "\"><input type=\"submit\" value=\"" . $matPrompt . "\"/></form></div>";
+        else
+            $nextItem = true;
+
         //ADVISING OPTIONS
         $advPrompt = "";
         $advAction = "Advisor.php";
