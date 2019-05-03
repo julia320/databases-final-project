@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS rec_letter CASCADE;
 DROP TABLE IF EXISTS course CASCADE;
 DROP TABLE IF EXISTS room CASCADE;
 DROP TABLE IF EXISTS user CASCADE;
+DROP TABLE IF EXISTS thesis_status;
 
 CREATE TABLE user (
   type varchar(50),
@@ -112,7 +113,7 @@ CREATE TABLE thesis_status(
 
 CREATE TABLE academic_info (
   uid int(8) NOT NULL,
-  dated varchar(21),
+  dated varchar(10),
   degreeType char(3),
   AOI varchar(30),
   experience varchar(100),
@@ -134,34 +135,6 @@ CREATE TABLE rec_letter  (
   recommendation varchar(10000),
   PRIMARY KEY (recID),
   FOREIGN KEY (uid) REFERENCES user(uid)
-);
-
-CREATE TABLE app_review (
-  uid int(8) NOT NULL,
-  reviewID int(8) NOT NULL AUTO_INCREMENT,
-  reviewerRole varchar(3),
-  comments varchar(100),
-  deficiency varchar(20),
-  reason char,
-  rating int,
-  advisor char(30),
-  status int NOT NULL DEFAULT 1,
-  PRIMARY KEY (reviewID),
-  FOREIGN KEY (uid) REFERENCES user(uid)
-);
-
-CREATE TABLE rec_review (
-  reviewID int(8) NOT NULL, 
-  reviewerRole varchar(3),
-  rating int,
-  generic boolean, 
-  credible boolean, 
-  uid int(8) NOT NULL,
-  recID int,
-  PRIMARY KEY (reviewID),
-  FOREIGN KEY (uid) REFERENCES user(uid),
-  FOREIGN KEY (recID) REFERENCES rec_letter(recID),
-  FOREIGN KEY (reviewID) REFERENCES app_review(reviewID)
 );
 
 CREATE TABLE gre (
@@ -188,14 +161,43 @@ CREATE TABLE prior_degrees (
   FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
+CREATE TABLE app_review (
+  uid int(8) NOT NULL,
+  reviewID int(8) NOT NULL AUTO_INCREMENT,
+  reviewerRole varchar(3),
+  comments varchar(100),
+  deficiency varchar(20),
+  reason char,
+  rating int,
+  advisor char(30),
+  status int NOT NULL DEFAULT 1,
+  dated varchar(10),
+  PRIMARY KEY (reviewID),
+  FOREIGN KEY (uid) REFERENCES user(uid)
+);
+
+CREATE TABLE rec_review (
+  reviewID int(8) NOT NULL, 
+  reviewerRole varchar(3),
+  rating int,
+  generic boolean, 
+  credible boolean, 
+  uid int(8) NOT NULL,
+  recID int,
+  PRIMARY KEY (reviewID),
+  FOREIGN KEY (uid) REFERENCES user(uid),
+  FOREIGN KEY (recID) REFERENCES rec_letter(recID),
+  FOREIGN KEY (reviewID) REFERENCES app_review(reviewID)
+);
+
 CREATE TABLE adv_form(
   uid int(8) NOT NULL,
   crn int(10) NOT NULL,
-  primary key(crn,uid),
-  foreign key(uid) references user(uid)
+  PRIMARY KEY (crn,uid),
+  FOREIGN KEY(uid) REFERENCES user(uid)
 );
 
-insert into user (fname, lname, street, city, state, zip, phone, email, password, active, type) VALUES
+INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password, active, type) VALUES
   ("Dietrich", "Reidenbaugh", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin"),
   ("Maya", "Shende", "Massachusetts Ave", "Washington", "DC", 20052, "4567890123", "mshende@gwu.edu", "123456", "yes", "secr"),
   ("Bhagi", "Narahari", "South Carolina Ave", "Washington", "DC", 20052, "4567890123", "bnarahari@gwu.edu", "123456", "yes", "inst"),
@@ -206,11 +208,10 @@ insert into user (fname, lname, street, city, state, zip, phone, email, password
   ("Selin", "Onal", "Pennsylvania Ave", "Washington", "DC", 20052, "2345678901", "selingonal@gwu.edu", "123456", "no", "PHD"),
   ("John", "Smith", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "yes", "cac,rev,inst");
 
-insert into user (fname, lname, street, city, state, zip, phone, email, password, active, type, hold) VALUES
+INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password, active, type, hold) VALUES
   ("Richard", "Sear", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "searri@gwu.edu", "123456", "yes", "MS", "yes");
   
-insert into user (fname, lname, uid, street, city, state, zip, phone, email, password, active, type) VALUES
-
+INSERT INTO user (fname, lname, uid, street, city, state, zip, phone, email, password, active, type) VALUES
   ("Eric", "Clapton", 7777777, "North Carolina Ave", "Washington", "DC", 20052, "4567890123", "eclapton@gwu.edu", "123456", "yes", "alum"),
   ("Kurt", "Cobain", 34567890, "California Ave", "Washington", "DC", 20052, "4567890123", "kcobain@gwu.edu", "123456", "yes", "alum"),
 
@@ -224,21 +225,70 @@ insert into user (fname, lname, uid, street, city, state, zip, phone, email, pas
   ("George", "Harrison", 66666660, "Michigan Ave", "Washington", "DC", 20052, "4567890123", "gharrison@gwu.edu", "123456", "yes", "MS"),
   ("Stevie", "Nicks", 12345678, "Vermont Ave", "Washington", "DC", 20052, "4567890123", "snicks@gwu.edu", "123456", "yes", "PHD");
 
-insert into user (fname, lname, uid, ssn, street, city, state, zip, phone, email, password, active, type) VALUES
+INSERT INTO user (fname, lname, uid, ssn, street, city, state, zip, phone, email, password, active, type) VALUES
   ("John", "Lennon", 55555555, 111111111, "Florida Ave", "Washington", "DC", 20052, "4567890123", "jlennon@gwu.edu", "123456", "yes", "App"),
   ("Ringo", "Starr", 66666666, 222111111, "Oregon Ave", "Washington", "DC", 20052, "4567890123", "rstarr@gwu.edu", "123456", "yes", "App"),
   ("Louis", "Armstrong", 00001234, 555111111, "Washington Ave", "Washington", "DC", 20052, "4567890123", "larmstrong@gwu.edu", "123456", "yes", "App"),
   ("Aretha", "Franklin", 00001235,  666111111,"North Dakota Ave", "Washington", "DC", 20052, "4567890123", "afranklin@gwu.edu", "123456", "yes", "App"),
   ("Carlos", "Santana", 00001236, 777111111, "Nebraska Ave", "Washington", "DC", 20052, "4567890123", "csantana@gwu.edu", "123456", "yes", "App");
 
-insert into app_review (uid, reviewerRole, status) VALUES
-  (55555555, "rev", 5), (55555555, "cac", 1),
-  (66666666, "rev", 4), (66666666, "cac", 1),
-  (00001234, "rev", 8), (00001234, "cac", 1),
-  (00001235, "rev", 1), (00001235, "cac", 1),
-  (00001236, "rev", 1), (00001236, "cac", 1);
 
-insert into room VALUES
+# Application Inserts
+INSERT INTO academic_info VALUES
+  (55555555, "2019/04/28", "MS", "Robotics", "internship at Space X", "FA", "2019", 1, 1), #John Lennon
+  (66666666, "2019/04/13", "MS", "Machine Learning and AI", "NLP research", "FA", "2019", 1, 0), #Ringo Starr
+  (00001234, "2017/01/07", "MS", "Cyber Security", "none", "FA", "2017", 1, 1), #Louis Armstrong
+  (00001235, "2016/12/05", "MS", "Quantum Computing", "built a quantum computer", "FA", "2017", 1, 1), #Aretha Franklin
+  (00001236, "2016/11/29", "PHD", "Cybersecurity", "government internship", "FA", "2017", 1, 1); #Carlos Santana
+
+
+INSERT INTO rec_letter VALUES
+  ("Professor", "Man", "prof@gwu.edu", "George Washington University", 55555555, 1, "This is John Lennon's recommendation"),
+  ("Bob", "Smith", "bob@umd.edu", "University of Maryland", 00001234, 2, "This is Louis Armstrong's recommendation"),
+  ("Jane", "Doe", "jane@gmail.com", "GWU", 00001235, 3, "This is Aretha Franklin's recommendation letter"),
+  ("Sally", "Ride", "sally@nasa.com", "NASA", 00001236, 4, "This is Carlos Santana's recommendation letter");
+
+INSERT INTO gre VALUES
+  (145, 155, 2018, 140, "Physics", NULL, 2018, 55555555), #John Lennon
+  (150, 160, 2018, 155, "English", NULL, 2018, 66666666), #Ringo Starr
+  (145, 135, 2016, 145, "Chemistry", NULL, 2016, 00001234), #Louis Armstrong
+  (165, 160, 2016, 160, "Physics", NULL, 2016, 00001235), #Aretha Franklin
+  (160, 165, 2016, 170, "Chemistry", NULL, 2016, 00001236); #Carlos Santana
+
+INSERT INTO prior_degrees VALUES
+  (3.8, 2019, "GWU", "Computer Science", 55555555, "BS"), #John Lennon
+  (3.7, 2019, "UMD", "Mathematics", 66666666, "BS"), #Ringo Starr
+  (3.1, 2017, "UMD", "Computer Science", 00001234, "BS"), #Louis Armstrong
+  (4.0, 2017, "Harvard", "Physics", 00001235, "BS"), #Aretha Franklin
+  (3.9, 2017, "GWU", "Computer Science", 00001236, "BS"); #Carlos Santana
+
+INSERT INTO app_review (uid, reviewID, reviewerRole, status) VALUES
+  (55555555, 7, "rev", 5), (55555555, 8, "cac", 5), # John Lennon: no reviews
+  (66666666, 9, "rev", 4), (66666666, 10, "cac", 4); # Ringo Starr: incomplete, missing letters
+
+INSERT INTO app_review VALUES
+  # Louis Armstrong: rejected
+  (00001234, 1, "rev", "not special", NULL, "D", 2, NULL, 8, "2017/05/01"), 
+  (00001234, 2, "cac", "weak transcript", NULL, "D", 1, NULL, 8, "2017/05/01"),
+  # Aretha Franklin: admitted but did not matriculate
+  (00001235, 3, "rev", "strong rec letter", "none", NULL, 4, "Parmer", 6, "2017/05/02"),
+  (00001235, 4, "cac", "good grades", "none", NULL, 4, "Parmer", 6, "2017/05/03"),
+  # Carlos Santana: admitted but did not matriculate
+  (00001236, 5, "rev", "good experience", "none", NULL, 4, "Narahari", 6, "2017/04/19"),
+  (00001236, 6, "cac", "strong application", "none", NULL, 4, "Parmer", 6, "2017/04/27");
+
+INSERT INTO rec_review VALUES
+  # Louis Armstrong
+  (1, "rev", 3, 1, 1, 00001234, 2),
+  (2, "cac", 2, 1, 1, 00001234, 2),
+  # Aretha Franklin
+  (3, "rev", 5, 0, 1, 00001235, 3),
+  (4, "cac", 4, 0, 1, 00001235, 3),
+  #Carlos Santana
+  (5, "rev", 4, 1, 1, 00001236, 4),
+  (6, "cac", 5, 0, 1, 00001236, 4);
+
+INSERT INTO room VALUES
 	(1, 24, "SEH", 1300),
 	(2, 24, "SEH", 1400),
 	(3, 24, "SEH", 1450),
@@ -252,7 +302,7 @@ insert into room VALUES
 	(11, 30, "SEH", 3040),
 	(12, 30, "SEH", 5040);
 
-insert into course (dept, courseno, name, credits, prereq1, prereq2, day, tme, section, year, semester, instructor, location)
+INSERT INTO course (dept, courseno, name, credits, prereq1, prereq2, day, tme, section, year, semester, instructor, location)
 VALUES
 	("CSCI", 6221, "SW Paradigms", 3,  null, null, "M", "1500-1730",1,2019,"Spring",4,1), 
 	("CSCI", 6461, "Computer Architecture", 3, null, null, "T", "1500-1730",1,2019,"Spring",3,1), 
@@ -282,7 +332,7 @@ VALUES
 	("CSCI", 6220, "Machine Learning", 3, null, null, null, null,null,2018,"Fall",null,null),
 	("CSCI", 6325, "Algorithms 2", 3, "CSCI 6212", null, null, null,null,2018,"Fall",null,null);
 
-insert into form1 values
+INSERT INTO form1 VALUES
   (12345678, 1),
   (12345678, 2),
   (12345678, 3),
@@ -336,8 +386,7 @@ insert into form1 values
   (66666666, 14),
   (66666666, 21);
 
-insert into transcript (uid, crn, grade, numgrade)
-values
+INSERT INTO transcript (uid, crn, grade, numgrade) VALUES
   (77777777, 1, "B", "85"),
   (77777777, 2, "B", "85"),
   (77777777, 3, "B", "85"),
@@ -414,5 +463,3 @@ values
   (666666660, 21, "C", "75"),
   (88888888, 2, "IP", "0"),
   (88888888, 3, "IP", "0");
-
-
