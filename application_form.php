@@ -417,17 +417,18 @@ if (isset($_POST['submit'])) {
 				<body>
 					<p>'. $fname.' '.$lname.' has requested a letter of recommendation from you. If you are interested, please copy the UID and follow the link below.<br>
 						UID: ' . $_SESSION["uid"].'<br><br>
-						<a href="http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpookyLlamas/rec_letter.php "> http://gwupyterhub.seas.gwu.edu/~sp19DBp1-TheSpookyLlamas/TheSpookyLlamas/rec_l0etter.php </a>
+						<a href="http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/rec_letter.php "> http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/rec_letter.php </a>
 					</p>
 				</body>
 				</html>';
         $subject = "Recommendation Letter for " . $fname . " " . $lname . "";
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        mail($email, $subject, $msg, $headers) or die("rec email failed");
 
         $sql = "UPDATE app_review SET status = 2 WHERE uid = " . $_SESSION['uid'] . "";
         $result = mysqli_query($conn, $sql) or die("Status update failed: " . mysqli_error($conn));
+
+        mail($email, $subject, $msg, $headers) or die("rec email failed");
         // If we made it here,  we're done
         $done = true;
     }

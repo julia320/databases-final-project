@@ -165,7 +165,8 @@
 					$_SESSION['type'] = 'App';
 					$_SESSION['errS'] = "";
 					$_SESSION['uid'] = $_SESSION['id'];
-                    $_SESSION["loggedin"] = TRUE;
+					$_SESSION["loggedin"] = TRUE;
+					$_SESSION['fname'] = $_POST['fname'];
 					echo "redirect";
                     header("Location: menu.php");
                     die();
