@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS gre CASCADE;
 DROP TABLE IF EXISTS prior_degrees CASCADE;
 DROP TABLE IF EXISTS academic_info CASCADE;
 DROP TABLE IF EXISTS form1 CASCADE;
+DROP TABLE IF EXISTS adv_form CASCADE;
 DROP TABLE IF EXISTS corereq CASCADE;
 DROP TABLE IF EXISTS requirements CASCADE;
 DROP TABLE IF EXISTS rec_review CASCADE;
@@ -96,7 +97,6 @@ CREATE TABLE corereq(
   foreign key(crn) REFERENCES course(crn)
 );
 
-
 CREATE TABLE form1(
   u_id int(8) NOT NULL,
   crn int(10) NOT NULL,
@@ -188,6 +188,13 @@ CREATE TABLE prior_degrees (
   FOREIGN KEY (uid) REFERENCES user(uid)
 );
 
+CREATE TABLE adv_form(
+  uid int(8) NOT NULL,
+  crn int(10) NOT NULL,
+  primary key(crn,uid),
+  foreign key(uid) references user(uid)
+);
+
 insert into user (fname, lname, street, city, state, zip, phone, email, password, active, type) VALUES
   ("Dietrich", "Reidenbaugh", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin"),
   ("Maya", "Shende", "Massachusetts Ave", "Washington", "DC", 20052, "4567890123", "mshende@gwu.edu", "123456", "yes", "secr"),
@@ -196,10 +203,12 @@ insert into user (fname, lname, street, city, state, zip, phone, email, password
   ("Gabe", "Parmer", "Virignia Ave", "Washington", "DC", 20052, "4567890123", "gparmer@gwu.edu", "123456", "yes", "adv,inst"),
   ("Tim", "Wood", "Maryland Ave", "Washington", "DC", 20052, "4567890123", "wood@gwu.edu", "123456", "yes", "rev"),
   ("Rachelle", "Heller", "New York Ave", "Washington", "DC", 20052, "4567890123", "heller@gwu.edu", "123456", "yes", "rev"),
-  ("Richard", "Sear", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "searri@gwu.edu", "123456", "yes", "MS"),
   ("Selin", "Onal", "Pennsylvania Ave", "Washington", "DC", 20052, "2345678901", "selingonal@gwu.edu", "123456", "no", "PHD"),
   ("John", "Smith", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "yes", "cac,rev,inst");
 
+insert into user (fname, lname, street, city, state, zip, phone, email, password, active, type, hold) VALUES
+  ("Richard", "Sear", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "searri@gwu.edu", "123456", "yes", "MS", "yes");
+  
 insert into user (fname, lname, uid, street, city, state, zip, phone, email, password, active, type) VALUES
 
   ("Eric", "Clapton", 7777777, "North Carolina Ave", "Washington", "DC", 20052, "4567890123", "eclapton@gwu.edu", "123456", "yes", "alum"),
