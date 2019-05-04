@@ -20,6 +20,7 @@
             header("Location: login.php");
             die();
         }
+        $sessionID = $_SESSION["uid"];
 
         //determine the user types of the logged in user
         $type = $_SESSION['type'];
@@ -110,7 +111,7 @@
         if (in_array("admin", $typeArray) || in_array("secr", $typeArray) || in_array("inst", $typeArray) || in_array("adv", $typeArray)) {
             $transAction = "viewTransAdmin.php";
             $transPrompt = "View Student Transcripts";
-        } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray) || in_array("alum", $typeArray)) {
+        } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
             $transAction = "viewtrans.php";
             $transPrompt = "View My Transcript";
             $_SESSION["studuid"] = $_SESSION["uid"];
@@ -274,17 +275,33 @@
         else
             $nextItem = true;
 
-        //ADVISING OPTIONS
+        //APPROVE THESIS
         $advPrompt = "";
-        $advAction = "Advisor.php";
+        $advAction = "approveThesis.php";
         if (in_array("admin", $typeArray) || in_array("adv", $typeArray)) {
-            $advPrompt = "View Advising Options";
+            $advPrompt = "Approve Thesis";
         } else {
             $nextItem = false;
         }
 
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $advAction . "\"><input type=\"submit\" value=\"" . $advPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
+        //REPORTS
+        $reportPrompt = "";
+        $reportAction = "";
+        if (in_array("secr", $typeArray) ) {
+            $reportAction = "reports.php";
+            $reportPrompt = "Generate Reports";
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $reportAction . "\"><input type=\"submit\" value=\"" . $reportPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
@@ -324,8 +341,8 @@
         $form1Prompt = "";
         $form1Action = "";
         if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
-            $query = "SELECT * FROM form1 WHERE u_id = '".$_SESSION['uid']."'";
-            $result = mysqli_query($conn, $query);
+            $query = "SELECT * FROM form1 WHERE uid = '".$_SESSION['uid']."'";
+            $result = mysqli_query($connection, $query);
             //$result = $mysqli->query($query);
             if (mysqli_num_rows($result) == 0) {
                 $form1Prompt = "Create Form 1";
@@ -334,7 +351,13 @@
                 $form1Prompt = "View Form 1";
                 $form1Action = "viewform.php";
             }
-        } else {
+        }
+        else if(in_array("admin", $typeArray)  || in_array("secr", $typeArray) || in_array("adv", $typeArray) ) 
+        {
+            $form1Prompt = "View Form 1's";
+            $form1Action = "viewForm1.php";
+        }
+        else {
             $nextItem = false;
         }
 
@@ -372,20 +395,6 @@
 
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $catAction . "\"><input type=\"submit\" value=\"" . $catPrompt . "\"/></form></div>";
-        } else {
-            $nextItem = true;
-        }
-
-        //STUDENT LISTS
-        if (in_array("admin", $typeArray) || in_array("secr", $typeArray)) {
-            $listPrompt = "View Student Lists";
-            $listAction = "student-lists.php";
-        } else {
-            $nextItem = false;
-        }
-
-        if ($nextItem) {
-            echo "<div class=\"main-menu\"><form action=\"" . $listAction . "\"><input type=\"submit\" value=\"" . $listPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
