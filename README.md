@@ -15,5 +15,3 @@
 
 ### Rick Sear
 - Update all UIs
-- Generate list of admitted students based on semester, year, or program (accessed by GS)
-- Generate list of current students based on degree or admit year (accessed by GS)
