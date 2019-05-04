@@ -163,8 +163,7 @@ CREATE TABLE prior_degrees (
 
 CREATE TABLE app_review (
   uid int(8) NOT NULL,
-  reviewID int(8) NOT NULL AUTO_INCREMENT,
-  reviewerRole varchar(3),
+  reviewer int(8) NOT NULL,
   comments varchar(100),
   deficiency varchar(20),
   reason char,
@@ -172,22 +171,22 @@ CREATE TABLE app_review (
   advisor char(30),
   status int NOT NULL DEFAULT 1,
   dated varchar(10),
-  PRIMARY KEY (reviewID),
-  FOREIGN KEY (uid) REFERENCES user(uid)
+  PRIMARY KEY (uid, reviewer),
+  FOREIGN KEY (uid) REFERENCES user(uid),
+  FOREIGN KEY (reviewer) REFERENCES user(uid)
 );
 
 CREATE TABLE rec_review (
-  reviewID int(8) NOT NULL, 
-  reviewerRole varchar(3),
+  uid int(8) NOT NULL,
+  reviewer int(8),
   rating int,
   generic boolean, 
-  credible boolean, 
-  uid int(8) NOT NULL,
+  credible boolean,
   recID int,
-  PRIMARY KEY (reviewID),
+  PRIMARY KEY (uid, reviewer),
   FOREIGN KEY (uid) REFERENCES user(uid),
-  FOREIGN KEY (recID) REFERENCES rec_letter(recID),
-  FOREIGN KEY (reviewID) REFERENCES app_review(reviewID)
+  FOREIGN KEY (reviewer) REFERENCES user(uid),
+  FOREIGN KEY (recID) REFERENCES rec_letter(recID)
 );
 
 CREATE TABLE adv_form(
@@ -261,32 +260,34 @@ INSERT INTO prior_degrees VALUES
   (4.0, 2017, "Harvard", "Physics", 00001235, "BS"), #Aretha Franklin
   (3.9, 2017, "GWU", "Computer Science", 00001236, "BS"); #Carlos Santana
 
-INSERT INTO app_review (uid, reviewID, reviewerRole, status) VALUES
-  (55555555, 7, "rev", 5), (55555555, 8, "cac", 5), # John Lennon: no reviews
-  (66666666, 9, "rev", 4), (66666666, 10, "cac", 4); # Ringo Starr: incomplete, missing letters
+INSERT INTO app_review (uid, reviewer, status) VALUES
+  (55555555, 7, 5), (55555555, 9, 5), # John Lennon: no reviews
+  (66666666, 7, 4), (66666666, 9, 4); # Ringo Starr: incomplete, missing letters
 
 INSERT INTO app_review VALUES
   # Louis Armstrong: rejected
-  (00001234, 1, "rev", "not special", NULL, "D", 2, NULL, 8, "2017/05/01"), 
-  (00001234, 2, "cac", "weak transcript", NULL, "D", 1, NULL, 8, "2017/05/01"),
+  (00001234, 7, "not special", NULL, "D", 2, NULL, 8, "2017/05/01"), 
+  (00001234, 9, "weak transcript", NULL, "D", 1, NULL, 8, "2017/05/01"),
   # Aretha Franklin: admitted but did not matriculate
-  (00001235, 3, "rev", "strong rec letter", "none", NULL, 4, "Parmer", 6, "2017/05/02"),
-  (00001235, 4, "cac", "good grades", "none", NULL, 4, "Parmer", 6, "2017/05/03"),
+  (00001235, 7, "strong rec letter", "none", NULL, 4, "Parmer", 6, "2017/05/02"),
+  (00001235, 9, "good grades", "none", NULL, 4, "Parmer", 6, "2017/05/03"),
   # Carlos Santana: admitted but did not matriculate
-  (00001236, 5, "rev", "good experience", "none", NULL, 4, "Narahari", 6, "2017/04/19"),
-  (00001236, 6, "cac", "strong application", "none", NULL, 4, "Parmer", 6, "2017/04/27");
+  (00001236, 7, "good experience", "none", NULL, 4, "Narahari", 6, "2017/04/19"),
+  (00001236, 9, "strong application", "none", NULL, 4, "Parmer", 6, "2017/04/27");
 
 INSERT INTO rec_review VALUES
   # Louis Armstrong
-  (1, "rev", 3, 1, 1, 00001234, 2),
-  (2, "cac", 2, 1, 1, 00001234, 2),
+  (1234, 7, 3, 1, 1, 2),
+  (1234, 9, 2, 1, 1, 2),
   # Aretha Franklin
-  (3, "rev", 5, 0, 1, 00001235, 3),
-  (4, "cac", 4, 0, 1, 00001235, 3),
+  (1235, 7, 5, 0, 1, 3),
+  (1235, 9, 4, 0, 1, 3),
   #Carlos Santana
-  (5, "rev", 4, 1, 1, 00001236, 4),
-  (6, "cac", 5, 0, 1, 00001236, 4);
+  (1236, 7, 4, 1, 1, 4),
+  (1236, 9, 5, 0, 1, 4);
 
+
+# Advising/Registration Inserts
 INSERT INTO room VALUES
 	(1, 24, "SEH", 1300),
 	(2, 24, "SEH", 1400),
