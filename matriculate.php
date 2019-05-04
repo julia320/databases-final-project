@@ -83,6 +83,9 @@
 
 					// update their type
 					mysqli_query($conn, "UPDATE user SET type='".$program."' WHERE uid=".$row['uid']) or die("Update type failed: ".mysqli_error($conn));
+				
+					// place hold on account
+					mysqli_query($conn, "UPDATE user SET hold='yes' WHERE uid=".$row['uid']) or die("Update type failed: ".mysqli_error($conn));
 				}
 		    }
 		}
