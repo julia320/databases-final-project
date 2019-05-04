@@ -6,7 +6,7 @@
 
 	// open the sql file and read from it
 	$file = fopen("new_sql/script.sql", "r") or die ("File does not exist.");
-	$contents = fread($file, filesize($file));
+	$contents = fread($file, filesize("new_sql/script.sql"));
 	
 	// separate each query 
 	$queries = explode(';', $contents);
@@ -15,7 +15,7 @@
 	foreach ($queries as $q) {
 		$result = mysqli_query($conn, $q);
 		if (!result)
-			die ("Query failed: ".mysqli_error());
+			echo "Query failed: ".mysqli_error($conn);
 	}
 
 	// close the file
