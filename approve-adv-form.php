@@ -62,7 +62,7 @@
             $row = mysqli_fetch_assoc(mysqli_query($connection, $query));
             $fname = $row['fname'];
             $lname = $row['lname'];
-            echo "<h1>Advising Form for ".$fname." ".$lname."</h1>";
+            echo "<h2>Advising Form for ".$fname." ".$lname."</h2>";
             echo "<hr>";
 
             //no search terms - select all courses from current year
@@ -97,8 +97,8 @@
             //Approve or deny buttons
             echo '<br><br><div style="text-align: center;"><div style="display: inline-block;">';
             echo '<form method="post" action="approve-adv-form.php">';
-            echo '<input type="submit" name="accept" value="APPROVE FORM"> ';
-            echo '<input type="submit" name="reject" value="DENY FORM">';
+            echo '<input type="submit" name="accept" value="APPROVE FORM" class="menu-button"> ';
+            echo '<input type="submit" name="reject" value="DENY FORM" class="menu-button">';
             echo '</form></div></div>';
 
             //close sql connection

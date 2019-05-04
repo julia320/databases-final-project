@@ -30,11 +30,11 @@ CREATE TABLE user (
   program varchar(20),
   major varchar(10),
   gradYear varchar(20),
-  active varchar(5),
+  active varchar(5) DEFAULT 'yes',
   donation int(15) DEFAULT 0,
   advisor int(8),
   phone varchar(10),
-  hold varchar(5),
+  hold varchar(5) DEFAULT 'no',
   PRIMARY KEY (uid)
 );
 

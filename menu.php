@@ -110,7 +110,7 @@
         if (in_array("admin", $typeArray) || in_array("secr", $typeArray) || in_array("inst", $typeArray) || in_array("adv", $typeArray)) {
             $transAction = "viewTransAdmin.php";
             $transPrompt = "View Student Transcripts";
-        } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray)) {
+        } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray) || in_array("alum", $typeArray)) {
             $transAction = "viewtrans.php";
             $transPrompt = "View My Transcript";
             $_SESSION["studuid"] = $_SESSION["uid"];
@@ -359,6 +359,20 @@
 
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $catAction . "\"><input type=\"submit\" value=\"" . $catPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
+        //STUDENT LISTS
+        if (in_array("admin", $typeArray) || in_array("secr", $typeArray)) {
+            $listPrompt = "View Student Lists";
+            $listAction = "student-lists.php";
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $listAction . "\"><input type=\"submit\" value=\"" . $listPrompt . "\"/></form></div>";
         } else {
             $nextItem = true;
         }
