@@ -6,21 +6,23 @@
 
 	// open the sql file and read from it
 	$file = fopen("new_sql/script.sql", "r") or die ("File does not exist.");
-	$contents = fread($file, filesize("new_sql/script.sql"));
+	$contents = fread($file, filesize($file));
 	
 	// separate each query 
 	$queries = explode(';', $contents);
 
 	// run each query 
 	foreach ($queries as $q) {
-		$result = mysqli_query($conn, $q) or die ("Query failed: ".$q."<br/>".mysqli_error($conn));
+		$result = mysqli_query($conn, $q);
+		if (!result)
+			die ("Query failed: ".mysqli_error());
 	}
 
 	// close the file
 	fclose($file);
 
 
-	// refresh page
+	// go back to original page
 	header("Location: login.php");
     die();
 ?>
