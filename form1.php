@@ -136,84 +136,84 @@
           if($cs >= 10)
           {
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$one')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$two')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$three')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$four')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$five')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$six')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$seven')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$eight')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$nine')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$ten')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
               '$eleven')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-              u_id,
+              uid,
               crn)
               VALUES
               ('$user',
@@ -221,7 +221,7 @@
             $result = mysqli_query($conn,$query);
             
             //CHECK FORM1 TABLE FOR CORRECT NUMBER OF CREDITS
-            $test = "SELECT * FROM form1 WHERE u_id = '$user'";
+            $test = "SELECT * FROM form1 WHERE uid = '$user'";
             $testR = mysqli_query($conn,$test);
             if ($testR->num_rows > 9 && $testR->num_rows < 13) 
             {
@@ -344,84 +344,84 @@
           if($core == 3 && $nocs < 3)
           {
             $query = "INSERT INTO form1(
-                          u_id,
+                          uid,
                           crn)
                           VALUES
                           ('$user',
                           '$one')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                          u_id,
+                          uid,
                           crn)
                           VALUES
                           ('$user',
                           '$two')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                      u_id,
+                      uid,
                       crn)
                       VALUES
                       ('$user',
                       '$three')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                      u_id,
+                      uid,
                       crn)
                       VALUES
                       ('$user',
                       '$four')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                      u_id,
+                      uid,
                       crn)
                       VALUES
                       ('$user',
                       '$five')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                      u_id,
+                      uid,
                       crn)
                       VALUES
                       ('$user',
                       '$six')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                      u_id,
+                      uid,
                       crn)
                       VALUES
                       ('$user',
                       '$seven')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                      u_id,
+                      uid,
                       crn)
                       VALUES
                       ('$user',
                       '$eight')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                      u_id,
+                      uid,
                       crn)
                       VALUES
                       ('$user',
                       '$nine')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                      u_id,
+                      uid,
                       crn)
                       VALUES
                       ('$user',
                       '$ten')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                      u_id,
+                      uid,
                       crn)
                       VALUES
                       ('$user',
                       '$eleven')";
             $result = mysqli_query($conn,$query);
             $query = "INSERT INTO form1(
-                      u_id,
+                      uid,
                       crn)
                       VALUES
                       ('$user',
@@ -429,7 +429,7 @@
             $result = mysqli_query($conn,$query);
 
             //CHECK FOR CORRECT NUMBER OF CREDITS
-            $test = "SELECT * FROM form1 WHERE u_id = '$user'";
+            $test = "SELECT * FROM form1 WHERE uid = '$user'";
             $testR = mysqli_query($conn,$test);
             if ($testR->num_rows > 9 && $testR->num_rows < 13) 
             {
