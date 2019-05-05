@@ -16,6 +16,7 @@
 		.column {
 			text-align: center;
 			flex: 50%;
+			color: white;
 		}
 
 		form label {  
