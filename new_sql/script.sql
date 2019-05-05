@@ -115,7 +115,7 @@ CREATE TABLE academic_info (
   uid int(8) NOT NULL,
   dated varchar(10),
   degreeType char(3),
-  AOI varchar(30),
+  AOI varchar(100),
   experience varchar(100),
   semester char(2),
   year int(4),

@@ -61,6 +61,7 @@
         $_SESSION['types'] = $typeArray;
 
         echo "<div style=\"text-align: center;\"><div style=\"display: inline-block; width: 80%;\">";
+        echo "<strong>Your UID is: ".$_SESSION['uid']."</strong><br>";
         echo "Welcome, " . $_SESSION['fname'] . ". You are logged in with " . $role . " privileges.<br><br>";
         $nextItem = true;
 
@@ -108,7 +109,7 @@
 
         //TRANSCRIPTS
         $transPrompt = "";
-        if (in_array("admin", $typeArray) || in_array("secr", $typeArray) || in_array("inst", $typeArray) || in_array("adv", $typeArray)) {
+        if (in_array("admin", $typeArray) || in_array("secr", $typeArray) || in_array("adv", $typeArray)) {
             $transAction = "viewTransAdmin.php";
             $transPrompt = "View Student Transcripts";
         } else if (in_array("MS", $typeArray) || in_array("PHD", $typeArray) || in_array("alum", $typeArray)) {
