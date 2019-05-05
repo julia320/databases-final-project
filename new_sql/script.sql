@@ -226,7 +226,7 @@ INSERT INTO user (fname, lname, uid, street, city, state, zip, phone, email, pas
 
 INSERT INTO user (fname, lname, uid, ssn, street, city, state, zip, phone, email, password, active, type) VALUES
   ("John", "Lennon", 55551111, 111111111, "Florida Ave", "Washington", "DC", 20052, "4567890123", "jlennon@gwu.edu", "123456", "yes", "App"),
-  ("Ringo", "Starr", 66666660, 222111111, "Oregon Ave", "Washington", "DC", 20052, "4567890123", "rstarr@gwu.edu", "123456", "yes", "App"),
+  ("Ringo", "Starr", 66661111, 222111111, "Oregon Ave", "Washington", "DC", 20052, "4567890123", "rstarr@gwu.edu", "123456", "yes", "App"),
   ("Louis", "Armstrong", 00001234, 555111111, "Washington Ave", "Washington", "DC", 20052, "4567890123", "larmstrong@gwu.edu", "123456", "yes", "App"),
   ("Aretha", "Franklin", 00001235,  666111111,"North Dakota Ave", "Washington", "DC", 20052, "4567890123", "afranklin@gwu.edu", "123456", "yes", "App"),
   ("Carlos", "Santana", 00001236, 777111111, "Nebraska Ave", "Washington", "DC", 20052, "4567890123", "csantana@gwu.edu", "123456", "yes", "App");
@@ -235,7 +235,7 @@ INSERT INTO user (fname, lname, uid, ssn, street, city, state, zip, phone, email
 # Application Inserts
 INSERT INTO academic_info VALUES
   (55551111, "2019/04/28", "MS", "Robotics", "internship at Space X", "FA", "2019", 1, 1), #John Lennon
-  (66666660, "2019/04/13", "MS", "Machine Learning and AI", "NLP research", "FA", "2019", 1, 0), #Ringo Starr
+  (66661111, "2019/04/13", "MS", "Machine Learning and AI", "NLP research", "FA", "2019", 1, 0), #Ringo Starr
   (00001234, "2017/01/07", "MS", "Cyber Security", "none", "FA", "2017", 1, 1), #Louis Armstrong
   (00001235, "2016/12/05", "MS", "Quantum Computing", "built a quantum computer", "FA", "2017", 1, 1), #Aretha Franklin
   (00001236, "2016/11/29", "PHD", "Cybersecurity", "government internship", "FA", "2017", 1, 1); #Carlos Santana
@@ -248,21 +248,21 @@ INSERT INTO rec_letter VALUES
 
 INSERT INTO gre VALUES
   (145, 155, 2018, 140, "Physics", NULL, 2018, 55551111), #John Lennon
-  (150, 160, 2018, 155, "English", NULL, 2018, 66666660), #Ringo Starr
+  (150, 160, 2018, 155, "English", NULL, 2018, 66661111), #Ringo Starr
   (145, 135, 2016, 145, "Chemistry", NULL, 2016, 00001234), #Louis Armstrong
   (165, 160, 2016, 160, "Physics", NULL, 2016, 00001235), #Aretha Franklin
   (160, 165, 2016, 170, "Chemistry", NULL, 2016, 00001236); #Carlos Santana
 
 INSERT INTO prior_degrees VALUES
   (3.8, 2019, "GWU", "Computer Science", 55551111, "BS"), #John Lennon
-  (3.7, 2019, "UMD", "Mathematics", 66666660, "BS"), #Ringo Starr
+  (3.7, 2019, "UMD", "Mathematics", 66661111, "BS"), #Ringo Starr
   (3.1, 2017, "UMD", "Computer Science", 00001234, "BS"), #Louis Armstrong
   (4.0, 2017, "Harvard", "Physics", 00001235, "BS"), #Aretha Franklin
   (3.9, 2017, "GWU", "Computer Science", 00001236, "BS"); #Carlos Santana
 
 INSERT INTO app_review (uid, reviewer, status) VALUES
   (55551111, 7, 5), (55551111, 9, 5), # John Lennon: no reviews
-  (66666660, 7, 4), (66666660, 9, 4); # Ringo Starr: incomplete, missing letters
+  (66661111, 7, 4), (66661111, 9, 4); # Ringo Starr: incomplete, missing letters
 
 INSERT INTO app_review VALUES
   # Louis Armstrong: rejected
