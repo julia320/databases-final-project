@@ -196,18 +196,19 @@ CREATE TABLE adv_form(
   FOREIGN KEY(uid) REFERENCES user(uid)
 );
 
-INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password, active, type) VALUES
-  ("Dietrich", "Reidenbaugh", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "dreidenbaugh@gwu.edu", "123456", "yes", "admin"),
-  ("Maya", "Shende", "Massachusetts Ave", "Washington", "DC", 20052, "4567890123", "mshende@gwu.edu", "123456", "yes", "secr"),
-  ("Bhagi", "Narahari", "South Carolina Ave", "Washington", "DC", 20052, "4567890123", "bnarahari@gwu.edu", "123456", "yes", "inst,adv"),
-  ("Hyeong-Ah", "Choi", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "choi@gwu.edu", "123456", "yes", "inst"),
-  ("Gabe", "Parmer", "Virignia Ave", "Washington", "DC", 20052, "4567890123", "gparmer@gwu.edu", "123456", "yes", "adv"),
-  ("Tim", "Wood", "Maryland Ave", "Washington", "DC", 20052, "4567890123", "wood@gwu.edu", "123456", "yes", "rev"),
-  ("Rachelle", "Heller", "New York Ave", "Washington", "DC", 20052, "4567890123", "heller@gwu.edu", "123456", "yes", "rev"),
-  ("Selin", "Onal", "Pennsylvania Ave", "Washington", "DC", 20052, "2345678901", "selingonal@gwu.edu", "123456", "no", "PHD"),
-  ("John", "Smith", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "yes", "cac,rev,inst");
+INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password, type) VALUES
+  ("Dietrich", "Reidenbaugh", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "dreidenbaugh@gwu.edu", "123456", "admin"),
+  ("Maya", "Shende", "Massachusetts Ave", "Washington", "DC", 20052, "4567890123", "mshende@gwu.edu", "123456", "secr"),
+  ("Bhagi", "Narahari", "South Carolina Ave", "Washington", "DC", 20052, "4567890123", "bnarahari@gwu.edu", "123456", "inst,adv"),
+  ("Hyeong-Ah", "Choi", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "choi@gwu.edu", "123456", "inst"),
+  ("Gabe", "Parmer", "Virignia Ave", "Washington", "DC", 20052, "4567890123", "gparmer@gwu.edu", "123456", "adv,inst"),
+  ("Tim", "Wood", "Maryland Ave", "Washington", "DC", 20052, "4567890123", "wood@gwu.edu", "123456", "rev,inst"),
+  ("Rachelle", "Heller", "New York Ave", "Washington", "DC", 20052, "4567890123", "heller@gwu.edu", "123456", "rev"),
+  ("John", "Smith", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "cac,rev,inst"),
+  ("Pablo", "Frank", "Virignia Ave", "Washington", "DC", 20052, "4567890123", "pfrank@gwu.edu", "123456", "inst");
 
 INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password, active, type, hold, advisor) VALUES
+  ("Selin", "Onal", "Pennsylvania Ave", "Washington", "DC", 20052, "2345678901", "selingonal@gwu.edu", "123456", "no", "PHD", "no", 1),
   ("Richard", "Sear", "Wisconsin Ave", "Washington", "DC", 20052, "4567890123", "searri@gwu.edu", "123456", "yes", "MS", "yes", 3);
   
 INSERT INTO user (fname, lname, uid, street, city, state, zip, phone, email, password, active, type) VALUES
@@ -311,19 +312,19 @@ VALUES
 	("CSCI", 6220, "Machine Learning", 3, null, null, null, null,null,null,null,null,null), 
 	("CSCI", 6232, "Networks 1", 3, null, null, "M", "1800-2030",1,2019,"Spring",4,2), 
 	("CSCI", 6233, "Networks 2", 3, "CSCI 6232", null, "T", "1800-2030",1,2019,"Spring",6,2), 
-	("CSCI", 6241, "Database 1", 3, null, null, "W", "1800-2030",1,2019,"Spring",null,2), 
+	("CSCI", 6241, "Database 1", 3, null, null, "W", "1800-2030",1,2019,"Spring",3,2), 
 	("CSCI", 6242, "Database 2", 3, "CSCI 6241", null, "R", "1800-2030",1,2019,"Spring",6,2), 
-	("CSCI", 6246, "Compilers", 3, "CSCI 6461", "CSCI 6212", "T", "1500-1730",1,2019,"Spring",null,3), 
+	("CSCI", 6246, "Compilers", 3, "CSCI 6461", "CSCI 6212", "T", "1500-1730",1,2019,"Spring",5,3), 
 	("CSCI", 6260, "Multimedia", 3, null, null, "R", "1800-2030",1,2019,"Spring",4,3), 
-	("CSCI", 6251, "Cloud Computing", 3, "CSCI 6461", null, "M", "1800-2030",1,2019,"Spring",null,6), 
-	("CSCI", 6254, "SW Engineering", 3, "CSCI 6221", null,"M", "1530-1800",1,2019,"Spring",null,3), 
-	("CSCI", 6262, "Graphics 1", 3, null, null,"W", "1800-2030",1,2019,"Spring",null,4), 
-	("CSCI", 6283, "Security 1", 3, "CSCI 6212", null, "T", "1800-2030",1,2019,"Spring",null,3), 
-	("CSCI", 6284, "Cryptography", 3, "CSCI 6212", null, "M", "1800-2030",1,2019,"Spring",null,10), 
-	("CSCI", 6286, "Network Security", 3, "CSCI 6283", "CSCI 6232", "W", "1800-2030",1,2019,"Spring",null,10), 
+	("CSCI", 6251, "Cloud Computing", 3, "CSCI 6461", null, "M", "1800-2030",1,2019,"Spring",6,6), 
+	("CSCI", 6254, "SW Engineering", 3, "CSCI 6221", null,"M", "1530-1800",1,2019,"Spring",7,3), 
+	("CSCI", 6262, "Graphics 1", 3, null, null,"W", "1800-2030",1,2019,"Spring",7,4), 
+	("CSCI", 6283, "Security 1", 3, "CSCI 6212", null, "T", "1800-2030",1,2019,"Spring",9,3), 
+	("CSCI", 6284, "Cryptography", 3, "CSCI 6212", null, "M", "1800-2030",1,2019,"Spring",3,10), 
+	("CSCI", 6286, "Network Security", 3, "CSCI 6283", "CSCI 6232", "W", "1800-2030",1,2019,"Spring",6,10), 
 	("CSCI", 6325, "Algorithms 2", 3, "CSCI 6212", null, null, null,null,null,null,null,null), 
-	("CSCI", 6339, "Embedded Systems", 3, "CSCI 6461", "CSCI 6212", "R", "1600-1830",1,2019,"Spring",null,10), 
-	("CSCI", 6384, "Cryptography 2", 3, "CSCI 6284", null, "W", "1500-1730",1,2019,"Spring",null,10), 
+	("CSCI", 6339, "Embedded Systems", 3, "CSCI 6461", "CSCI 6212", "R", "1600-1830",1,2019,"Spring",9,10), 
+	("CSCI", 6384, "Cryptography 2", 3, "CSCI 6284", null, "W", "1500-1730",1,2019,"Spring",5,10), 
 	("ECE", 6241, "Communication Theory", 3, null, null, "M", "1800-2030",1,2019,"Spring",4,11), 
 	("ECE", 6242, "Information Theory", 2, null, null, "T", "1800-2030",1,2019,"Spring",4,11), 
 	("MATH", 6210, "Logic", 2, null, null,"W", "1800-2030",1,2019,"Spring",4,9),
