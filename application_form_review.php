@@ -32,9 +32,11 @@
   $result = mysqli_query($conn, $q);
   $value = mysqli_fetch_object($result);
   if ($value->rating != NULL){
-    die('<h4>You have already reviewed this student.<h4><br><br>
-        <form id="mainform" method="post" action="home.php">
-        <input type="submit" name="submit" value="Back">');
+    $_SESSION['error'] = "<p style='color:red; text-align:center;'>You have already reviewed this student.</p><br/>";
+    header("Location: home.php");
+    die();
+        //<div style='display: inline-block;' class='menu-button'>
+        //<form action='home.php'><input type='submit' value='Back'/></form></div>";
   }
 
   
@@ -96,11 +98,11 @@
       }
 
       /* Load general review info into datase */
-      $sql = "INSERT INTO app_review (uid, reviewer, comments, deficiency, rating, advisor, dated) VALUES (".$_SESSION['applicantID']."', ".$_SESSION['uid'].", '".$_POST['comments']."', '".$_POST['defCourse']."', ".$_POST['rating'].", '".$_POST['advisor']."', ".$date.")";
+      $sql = "INSERT INTO app_review (uid, reviewer, comments, deficiency, rating, advisor, dated) VALUES (".$_SESSION['applicantID'].", ".$_SESSION['uid'].", '".$_POST['comments']."', '".$_POST['defCourse']."', ".$_POST['rating'].", '".$_POST['advisor']."', '".$date."')";
       $result = mysqli_query($conn, $sql) or die ("Insert into app_review failed: ".mysqli_error($conn));
 
       /* Load rec review info into database */
-      $sql = "INSERT INTO rec_review VALUES(".$_SESSION['applicantID']."', ".$_SESSION['uid'].", ".$_POST['recRating'].", ".$_POST['generic'].", ".$_POST['credible'].", ".$recID.")";
+      $sql = "INSERT INTO rec_review VALUES(".$_SESSION['applicantID'].", ".$_SESSION['uid'].", ".$_POST['recRating'].", ".$_POST['generic'].", ".$_POST['credible'].", ".$recID.")";
       $result = mysqli_query($conn, $sql) or die ("Insert into rec_review failed: ".mysqli_error($conn));
 
 

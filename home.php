@@ -157,6 +157,8 @@
 			if ($resultAll->num_rows > 0) {
 				// show all other applicants
 				echo "</table><br/>&nbsp<br/>&nbsp<br/> <h3 style='text-align:center;'>All Applicants:</h3>";
+				echo $_SESSION['error'];
+				$_SESSION['error'] = "";
 				reviewTable($resultAll);
 			}
 			else 
