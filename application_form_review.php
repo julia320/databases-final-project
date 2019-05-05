@@ -28,16 +28,15 @@
 
 
   /* IF THIS STUDENT HAS ALREADY BEEN REVIEWED BY THIS REVIEWER, DON'T ALLOW ANOTHER */
-  $q = "SELECT rating FROM app_review WHERE reviewer=".$_SESSION['uid']." AND uid=".$_SESSION['applicantID'];
+  $q = "SELECT status, rating FROM app_review WHERE reviewer=".$_SESSION['uid']." AND uid=".$_SESSION['applicantID'];
   $result = mysqli_query($conn, $q);
   $value = mysqli_fetch_object($result);
   if ($value->rating != NULL){
     $_SESSION['error'] = "<p style='color:red; text-align:center;'>You have already reviewed this student.</p><br/>";
     header("Location: home.php");
     die();
-        //<div style='display: inline-block;' class='menu-button'>
-        //<form action='home.php'><input type='submit' value='Back'/></form></div>";
   }
+  $status = $value->status;
 
   
   $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['applicantID'];
@@ -97,8 +96,39 @@
         echo "<p style='color:red;'>Error: This applicant does not have a recommendation letter</p>";
       }
 
+
+      // Calculate final status IF the reviewer is the CAC
+      if (in_array("cac", $_SESSION['types'])) {
+        $action = $_POST['rating'];
+        if ($action == 1) {
+          $status = 8;
+        }
+        if ($action == 2 || $action == 3) {
+          $status = 6;
+        }
+        if ($action == 4) {
+          $status = 7;
+        }
+
+        // Update all instances of the applicant's reviews
+        mysqli_query($conn, "UPDATE app_review SET status=".$status." WHERE uid=".$_SESSION['applicantID']);
+
+        // View other reviews
+        $q = "SELECT rating FROM app_review WHERE uid=".$_SESSION['applicantID'];
+        $result = mysqli_query($conn, $q) or die ("Error: line 218");
+        $value = mysqli_fetch_object($result);
+        if ($value->rating != NULL) {
+          // if a review has been made, show the button
+          $view = "<form action='view_faculty_review.php' method='post'>
+                <input type='submit' name=".$_SESSION['applicantID']." value='View Faculty Reviews'>
+                </form>";
+        }
+      }
+
+
       /* Load general review info into datase */
-      $sql = "INSERT INTO app_review (uid, reviewer, comments, deficiency, rating, advisor, dated) VALUES (".$_SESSION['applicantID'].", ".$_SESSION['uid'].", '".$_POST['comments']."', '".$_POST['defCourse']."', ".$_POST['rating'].", '".$_POST['advisor']."', '".$date."')";
+      // these are such ugly queries, I'm so sorry
+      $sql = "INSERT INTO app_review (uid, reviewer, comments, deficiency, rating, advisor, status, dated) VALUES (".$_SESSION['applicantID'].", ".$_SESSION['uid'].", '".$_POST['comments']."', '".$_POST['defCourse']."', ".$_POST['rating'].", '".$_POST['advisor']."', ".$status.", '".$date."') ON DUPLICATE KEY UPDATE comments='".$_POST['comments']."', deficiency='".$_POST['defCourse']."', rating=".$_POST['rating'].", advisor='".$_POST['advisor']."', status=".$status.", dated='".$date."'";
       $result = mysqli_query($conn, $sql) or die ("Insert into app_review failed: ".mysqli_error($conn));
 
       /* Load rec review info into database */

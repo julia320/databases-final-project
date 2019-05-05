@@ -217,14 +217,8 @@
 			for ($i=0; $i < $results->num_rows; $i++) {
 				$row = $results->fetch_assoc();
 
-				// button will go to a different place based on role
-				if ($_SESSION['type'] == "rev")
-					$action = "application_form_review.php";
-				else 
-					$action = "application_form_review_CAC.php";
-
-				$button = "<form action='".$action."' method='post'>
-		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
+				$button = "<form action='application_form_review.php' method='post'>
+		    					<input type='submit' name='".$row['uid']."' value='Review Application'>
 						  	</form>";
 
 				echo "<tr><td>".$row['fname']."</td><td>".$row['lname']."</td><td>".$button."</td></tr>";
