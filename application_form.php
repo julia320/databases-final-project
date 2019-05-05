@@ -425,7 +425,8 @@ if (isset($_POST['submit'])) {
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-        $sql = "UPDATE app_review SET status = 2 WHERE uid = " . $_SESSION['uid'] . "";
+        // set status and make default reviewer the CAC 
+        $sql = "INSERT INTO app_review (uid, reviewer, status) VALUES (".$_SESSION['uid'].", 9, 2)";
         $result = mysqli_query($conn, $sql) or die("Status update failed: " . mysqli_error($conn));
 
         mail($email, $subject, $msg, $headers) or die("rec email failed");
