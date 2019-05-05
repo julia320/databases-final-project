@@ -441,47 +441,52 @@ if (isset($_POST['submit'])) {
         $sql = "INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES('".$fnameRec."', '".$lnameRec."', '".$email."', '".$institution."', ".$_SESSION['uid'].")";
         $result = mysqli_query($conn, $sql) or die("1st rec letter failed: " . mysqli_error($conn));
 
-        if ($fnameRec2 != NULL) {
+        if ($fnameRec2) {
             $sql = "INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES('".$fnameRec2."', '".$lname2Rec."', '".$email2."', '".$institution2."', " . $_SESSION['uid'] . ")";
             $result = mysqli_query($conn, $sql) or die ("2nd rec failed: ".mysqli_error($conn));
         }
 
-        if ($fnameRec3 != NULL) {
+        if ($fnameRec3) {
             $sql = "INSERT INTO rec_letter (fname, lname, email, institution, uid) VALUES('".$fnameRec3."', '".$lname3Rec."', '".$email3."', '".$institution3."', " . $_SESSION['uid'] . ")";
             $result = mysqli_query($conn, $sql) or die ("3rd rec failed: ".mysqli_error($conn));
         }
-
-
-        /* Get the recID for each recommendation */
-        $recs = mysqli_query($conn, "SELECT recID FROM rec_letter WHERE uid=".$_SESSION['uid']." AND email=".$email);
-        $row = $recs->fetch_assoc();
-        $_SESSION['rec1'] = $row['recID'];
-        $_SESSION['rec2'] = $_SESSION['rec1'] + 1;
-        $_SESSION['rec3'] = $_SESSION['rec2'] + 1;
-
-        //email rec
-        $msg = '<html>
-				<head>
-					<title>Invitation To Write Recommendation Letter</title>
-				</head>
-				<body>
-					<p>'.$fname.' '.$lname.' has requested a letter of recommendation from you. If you are interested, please copy the UID and follow the link below.<br>
-						UID: '.$_SESSION["uid"].'<br><br>
-						<a href="http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/rec_letter.php "> http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/rec_letter.php </a>
-					</p>
-				</body>
-				</html>';
-        $subject = "Recommendation Letter for ".$fname." ".$lname;
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
         // set status and make default reviewer the CAC 
         $sql = "INSERT INTO app_review (uid, reviewer, status) VALUES (".$_SESSION['uid'].", 9, 2)";
         $result = mysqli_query($conn, $sql) or die("Status update failed: " . mysqli_error($conn));
 
-        mail($email, $subject, $msg, $headers) or die("1st rec email failed");
-        mail($email2, $subject, $msg, $headers) or die("2nd rec email failed");
-        mail($email3, $subject, $msg, $headers) or die("3rd rec email failed");
+
+        /* Get the recID for each recommendation */
+        $recs = mysqli_query($conn, "SELECT recID FROM rec_letter WHERE uid=".$_SESSION['uid']." AND email='".$email."'");
+        $row = $recs->fetch_assoc();
+        $rec1 = $row['recID'];
+        $rec2 = $rec1 + 1;
+        $rec3 = $rec2 + 1;
+
+        //email rec
+        $msg1 = '<p>'.$fname.' '.$lname.' has requested a letter of recommendation from you. If you are interested, please copy the identification numbers and follow the link below.<br>
+			UID: '.$_SESSION["uid"].'<br>
+            RecID: '.$rec1.'<br>
+			<a href="http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/rec_letter.php "> http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/rec_letter.php </a></p>';
+
+        $msg2 = '<p>'.$fname.' '.$lname.' has requested a letter of recommendation from you. If you are interested, please copy the identification numbers and follow the link below.<br>
+            UID: '.$_SESSION["uid"].'<br>
+            RecID: '.$rec2.'<br>
+            <a href="http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/rec_letter.php "> http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/rec_letter.php </a></p>';
+
+        $msg3 = '<p>'.$fname.' '.$lname.' has requested a letter of recommendation from you. If you are interested, please copy the identification numbers and follow the link below.<br>
+            UID: '.$_SESSION["uid"].'<br>
+            RecID: '.$rec3.'<br>
+            <a href="http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/rec_letter.php "> http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/rec_letter.php </a></p>';
+
+        $subject = "Recommendation Letter for ".$fname." ".$lname;
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+        mail($email, $subject, $msg1, $headers) or die("1st rec email failed");
+        if ($fnameRec2) mail($email2, $subject, $msg2, $headers) or die("2nd rec email failed");
+        if ($fnameRec3) mail($email3, $subject, $msg3, $headers) or die("3rd rec email failed");
+
         // If we made it here,  we're done
         $done = true;
     }
