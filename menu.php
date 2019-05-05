@@ -413,6 +413,21 @@
             $nextItem = true;
         }
 
+        //ANALYTICS
+        $anPrompt = "View Course Analytics";
+        $anAction = "analytics.php";
+        if (in_array("admin", $typeArray) || in_array("secr", $typeArray)) {
+            $nextItem = true;
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $anAction . "\"><input type=\"submit\" value=\"" . $anPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
         echo "</div></div>";
 
     ?>
