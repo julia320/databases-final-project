@@ -18,6 +18,8 @@
     {
         die("Connection failed: " . mysqli_connect_error());
     }
+    $type = $_SESSION['type'];
+    $typeArray = explode(",", $type);
    
     $sessionID = $_SESSION["uid"];
     
@@ -45,7 +47,7 @@
     </form>
 
     <head>
-        <title>Approve for Graduation</title>
+        <title>Assign Advisor</title>
     </head>
 <?php 
     if(!empty($_GET["action"]))
@@ -53,32 +55,23 @@
         switch($_GET["action"])
         { 
             case "add":
-                echo "User selected: ".$_GET["uid"]."<br/>";
+                //echo "User selected: ".$_GET["uid"]."<br/>";
+                //echo $_POST["uid"] . "hey";
 
                 // get the recommended advisor
-                $q = "SELECT app_review.advisor FROM app_review, user WHERE type IN ('MS, PHD') AND user.uid=app_review.uid AND user.uid=".$_GET['uid'];
-                $result = mysqli_query($mysqli, $q);
-                $row = $result->fetch_assoc();
-                if ($result->num_rows > 0)
-                    echo "Recommended advisor based on application: ".$row['advisor']."<br/>";
-
-                $aQuery = "SELECT uid FROM user WHERE type = 'adv' ORDER BY rand() LIMIT 1";
+                $aQuery = "UPDATE user SET advisor = $_POST[advChange] WHERE uid = '$_GET[uid]'";
                 $aResult = mysqli_query($mysqli, $aQuery);
               
-                $adv = '';
-                if(mysqli_num_rows($aResult) != 1)
+                $query = "SELECT * FROM user WHERE uid = $_POST[advChange] AND type = 'adv' OR type = 'inst,adv'";
+                $result = mysqli_query($mysqli, $query);
+                if($aResult && $result->num_rows > 0)
                 {
-                    echo "Advisor not added";
+                    echo "Advisor " . $_POST["advChange"] . " assigned to " . $_GET['uid'];
                 }
                 else
                 {	
-					$aRow = mysqli_fetch_assoc($aResult);
-                    $adv = $aRow['advisor'];	
-                    $uid = $_GET["uid"] ;
-                    echo "adv selected" . $adv;
-                    $sql = "UPDATE  user SET advisor = '$adv' WHERE uid= '$uid' ";
-                    $stmt = mysqli_query($mysqli, $sql);
-                }    
+					echo "Error: The entered uid is not associated with an advisor.";
+                }     
                 break;
             
         }
@@ -106,6 +99,7 @@
                 <td>NAME</td>
                 <td>MAJOR</td>
                 <td>PROGRAM</td>
+                <td>ADVISOR</td>
                 <td>Add an Advisor</td>
             </tr>
         </thead>
@@ -124,14 +118,23 @@
             // output data of each row
             while($row = $result->fetch_assoc()) 
             {
+                $advisor = $row["advisor"];
+                
 ?>   
 				    <tr>
                         <td><?php echo $row["uid"] ; ?></td>
                         <td><?php echo $row["lname"] . ', ' . $row["fname"] ; ?></td>
                         <td><?php echo $row["major"] ; ?></td>
                         <td><?php echo $row["program"] ; ?></td>
+                        <td><?php echo $row["advisor"] ; ?></td>
+                        
+    
                         <td>
+                        
+                        
                             <form class="example" action="assignAdvisor.php?action=add&uid=<?php echo $row['uid']; ?>" method="post"  >
+                                <input hidden type="text" name= "uid" value = "<?php echo $uid; ?>">
+                                <input type="text" name="advChange" required>
                                 <button class="Add_An_Advisor">
                                     Assign Advisor
                                 </button>
@@ -141,8 +144,48 @@
 <?php
             }
         }
+        
+
+        // get the recommended advisor
+        $q = "SELECT app_review.advisor FROM app_review, user WHERE type IN ('MS, PHD')";
+        $result = mysqli_query($mysqli, $q);
+        $row = $result->fetch_assoc();
+        if ($result->num_rows > 0)
+        {
+            ?>
+            </tbody>
+            <table style="width:100%">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>NAME</td>
+                <td>MAJOR</td>
+                <td>PROGRAM</td>
+                <td>RECOMMENDED ADVISOR</td>
+            </tr>
+        </thead>
+    <tbody>
+<?php
+        while($row = $result->fetch_assoc()) 
+            {
+                $advisor = $row["advisor"];
+                
+?>   
+				    <tr>
+                        <td><?php echo $row["uid"] ; ?></td>
+                        <td><?php echo $row["lname"] . ', ' . $row["fname"] ; ?></td>
+                        <td><?php echo $row["major"] ; ?></td>
+                        <td><?php echo $row["program"] ; ?></td>
+                        <td><?php echo $row["app_review.advisor"] ; ?></td>
+                    
+                    </tr>
+<?php
+            }
+        }
+            //echo "Recommended advisor based on application: ".$row['advisor']."<br/>";
+        
 ?>
-        </tbody>
+        
 
 <?php 
     } 
@@ -172,22 +215,32 @@
         }
         else
         {
-            while($row = $result->fetch_assoc())
+            while($row = $result->fetch_assoc()) 
             {
-?>   
-                    <td><?php echo $row["uid"] ; ?></td>
-                    <td><?php echo $row["lname"] . ', ' . $row["fname"] ; ?></td>
-                    <td><?php echo $row["major"] ; ?></td>
-                    <td><?php echo $row["program"] ; ?></td>
-                    <td>
-                        <form class="example" action="assignAdvisor.php?action=add&uid=<?php echo $row['uid']; ?>" method="post"  >
-                            <button class="Add_An_Advisor">
-                                Assign Advisor
-                            </button>
-                        </form>     
-                    </td>                                                  
-<?php
+                $advisor = $row["advisor"];
                 
+?>   
+				    <tr>
+                        <td><?php echo $row["uid"] ; ?></td>
+                        <td><?php echo $row["lname"] . ', ' . $row["fname"] ; ?></td>
+                        <td><?php echo $row["major"] ; ?></td>
+                        <td><?php echo $row["program"] ; ?></td>
+                        <td><?php echo $row["advisor"] ; ?></td>
+                        
+    
+                        <td>
+                        
+                        
+                            <form class="example" action="assignAdvisor.php?action=add&uid=<?php echo $row['uid']; ?>" method="post"  >
+                                <input hidden type="text" name= "uid" value = "<?php echo $uid; ?>">
+                                <input type="text" name="advChange" required>
+                                <button class="Add_An_Advisor">
+                                    Assign Advisor
+                                </button>
+                            </form>     
+                        </td>
+                    </tr>
+<?php
             }
         }
     }
@@ -211,20 +264,31 @@
         }
         else
         {
-            while(($row = $result->fetch_assoc()) )
+            while($row = $result->fetch_assoc()) 
             {
+                $advisor = $row["advisor"];
+                
 ?>   
-                    <td><?php echo $row["uid"] ; ?></td>
-                    <td><?php echo $row["lname"] . ', ' . $row["fname"] ; ?></td>
-                    <td><?php echo $row["major"] ; ?></td>
-                    <td><?php echo $row["program"] ; ?></td>
-                    <td>
-                        <form class="example" action="assignAdvisor.php?action=add&uid=<?php echo $row['uid']; ?>" method="post"  >
-                            <button class="Add_An_Advisor">
-                                Assign Advisor
-                            </button>
-                        </form>     
-                    </td>
+				    <tr>
+                        <td><?php echo $row["uid"] ; ?></td>
+                        <td><?php echo $row["lname"] . ', ' . $row["fname"] ; ?></td>
+                        <td><?php echo $row["major"] ; ?></td>
+                        <td><?php echo $row["program"] ; ?></td>
+                        <td><?php echo $row["advisor"] ; ?></td>
+                        
+    
+                        <td>
+                        
+                        
+                            <form class="example" action="assignAdvisor.php?action=add&uid=<?php echo $row['uid']; ?>" method="post"  >
+                                <input hidden type="text" name= "uid" value = "<?php echo $uid; ?>">
+                                <input type="text" name="advChange" required>
+                                <button class="Add_An_Advisor">
+                                    Assign Advisor
+                                </button>
+                            </form>     
+                        </td>
+                    </tr>
 <?php
             }
         }
