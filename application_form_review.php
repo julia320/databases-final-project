@@ -36,6 +36,10 @@
     header("Location: home.php");
     die();
   }
+
+  $q = "SELECT status, rating FROM app_review WHERE uid=".$_SESSION['applicantID'];
+  $result = mysqli_query($conn, $q);
+  $value = mysqli_fetch_object($result);
   $status = $value->status;
 
   

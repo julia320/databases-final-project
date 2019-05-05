@@ -418,7 +418,7 @@ if (isset($_POST['submit'])) {
 
         if (mysqli_num_rows($result) == 0) {
             $sql = "INSERT INTO academic_info (uid, dated, degreeType, AOI, experience, semester, year) VALUES(" . $_SESSION['uid'] . ", '" . $date . "', '" . $degreeType . "', '" . $aoi . "', '" . $experience . "', '" . $semester . "', " . $appYear . ")";
-            $result = mysqli_query($conn, $sql) or die("Insert academic info failed: " . mysqli_error($conn));
+            $result = mysqli_query($conn, $sql) or die("Insert academic info failed: ".$q."<br/>".mysqli_error($conn));
         } else {
             $sql = "UPDATE academic_info SET dated='" . $date . "', degreeType='" . $degreeType . "', AOI='" . $aoi . "', experience='" . $experience . "', semester='" . $semester . "', year=" . $appYear . " WHERE uid=" . $_SESSION['uid'];
             $result = mysqli_query($conn, $sql) or die("Update academic info failed: " . mysqli_error($conn));
