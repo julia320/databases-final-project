@@ -63,8 +63,23 @@
   $result = mysqli_query($conn, $sql) or die ("************* REC LETTER SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $university = $value->institution;
-  /////////////////////////////////////////////////////////////
 
+
+  // View other reviews
+  $view = "<br/>";
+  $q = "SELECT user.uid, lname, reviewer, rating FROM user, app_review WHERE user.uid=reviewer AND app_review.uid=".$_SESSION['applicantID'];
+  $reviews = mysqli_query($conn, $q) or die ("Error: line 120");
+  while ($row = $reviews->fetch_assoc()) {
+    // if a review has been made, show the button
+    if ($row['rating'] != NULL) {
+      $view .= "<form action='view_faculty_review.php' method='post'>
+            <input type='submit' name=".$row['uid']." value=\"View ".$row['lname']."'s Review\">
+            </form>";
+    }
+  }
+
+
+  /* Validation and SQL inserts/updates */
   $somethingEmpty = "";
   $greenlight = 1;;
   if (isset($_POST['submit'])){
@@ -97,8 +112,9 @@
       }
 
 
-      // Calculate final status IF the reviewer is the CAC
+      // Update final decision IF the reviewer is the CAC
       if (in_array("cac", $_SESSION['types'])) {
+        // Calculate status
         $action = $_POST['rating'];
         if ($action == 1) {
           $status = 8;
@@ -112,17 +128,6 @@
 
         // Update all instances of the applicant's reviews
         mysqli_query($conn, "UPDATE app_review SET status=".$status." WHERE uid=".$_SESSION['applicantID']);
-
-        // View other reviews
-        $q = "SELECT rating FROM app_review WHERE uid=".$_SESSION['applicantID'];
-        $result = mysqli_query($conn, $q) or die ("Error: line 218");
-        $value = mysqli_fetch_object($result);
-        if ($value->rating != NULL) {
-          // if a review has been made, show the button
-          $view = "<form action='view_faculty_review.php' method='post'>
-                <input type='submit' name=".$_SESSION['applicantID']." value='View Faculty Reviews'>
-                </form>";
-        }
       }
 
 
@@ -132,7 +137,7 @@
       $result = mysqli_query($conn, $sql) or die ("Insert into app_review failed: ".mysqli_error($conn));
 
       /* Load rec review info into database */
-      $sql = "INSERT INTO rec_review VALUES(".$_SESSION['applicantID'].", ".$_SESSION['uid'].", ".$_POST['recRating'].", ".$_POST['generic'].", ".$_POST['credible'].", ".$recID.")";
+      $sql = "INSERT INTO rec_review VALUES(".$_SESSION['applicantID'].", ".$_SESSION['uid'].", ".$_POST['recRating'].", ".$_POST['generic'].", ".$_POST['credible'].", ".$recID.") ON DUPLICATE KEY UPDATE rating=".$_POST['recRating'].", generic=".$_POST['generic'].", credible=".$_POST['credible'];
       $result = mysqli_query($conn, $sql) or die ("Insert into rec_review failed: ".mysqli_error($conn));
 
 
@@ -182,7 +187,7 @@
     <b>Applying for Degree: </b> <u> <?php echo $degreeType; ?> </u> <br>
     <hr>
 
-    <h3>Summary of Credentials </h3>
+    <h2>Application</h2>
     <b>GRE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Verbal: </b>
     <u> <?php echo $verbal; ?> </u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Quantitative: </b>
     <u> <?php echo $quant; ?> </u><br>
@@ -222,9 +227,14 @@
       }
     ?>
 
+    <br/>
     <b>Areas of Interest: </b> <u> <?php echo $aoi; ?> </u> <br>
     <b>Experience: </b> <u> <?php echo $experience; ?> </u> <br><br>
 
+    <?php echo $view; ?>
+    <br/><hr>
+
+    <h2>Review Form:</h2>
     <h3>Recommendation Letter </h3>
     <b>From: </b> <u> <?php echo $university; ?> </u> <br>
     <form id="mainform" method="post">
@@ -239,7 +249,7 @@
       No<input type="radio" name="generic" value=false> <br>
       Credible: &nbsp;&nbsp;&nbsp;&nbsp; 
       Yes<input type="radio" name="credible" value=true> &nbsp;&nbsp;&nbsp;&nbsp;
-      No<input type="radio" name="credible" value=false> <hr>
+      No<input type="radio" name="credible" value=false>
 
       <h3> Grad Admissions Commitee Review Rating </h3>
 
