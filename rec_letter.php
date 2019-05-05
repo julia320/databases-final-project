@@ -62,6 +62,13 @@
     }
 
 
+    if ($dataReady) {
+    	$sql = "UPDATE rec_letter SET recommendation = '".$rec."' WHERE uid=".$uid." AND recID=".$recID; 
+    	$result = mysqli_query($conn, $sql) or die ("Update query failed: ".mysqli_error($conn));
+    	die("<br><h2> Recommendation Letter Sent. Please Exit This Page </h2>");
+    }
+
+
     // Update status based on what they already have
     $result = mysqli_query($conn, "SELECT transcript FROM academic_info WHERE uid=".$uid);
     if (!$result) 
@@ -77,13 +84,7 @@
       $query = "UPDATE app_review SET status=3 WHERE uid=".$uid;
 
     mysqli_query($conn, $query) or die ("Update status failed: ".mysqli_error($conn));
-
-
-    if ($dataReady){
-    	$sql = "UPDATE rec_letter SET recommendation = '".$rec."' WHERE uid=".$uid." AND recID=".$recID; 
-    	$result = mysqli_query($conn, $sql) or die ("Update query failed: ".mysqli_error($conn));
-    	die("<br><h2> Recommendation Letter Sent. Please Exit This Page </h2>");
-    }
+    mysqli_query($conn, "UPDATE academic_info SET recletter=1 WHERE uid=".$uid);
   }
 ?>
 
