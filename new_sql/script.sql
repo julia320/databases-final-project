@@ -244,7 +244,8 @@ INSERT INTO rec_letter VALUES
   ("Professor", "Man", "prof@gwu.edu", "George Washington University", 55551111, 1, "This is John Lennon's recommendation"),
   ("Bob", "Smith", "bob@umd.edu", "University of Maryland", 00001234, 2, "This is Louis Armstrong's recommendation"),
   ("Jane", "Doe", "jane@gmail.com", "GWU", 00001235, 3, "This is Aretha Franklin's recommendation letter"),
-  ("Sally", "Ride", "sally@nasa.com", "NASA", 00001236, 4, "This is Carlos Santana's recommendation letter");
+  ("Sally", "Ride", "sally@nasa.com", "NASA", 00001236, 4, "This is Carlos Santana's recommendation letter"),
+  ("John", "Deer", "johndeer@gwu.edu", "GWU", 66661111, 5, NULL);
 
 INSERT INTO gre VALUES
   (145, 155, 2018, 140, "Physics", NULL, 2018, 55551111), #John Lennon
