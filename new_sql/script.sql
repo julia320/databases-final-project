@@ -239,7 +239,17 @@ INSERT INTO academic_info VALUES
   (66661111, "2019/04/13", "MS", "Machine Learning and AI", "NLP research", "FA", "2019", 1, 0), #Ringo Starr
   (00001234, "2017/01/07", "MS", "Cyber Security", "none", "FA", "2017", 1, 1), #Louis Armstrong
   (00001235, "2016/12/05", "MS", "Quantum Computing", "built a quantum computer", "FA", "2017", 1, 1), #Aretha Franklin
-  (00001236, "2016/11/29", "PHD", "Cybersecurity", "government internship", "FA", "2017", 1, 1); #Carlos Santana
+  (00001236, "2016/11/29", "PHD", "Cybersecurity", "government internship", "FA", "2017", 1, 1), #Carlos Santana
+  (87654321, "2014/01/01", "MS", "Computers", "Computing things", "FA", "2014", 1,1),
+  (23456789, "2014/01/01", "PHD", "Computers", "Computing things", "FA", "2014", 1,1),
+  (66666666, "2014/01/01", "MS", "Computers", "Computing things", "SP", "2015", 1,1),
+  (45678901, "2000/01/01", "MS", "Computers", "Computing things", "SP", "2008", 1,1),
+  (88888888, "2000/01/01", "MS", "Computers", "Computing things", "SP", "2008", 1,1),
+  (99999999, "2000/01/01", "MS", "Computers", "Computing things", "FA", "2008", 1,1),
+  (55555555, "2000/01/01", "MS", "Computers", "Computing things", "FA", "2009", 1,1),
+  (12345678, "2000/01/01", "PHD", "Computers", "Computing things", "SP", "2008", 1,1),
+  (11, "2000/01/01", "MS", "Computers", "Computing things", "FA", "2017", 1,1),
+  (10, "2000/01/01", "PHD", "Computers", "Computing things", "FA", "2017", 1,1);
 
 INSERT INTO rec_letter VALUES
   ("Professor", "Man", "prof@gwu.edu", "George Washington University", 55551111, 1, "This is John Lennon's recommendation"),
@@ -264,7 +274,17 @@ INSERT INTO prior_degrees VALUES
 
 INSERT INTO app_review (uid, reviewer, status) VALUES
   (55551111, 7, 5), (55551111, 9, 5), # John Lennon: no reviews
-  (66661111, 7, 4), (66661111, 9, 4); # Ringo Starr: incomplete, missing letters
+  (66661111, 7, 4), (66661111, 9, 4), # Ringo Starr: incomplete, missing letters
+  (87654321, 8, 7),
+  (23456789, 8, 7),
+  (66666666, 8, 7),
+  (45678901, 8, 7),
+  (88888888, 8, 7),
+  (99999999, 8, 7),
+  (55555555, 8, 7),
+  (12345678, 8, 7),
+  (11, 8, 7),
+  (10, 8, 7);
 
 INSERT INTO app_review VALUES
   # Louis Armstrong: rejected
