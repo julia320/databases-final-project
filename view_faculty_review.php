@@ -1,7 +1,6 @@
 
 <?php
   session_start();  
-  //$_SESSION['id'] = 55555555;
   /*Important variable that will be used later to determine 
   if we're ready to move to the next page of the application */
   $done = false;
@@ -12,24 +11,26 @@
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
   }
-
-  ////////////////////////////////////////////////////
-  //RETRIEVE INFORMATION
-  ////////////////////////////////////////////////////
-  //get the applicant the GS wants to update
-  $applicants = mysqli_query($conn, "SELECT * FROM user WHERE type='App'");
-  while ($row = $applicants->fetch_assoc()) {
-    if (isset($_POST[$row['uid']])) {
-      $_SESSION['applicantID'] = $row['uid'];
-      $fname = $row['fname'];
-      $lname = $row['lname'];
-      $name = $fname." ".$lname;
-    }
-  }
  
 
-  if (!$_SESSION['applicantID'])
+  /* Get the review we want to look at */
+  $reviewers = mysqli_query($conn, "SELECT * FROM user WHERE type LIKE '%rev%'");
+  while ($row = $reviewers->fetch_assoc()) {
+    if (isset($_POST[$row['uid']])) {
+      $reviewer = $row['uid'];
+      $name = $row['fname']." ".$row['lname'];
+    }
+  }
+  if (!$reviewer)
+    echo "Error: Review not found</br>";
+
+  if (!$_SESSION['applicantID']) // should be set from before
     echo "Error: Applicant not found</br>";
+
+  // Get applicant's name
+  $applicant = mysqli_query($conn, "SELECT * FROM user WHERE uid=".$_SESSION['applicantID']);
+  $applicant = $applicant->fetch_assoc();
+  $appname = $applicant['fname']." ".$applicant['lname'];
 
 
   $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['applicantID'];
@@ -57,8 +58,8 @@
   $value = mysqli_fetch_object($result);
   $university = $value->institution;
 
-  //Review info:
-  $sql = "SELECT rating, generic, credible FROM rec_review WHERE reviewerRole = 'rev' AND uid = " .$_SESSION['applicantID'];
+  // Review info:
+  $sql = "SELECT rating, generic, credible FROM rec_review WHERE uid=".$_SESSION['applicantID']." AND reviewer=".$reviewer;
   $result = mysqli_query($conn, $sql) or die ("************* retrieve rec review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $rating = $value->rating;
@@ -75,25 +76,22 @@
     $credible = "No";
   }
 
-  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE reviewerRole = 'rev' AND uid = " .$_SESSION['applicantID'];
+  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE uid=".$_SESSION['applicantID']." AND reviewer=".$reviewer;
   $result = mysqli_query($conn, $sql) or die ("************* retrieve app review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
   $comments = $value->comments;
   $deficiency = $value->deficiency;
   $action = $value->rating;
   $advisor = $value->advisor;
-  /////////////////////////////////////////////////////////////
   
 ?>
 
 <html>
   
-  <title>
-    Faculty Review
-  </title>
-  <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
-    <link rel = "stylesheet" type="text/css" href="style.css"/> 
+  <title>Faculty Review</title>
+  <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+  <link rel = "stylesheet" type="text/css" href="style.css"/> 
   
   <style>
     .field {
@@ -112,13 +110,14 @@
       text-align: left;
     }
   </style>
-  
-  <h1> Faculty Review </h1>
 
   <body>
+
+    <h1><?php echo $name;?>'s Review of <?php echo $appname;?></h1>
+
     <!-- General info -->
     <h2> Applicant Information </h2>
-    <b>Name: </b> <u> <?php echo $fname.", ".$lname; ?> </u> <br><br>
+    <b>Name: </b> <u> <?php echo $appname; ?> </u> <br><br>
     <b>Student Number: </b> <u> <?php echo $_SESSION['applicantID']; ?> </u> <br><br>
 
     <!-- Academic Info -->
@@ -141,7 +140,7 @@
     <h3>Prior Degrees </h3> 
     <?php
       //display prior degree info in a table format
-      $sql = "SELECT * FROM prior_degrees WHERE uid= " .$_SESSION['id'];
+      $sql = "SELECT * FROM prior_degrees WHERE uid= " .$_SESSION['uid'];
       $result = mysqli_query($conn, $sql);
       if (mysqli_num_rows($result) > 0){
         echo "<table style=width:40%>";
@@ -170,6 +169,7 @@
     <b>Experience: </b> <u> <?php echo $experience; ?> </u> <br><br>
     <hr>
 
+
     <h2> Faculty Review </h2>
 
     
@@ -189,19 +189,10 @@
     	
 
       <?php
-        if ($_SESSION['type'] == 'cac'){
-            echo '<form id="mainform" method="post" action="application_form_review_CAC.php">
-      	        <div class="bottomCentered"> <input type="submit" name="submit" value="Return"> </div>
-     	        </form>';
-     	}
-     	if($_SESSION['type'] == 'secr'){
-     		echo '<form id="mainform" method="post" action="home.php">
-      	        <div class="bottomCentered"> <input type="submit" name="submit" value="Return"> </div>
-     	        </form>';
-     	}
+      echo '<form id="mainform" method="post" action="application_form_review.php">
+	        <div class="bottomCentered"> <input type="submit" name="submit" value="Back"> </div>
+	        </form>';
       ?>
-
-
 
   </body>
 </html>
