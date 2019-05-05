@@ -62,6 +62,23 @@
     }
 
 
+    // Update status based on what they already have
+    $result = mysqli_query($conn, "SELECT transcript FROM academic_info WHERE uid=".$uid);
+    if (!$result) 
+      echo "Error retrieving application info: ".mysqli_error();
+    $row = $result->fetch_assoc();
+    $transcript = $row['transcript'];
+
+    // if they have the transcript, then it is now complete
+    if ($transcript == 1)
+      $query = "UPDATE app_review SET status=5 WHERE uid=".$uid;
+    // if transcript is missing, status is now 3
+    else
+      $query = "UPDATE app_review SET status=3 WHERE uid=".$uid;
+
+    mysqli_query($conn, $query) or die ("Update status failed: ".mysqli_error($conn));
+
+
     if ($dataReady){
     	$sql = "UPDATE rec_letter SET recommendation = '".$rec."' WHERE uid=".$uid." AND recID=".$recID; 
     	$result = mysqli_query($conn, $sql) or die ("Update query failed: ".mysqli_error($conn));
@@ -72,9 +89,7 @@
 
 <html>
   
-  <title>
-    Recomendation Letter
-  </title>
+  <title>Recomendation Letter</title>
     <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/>
