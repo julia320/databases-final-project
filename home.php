@@ -120,7 +120,7 @@
 			}
 
 			else 
-				echo "Error: we could not find any information for this user</p><br/>";
+				echo "Error: we were unable to find your information</p><br/>";
 
 		}// end-applicant view
 
