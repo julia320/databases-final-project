@@ -152,6 +152,11 @@
             // make sure their passwords matched
 			else if ($_POST['password'] == $_POST['password2']) {
 
+				// create a user id for the new account by doing max+1
+	            $query = "SELECT MAX(uid) AS max FROM user";
+	            $row = mysqli_query($conn, $query)->fetch_assoc();
+	            $_SESSION['uid'] = $row['max'] + 1;
+
 	            // add info to the database
 	            $query = "INSERT INTO user (type, fname, lname, ssn, street, city, state, zip, password, email, active) VALUES ('App', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['ssn']."', '".$_POST['street']."', '".$_POST['city']."', '".$_POST['state']."', '".$_POST['zip']."', '".$_POST['password']."', '".$_POST['email']."', 'yes')";
 	            	
