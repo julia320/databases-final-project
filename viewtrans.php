@@ -85,7 +85,7 @@
               }
             }
             $gpa = ($sum/$final_sum);
-            echo "GPA: " .$gpa;
+            echo "GPA: " .round($gpa, 2);
           }
     ?>
 

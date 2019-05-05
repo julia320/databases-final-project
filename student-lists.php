@@ -47,7 +47,7 @@
 
             echo '<select name="year">';
             echo '<option value="" disabled selected>Select Admit Year</option>';
-            $query = "select distinct year from academic_info where uid in (SELECT DISTINCT R.uid FROM app_review R, user U WHERE R.uid=U.uid AND (type='App' or type='MS' or type='PHD') AND status IN (6,7))";
+            $query = "select distinct year from academic_info where uid in (SELECT DISTINCT R.uid FROM app_review R, user U WHERE R.uid=U.uid AND (type='App' or type='MS' or type='PHD') AND status IN (6,7)) order by year";
             $result = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_assoc($result)) {
                 echo '<option value="'.$row['year'].'">'.$row['year'].'</option>';
