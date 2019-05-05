@@ -179,6 +179,9 @@
             } else {
                 $nextItem = false;
             }
+        } else if(in_array("admin", $typeArray) || in_array("adv", $typeArray)) {
+            $advFormAction = "viewAdvForm.php";
+            $advFormPrompt = "Review Student Advising Forms";
         } else {
             $nextItem = false;
         }

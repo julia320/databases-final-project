@@ -49,12 +49,12 @@
                 $row = mysqli_fetch_assoc(mysqli_query($connection, $query));
                 $query = "update user set hold='no' where uid=".$_SESSION['studuid'];
                 $row = mysqli_fetch_assoc(mysqli_query($connection, $query));
-                header("Location: Advisor.php");
+                header("Location: viewAdvForm.php");
                 die();
             } else if(isset($_POST['reject'])) {
                 $query = "delete from adv_form where uid=".$_SESSION['studuid'];
                 $row = mysqli_fetch_assoc(mysqli_query($connection, $query));
-                header("Location: Advisor.php");
+                header("Location: viewAdvForm.php");
                 die();
             }
 
