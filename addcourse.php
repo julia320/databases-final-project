@@ -129,9 +129,11 @@
         $getCourseDept = 'select dept from course where crn='.$courseToAdd;
         $getCourseNum = 'select courseno from course where crn='.$courseToAdd;
         $courseDept = mysqli_fetch_assoc(mysqli_query($connection, $getCourseDept))['dept'];
-        $courseNum = mysqli_fetch_assoc(mysqli_query($connection, $getCourseNum))['courseNum'];
-        $getAlreadyTaken = 'select * from transcript t, course c where t.uid='.$_SESSION['studuid'].' and c.crn=t.crn and c.courseno='.$courseNum.' and c.dept="'.$courseDept.'" and not t.grade="F"';
-        $wasItTaken = mysqli_query($connection, $getCourseNum);
+        $courseNum = mysqli_fetch_assoc(mysqli_query($connection, $getCourseNum))['courseno'];
+        $getAlreadyTaken = 'select t.crn from transcript t, course c where t.uid='.$_SESSION['studuid'].' and c.crn=t.crn and c.courseno='.$courseNum.' and c.dept="'.$courseDept.'" and not t.grade="F"';
+        $wasItTaken = mysqli_query($connection, $getAlreadyTaken);
+        // echo $getAlreadyTaken;
+        // die();
         if (mysqli_num_rows($wasItTaken) > 0) {
             $alreadyTaken = "Sorry. Under current university policy, you can't take a course more than once if you passed.";
             $canAdd = false;
