@@ -11,11 +11,8 @@
     die("Connection failed: " . mysqli_connect_error());
   }
 
-  
 
-  ////////////////////////////////////////////////////
-  //RETRIEVE INFORMATION
-  ////////////////////////////////////////////////////
+  /* RETRIEVE INFORMATION */
   // get the applicant the GS wants to update
   $applicants = mysqli_query($conn, "SELECT * FROM user WHERE type='App'");
   while ($row = $applicants->fetch_assoc()) {
@@ -30,14 +27,14 @@
     echo "Error: Applicant not found</br>";
 
 
-  //IF THIS STUDENT HAS ALREADY BEEN REVIEWED, TELL THE USER to go back
-  $sql = "SELECT rating FROM app_review WHERE reviewerRole = 'rev' AND uid = " .$_SESSION['applicantID'];
-  $result = mysqli_query($conn, $sql); //or die ("************* INITIAL TEST SQL FAILED *************");
+  /* IF THIS STUDENT HAS ALREADY BEEN REVIEWED BY THIS REVIEWER, DON'T ALLOW ANOTHER */
+  $q = "SELECT rating FROM app_review WHERE reviewer=".$_SESSION['uid']." AND uid=".$_SESSION['applicantID'];
+  $result = mysqli_query($conn, $q);
   $value = mysqli_fetch_object($result);
   if ($value->rating != NULL){
-    die('<h2> This student has already been reviewed <h2> <br><br>
+    die('<h4>You have already reviewed this student.<h4><br><br>
         <form id="mainform" method="post" action="home.php">
-        <input type="submit" name="submit" value="Back to Home">');
+        <input type="submit" name="submit" value="Back">');
   }
 
   
@@ -71,8 +68,8 @@
   $greenlight = 1;;
   if (isset($_POST['submit'])){
 
-    if(empty($_POST["rating"]) || empty($_POST["generic"]) || empty($_POST["credible"]) || empty($_POST["action"]) || empty($_POST["advisor"])){
-      if ($_POST["action"] == 1 && !empty($_POST["rating"]) && !empty($_POST["generic"]) && !empty($_POST["credible"])){
+    if(empty($_POST["recRating"]) || empty($_POST["generic"]) || empty($_POST["credible"]) || empty($_POST["rating"]) || empty($_POST["advisor"])){
+      if ($_POST["rating"] == 1 && !empty($_POST["recRating"]) && !empty($_POST["generic"]) && !empty($_POST["credible"])){
 
       }
       else{
@@ -83,18 +80,10 @@
     
     if ($greenlight == 1){
 
-      $rating = $_POST["rating"];
-      $generic = $_POST["generic"];
-      $credible = $_POST["credible"];
-      $action = $_POST["action"];
-      $advisor;
-      if (empty($_POST["advisor"]))
-        $advisor = "NA";
-      else
-        $advisor = $_POST["advisor"];
-      
+      // Get the date
+      $date = date("Y/m/d");
 
-      //set up foreign key reference between rec_letter and rec_review
+      // set up foreign key reference between rec_letter and rec_review
       $recID;
       $sql = "SELECT recID FROM rec_letter WHERE uid = " . $_SESSION['applicantID'];
       $result = mysqli_query($conn, $sql) or die ("************* GET recID FAILED*************");
@@ -103,43 +92,20 @@
         $recID = $value->recID;
       }
       else{
-        die("Cannot Review: This applicant does not have a recommendation letter");
-      }
-      //set up foreign key reference between rec_review and app_review
-      $sql = "SELECT reviewID FROM app_review WHERE uid = ".$_SESSION['applicantID']." AND reviewerRole = 'rev'";
-      $result = mysqli_query($conn, $sql) or die ("************* GET reviewID FAILED*************");
-      if (mysqli_num_rows($result) != 0){
-        $value = mysqli_fetch_object($result);
-        $reviewID = $value->reviewID;
-      }
-      else{
-        die("Cannot Review: This applicant has not been initialized properly int the database");
+        echo "<p style='color:red;'>Error: This applicant does not have a recommendation letter</p>";
       }
 
-      //load general review info into datase
-      $sql = "UPDATE app_review SET reviewerRole = '" .$_SESSION['type']. "', rating = " .$action.", advisor = '" .$advisor. "', status = 5 WHERE reviewID = " .$reviewID. "";;
-      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO app_review SQL FAILED *************");
+      /* Load general review info into datase */
+      $sql = "INSERT INTO app_review (uid, reviewer, comments, deficiency, rating, advisor, dated) VALUES (".$_SESSION['applicantID']."', ".$_SESSION['uid'].", '".$_POST['comments']."', '".$_POST['defCourse']."', ".$_POST['rating'].", '".$_POST['advisor']."', ".$date.")";
+      $result = mysqli_query($conn, $sql) or die ("Insert into app_review failed: ".mysqli_error($conn));
 
-      //load rec review info into database
-      $sql = "INSERT INTO rec_review VALUES(" .$reviewID. ", '" .$_SESSION['type']. "', " .$rating.", " .$generic. ", " .$credible. ", " . $_SESSION['applicantID'].", ". $recID . ")";
-      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO rec_review SQL FAILED *************");
-      
-      //check if defiency is empty. If not, update app review
-      if (!empty($_POST["defCourse"])){
-        $sql = "UPDATE app_review SET deficiency = '" . $_POST["defCourse"]. "' WHERE uid = " .$_SESSION['applicantID']. " AND reviewID = " .$reviewID . "";
-        $result = mysqli_query($conn, $sql) or die ("************* UPDATE app_review WITH dificiency SQL FAILED *************");
-      }
+      /* Load rec review info into database */
+      $sql = "INSERT INTO rec_review VALUES(".$_SESSION['applicantID']."', ".$_SESSION['uid'].", ".$_POST['recRating'].", ".$_POST['generic'].", ".$_POST['credible'].", ".$recID.")";
+      $result = mysqli_query($conn, $sql) or die ("Insert into rec_review failed: ".mysqli_error($conn));
 
-      //if comments is not empty, update app review
-      if (!empty($_POST["comments"])){
-        $sql = "UPDATE app_review SET comments = '" . $_POST["comments"]. "' WHERE uid = " .$_SESSION['applicantID']. " AND reviewID = " .$reviewID . "";
-        $result = mysqli_query($conn, $sql) or die ("************* UPDATE app_review WITH comments SQL FAILED *************");
 
-      }
-
-      //if reject, require reason, and load reason into database
-      if ($_POST["action"] == 1){
-        $_SESSION['reviewID'] = $reviewID;
+      // if reject, require reason
+      if ($_POST["rating"] == 1){
         header("Location:reason_for_reject.php"); 
         exit;
       }
@@ -153,8 +119,8 @@
 <html>
   
   <title>Review Form</title>
-  <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/> 
   
   <style>
@@ -205,7 +171,6 @@
         echo "<tr>";
         echo "<th>Degree</th>";
         echo "<th>GPA </th>";
-        //Add Major
         echo "<th>Year</th>";
         echo "<th>University</th>";
         echo "<th>Major</th>";
@@ -232,11 +197,11 @@
     <b>From: </b> <u> <?php echo $university; ?> </u> <br>
     <form id="mainform" method="post">
       Rating: &nbsp;&nbsp;&nbsp;&nbsp; 
-      1<input type="radio" name="rating" value=1 > &nbsp;&nbsp;&nbsp;&nbsp;
-      2<input type="radio" name="rating" value=2 > &nbsp;&nbsp;&nbsp;&nbsp;
-      3<input type="radio" name="rating" value=3 > &nbsp;&nbsp;&nbsp;&nbsp;
-      4<input type="radio" name="rating" value=4 > &nbsp;&nbsp;&nbsp;&nbsp;
-      5<input type="radio" name="rating" value=5 > <br>
+      1<input type="radio" name="recRating" value=1 > &nbsp;&nbsp;&nbsp;&nbsp;
+      2<input type="radio" name="recRating" value=2 > &nbsp;&nbsp;&nbsp;&nbsp;
+      3<input type="radio" name="recRating" value=3 > &nbsp;&nbsp;&nbsp;&nbsp;
+      4<input type="radio" name="recRating" value=4 > &nbsp;&nbsp;&nbsp;&nbsp;
+      5<input type="radio" name="recRating" value=5 > <br>
       Generic: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
       Yes<input type="radio" name="generic" value=true> &nbsp;&nbsp;&nbsp;&nbsp;
       No<input type="radio" name="generic" value=false> <br>
@@ -246,10 +211,10 @@
 
       <h3> Grad Admissions Commitee Review Rating </h3>
 
-      1. <input type="radio" name="action" value=1 > Reject <br>
-      2. <input type="radio" name="action" value=2 > Borderline Admit <br>
-      3. <input type="radio" name="action" value=3 > Admit without Aid <br>
-      4. <input type="radio" name="action" value=4 > Admit with aid <br>
+      1. <input type="radio" name="rating" value=1 > Reject <br>
+      2. <input type="radio" name="rating" value=2 > Borderline Admit <br>
+      3. <input type="radio" name="rating" value=3 > Admit without Aid <br>
+      4. <input type="radio" name="rating" value=4 > Admit with aid <br>
       
       <b>Deficiency Courses if Any: </b><input type="text" name="defCourse"><br>
       <b>Recommended Advisor: </b><input type="text" name="advisor"><br>

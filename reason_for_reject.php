@@ -1,7 +1,5 @@
 <?php
   session_start();
-  /*Important variable that will be used later to determine 
-  if we're ready to move to the next page of the application */
 
   //connect to database
   $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
@@ -16,11 +14,10 @@
       $somethingEmpty = "field required";
     }
     else{
-      $sql = "UPDATE app_review SET reason = '" . $_POST["reason"]. "' WHERE reviewID = " .$_SESSION['reviewID']. "";
-      $result = mysqli_query($conn, $sql) or die ("************* SQL FAILED *************");
+      $sql = "UPDATE app_review SET reason = '".$_POST["reason"]."' WHERE reviewer=".$_SESSION['uid']." AND uid=".$_SESSION['applicantID'];
+      $result = mysqli_query($conn, $sql) or die ("Reason update failed: ".mysqli_error($conn));
     }
 
-    $_SESSION['reviewID'] = "";
     header("Location:home.php"); 
     exit;
   }
@@ -50,10 +47,6 @@
 <body>
 
   <h2> Reason for rejecting applicant: </h2>
-
-  <form class="menu-button" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
-    <input type="submit" value="Back" formaction="menu.php">
-  </form>
 
   <!--app entity list -->
   <form id="mainform" method="post">
