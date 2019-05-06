@@ -91,7 +91,6 @@
             <tr>
                 <td>ID</td>
                 <td>NAME</td>
-                <td>MAJOR</td>
                 <td>PROGRAM</td>
                 <td>STATUS</td>
                 <td>Approve Thesis</td>
@@ -103,10 +102,10 @@
     // this is the backend part of printing all the students
     if(!isset($_POST['s1']) && !isset($_POST['searchInfo']))
     {
-        $sql = "SELECT * FROM user u, thesis_status t WHERE u.uid = t.uid ORDER BY lname";
+        $sql = "SELECT * FROM user u, thesis_status t WHERE t.uid = u.uid AND  advisor = $sessionID";
         // Prepare a select statement
         $result = $mysqli->query($sql);
-        if ($result->num_rows > 0) 
+        if ($result) 
         {
             //read all product data
             // output data of each row
@@ -118,7 +117,6 @@
 				    <tr>
                         <td><?php echo $row["uid"] ; ?></td>
                         <td><?php echo $row["lname"] . ', ' . $row["fname"] ; ?></td>
-                        <td><?php echo $row["major"] ; ?></td>
                         <td><?php echo $row["program"] ; ?></td>
                         <td><?php echo $row["status"] ; ?></td>
                         
@@ -136,6 +134,10 @@
                     </tr>
 <?php
             }
+        }
+        else
+        {
+            echo "Error: " . $query . "<br/>" . mysqli_error($conn);
         }
         
     } 
@@ -173,7 +175,6 @@
 				    <tr>
                         <td><?php echo $row["uid"] ; ?></td>
                         <td><?php echo $row["lname"] . ', ' . $row["fname"] ; ?></td>
-                        <td><?php echo $row["major"] ; ?></td>
                         <td><?php echo $row["program"] ; ?></td>
                         <td><?php echo $row["status"] ; ?></td>
                         
@@ -221,7 +222,6 @@
 				    <tr>
                         <td><?php echo $row["uid"] ; ?></td>
                         <td><?php echo $row["lname"] . ', ' . $row["fname"] ; ?></td>
-                        <td><?php echo $row["major"] ; ?></td>
                         <td><?php echo $row["program"] ; ?></td>
                         <td><?php echo $row["status"] ; ?></td>
                         
