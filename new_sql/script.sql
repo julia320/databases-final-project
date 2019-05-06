@@ -3,6 +3,7 @@
 DROP TABLE IF EXISTS gre CASCADE;
 DROP TABLE IF EXISTS prior_degrees CASCADE;
 DROP TABLE IF EXISTS academic_info CASCADE;
+DROP TABLE IF EXISTS dates CASCADE;
 DROP TABLE IF EXISTS form1 CASCADE;
 DROP TABLE IF EXISTS adv_form CASCADE;
 DROP TABLE IF EXISTS corereq CASCADE;
@@ -30,12 +31,21 @@ CREATE TABLE user (
   zip int(5),
   program varchar(20),
   major varchar(10),
-  gradYear varchar(20),
+  grad_status varchar(10),
   active varchar(5) DEFAULT 'yes',
   donation int(15) DEFAULT 0,
   advisor int(8),
   phone varchar(10),
   hold varchar(5) DEFAULT 'no',
+  PRIMARY KEY (uid)
+);
+
+CREATE TABLE dates (
+  uid int(8),
+  grad_sem varchar(20),
+  grad_year varchar(20),
+  clear_sem varchar(20),
+  clear_year varchar(20),
   PRIMARY KEY (uid)
 );
 
@@ -90,12 +100,10 @@ CREATE TABLE requirements(
 );
 
 CREATE TABLE corereq(
-  crn int(10) NOT NULL,
+  courseno int(10) NOT NULL,
   dept varchar(30) NOT NULL,
   program varchar(20),
-  primary key(crn, program),
-  foreign key(program) REFERENCES requirements(program),
-  foreign key(crn) REFERENCES course(crn)
+  primary key(courseno, program)
 );
 
 CREATE TABLE form1(
@@ -106,9 +114,9 @@ CREATE TABLE form1(
 );
 
 CREATE TABLE thesis_status(
-  u_id int(8),
+  uid int(8),
   status varchar(25),
-  primary key(u_id)
+  primary key(uid)
 );
 
 CREATE TABLE academic_info (
@@ -231,6 +239,20 @@ INSERT INTO user (fname, lname, uid, ssn, street, city, state, zip, phone, email
   ("Louis", "Armstrong", 00001234, 555111111, "Washington Ave", "Washington", "DC", 20052, "4567890123", "larmstrong@gwu.edu", "123456", "yes", "App"),
   ("Aretha", "Franklin", 00001235,  666111111,"North Dakota Ave", "Washington", "DC", 20052, "4567890123", "afranklin@gwu.edu", "123456", "yes", "App"),
   ("Carlos", "Santana", 00001236, 777111111, "Nebraska Ave", "Washington", "DC", 20052, "4567890123", "csantana@gwu.edu", "123456", "yes", "App");
+
+
+insert into requirements values
+  ('MS', 3.00, 30, "no", 9, 2, 2, 3),
+  ('PhD', 3.50, 36, "yes", 30, 100, 1, 3);
+
+insert into corereq values
+  ('6212', 'CSCI', 'MS'),
+  ('6221', 'CSCI', 'MS'),
+  ('6461', 'CSCI', 'MS');
+
+insert into dates (uid, grad_sem, grad_year) values
+  (77777777, 'Fall', '2014'),
+  (34567890, 'Spring', '2014');
 
 
 # Application Inserts
