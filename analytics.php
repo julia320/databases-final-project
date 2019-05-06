@@ -16,7 +16,7 @@
         <link rel = "stylesheet" type="text/css" href="style.css"/>
     </head>
 	<body class="gray-bg">
-        <form class="menu-button" action="menu.php" method="post">
+        <form class="menu-button" action="menu.php">
             <input type="submit" value="Menu" formaction="menu.php">
         </form>
         <h2>Examine Course Analytics</h2><hr>
