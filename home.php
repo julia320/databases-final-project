@@ -132,28 +132,44 @@
         	echo "<h2 style='text-align: center;'>Reviewer Home Page</h2>
         		<h4 style='text-align: center;'>View completed applications and review them here</h4>";
 
-        	// search bar for reviewer to find applicants
+        	// search bar for the reviewer to find applicants (NAME)
 			echo "<form align='center' method='post' action='home.php'>
-				<input name='search' type='text'>
-				<input name='appSearch' type='submit' value='Search for applicant'>
+					<input name='search' type='text'>
+					<input name='nameSearch' type='submit' value='Search by name'>
+				</form><br>";
+
+			// search bar for the reviewer to find applicants (UID)
+			echo "<form align='center' method='post' action='home.php'>
+					<input name='search' type='text'>
+					<input name='uidSearch' type='submit' value='Search by UID'>
 				</form></br></br>";
 
-			// get all the applicants who match search and have a finished application
-			if (isset($_POST['appSearch'])) {
-				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status=5 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+
+			// results from name search
+			if (isset($_POST['nameSearch'])) {
+				$searchResult = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE type='App' AND status=5 AND user.uid=app_review.uid AND (fname LIKE '%".$_POST['search']."%' OR lname LIKE '%".$_POST['search']."%')");
+
+				// display results
+				if ($searchResult->num_rows > 0) 
+					reviewTable($searchResult);
+				else 
+					echo "<p style='text-align:center; color:red;'>There are no finished applications with that name.</p>";
 			}
 
-			// get all the applicants whose application is complete
+			// results from UID search
+			if (isset($_POST['uidSearch'])) {
+				$searchResult = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status=5 AND user.uid=app_review.uid AND user.uid=".$_POST['search']);
+
+				// display results
+				if ($searchResult->num_rows > 0) 
+					reviewTable($searchResult);
+				else 
+					echo "<p style='text-align:center; color:red;'>There are no finished applications matching that UID.</p>";
+			}
+
+			// get all the rest of the applicants whose application is complete
 			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status=5 AND type='App' AND user.uid=app_review.uid");
 
-
-			// Show completed apps that match the search
-			if ($resultSearch->num_rows > 0) 
-				reviewTable($resultSearch);
-			else if (isset($_POST['appSearch']))
-				echo "<p style='text-align:center; color:red;'>There are no finished applications with that name.</p>";
-
-			// Show the rest of the completed applications
 			if ($resultAll->num_rows > 0) {
 				// show all other applicants
 				echo "</table><br/>&nbsp<br/>&nbsp<br/> <h3 style='text-align:center;'>All Applicants:</h3>";
@@ -174,27 +190,44 @@
 			echo "<h2 style='text-align: center;'>Graduate Secretary Home Page</h2>
 			<h4 style='text-align: center;'>When an applicant's documents have been received, mark them as such here</h4>";
 
-			// search bar for the secretary to find applicants
+			// search bar for the secretary to find applicants (NAME)
 			echo "<form align='center' method='post' action='home.php'>
-				<input name='search' type='text'>
-				<input name='searchSubmit' type='submit' value='Search for applicant'>
+					<input name='search' type='text'>
+					<input name='nameSearch' type='submit' value='Search by name'>
+				</form><br>";
+
+			// search bar for the secretary to find applicants (UID)
+			echo "<form align='center' method='post' action='home.php'>
+					<input name='search' type='text'>
+					<input name='uidSearch' type='submit' value='Search by UID'>
 				</form></br></br>";
 
-			// get all the applicants who match search and have submitted an application
-			if (isset($_POST['searchSubmit'])) {
-				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND type='App' AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+			// results from name search
+			if (isset($_POST['nameSearch'])) {
+				$searchResult = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND type='App' AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+
+				// Show completed apps that match the search
+				if ($searchResult->num_rows > 0) 
+					secrTable($searchResult);
+				else 
+					echo "<p style='text-align:center; color:red;'>There are currently no applications under that name.</p>";
+			}
+
+			// results from UID search
+			if (isset($_POST['uidSearch'])) {
+				$searchResult = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND type='App' AND user.uid=app_review.uid AND user.uid=".$_POST['search']);
+
+				// Show completed apps that match the search
+				if ($searchResult->num_rows > 0) 
+					secrTable($searchResult);
+				else 
+					echo "<p style='text-align:center; color:red;'>There are currently no applications matching that UID.</p>";
 			}
 			
-			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status>1 AND type='App' AND user.uid=app_review.uid");
-			
-
-			// Show completed apps that match the search
-			if ($resultSearch->num_rows > 0) 
-				secrTable($resultSearch);
-			else if (isset($_POST['searchSubmit']))
-				echo "<p style='text-align:center; color:red;'>There are currently no applications under that name.</p>";			
 
 			// Show the rest of the completed applications
+			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status>1 AND type='App' AND user.uid=app_review.uid");
+	
 			if ($resultAll->num_rows > 0) {
 				// show all other applicants
 				echo "</table><br/>&nbsp<br/>&nbsp<br/> <h3 style='text-align:center;'>All Applicants:</h3>";

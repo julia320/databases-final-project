@@ -29,26 +29,45 @@
         }
 
         /* Show the students that have been accepted */
-        // search bar for the secretary to find applicants
+        // search bar for the secretary to find applicants (NAME)
 		echo "<form align='center' method='post' action='matriculate.php'>
 				<input name='search' type='text'>
-				<input name='searchSubmit' type='submit' value='Search for applicant'>
+				<input name='nameSearch' type='submit' value='Search by name'>
+			</form><br>";
+
+		// search bar for the secretary to find applicants (UID)
+		echo "<form align='center' method='post' action='matriculate.php'>
+				<input name='search' type='text'>
+				<input name='uidSearch' type='submit' value='Search by UID'>
 			</form></br></br>";
 
 		// start the form for checking deposits
 	    echo "<form align='center' action='matriculate.php' method='post'>";
 
-		// results from search
-		if (isset($_POST['searchSubmit'])) {
-			$q = "SELECT DISTINCT R.uid, status, fname, lname FROM app_review R, user U WHERE R.uid=U.uid AND status IN (6,7) AND type='App' AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')";
+		// results from name search
+		if (isset($_POST['nameSearch'])) {
+			$q = "SELECT DISTINCT R.uid, status, fname, lname FROM app_review R, user U WHERE R.uid=U.uid AND status IN (6,7) AND type='App' AND (fname LIKE '%".$_POST['search']."%' OR lname LIKE '%".$_POST['search']."%')";
 
-			$searchResult = mysqli_query($conn, $q) or die ("Error retrieving students: ".mysqli_error($conn));
+			$searchResult = mysqli_query($conn, $q) or die ("Error retrieving students: ".$q."<br/>".mysqli_error($conn));
 
 			// display results
 			if ($searchResult->num_rows > 0) 
 				echo getTable($searchResult);
 			else
 				echo "<p style='text-align:center; color:red;'>There are currently no accepted students with that name.</p>";
+		}
+
+		// results from UID search
+		if (isset($_POST['uidSearch'])) {
+			$q = "SELECT DISTINCT R.uid, status, fname, lname FROM app_review R, user U WHERE R.uid=U.uid AND status IN (6,7) AND type='App' AND R.uid=".$_POST['search'];
+
+			$searchResult = mysqli_query($conn, $q) or die ("Error retrieving students: ".$q."<br/>".mysqli_error($conn));
+
+			// display results
+			if ($searchResult->num_rows > 0) 
+				echo getTable($searchResult);
+			else
+				echo "<p style='text-align:center; color:red;'>There are currently no accepted students with that UID.</p>";
 		}
 		
 
