@@ -72,10 +72,12 @@
 
             //Search box
             echo "<div style=\"text-align: center;\">";
-            echo "<form method=\"post\" action=\"add-drop.php\"><input type=\"text\" name=\"search\" placeholder=\"Search for course by name...\"/><input type=\"submit\" value=\"Search\"/>";
+            echo "<form method=\"post\" action=\"view-rosters.php\"><input type=\"text\" name=\"search\" placeholder=\"Search for course by name...\"/><input type=\"submit\" value=\"Search\"/>";
             echo '<input type="hidden" value="'.$dept.'" name="coursedept">';
             echo "</form></div>";
             echo "<br><br>";
+
+            $search = $_POST['search'];
 
             //Display all courses or the search results
             if (is_null($search)) {
