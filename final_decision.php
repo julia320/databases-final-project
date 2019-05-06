@@ -15,7 +15,7 @@
 	<?php session_start();
 
 		// if they aren't the GS, redirect them
-		if ($_SESSION['type'] != 'secr') {
+		if (!in_array("secr", $_SESSION['types'])) {
         	header("Location: home.php");
         	die();
     	}
@@ -71,7 +71,7 @@
 		echo "<h2>Final decision for ".$name."</h2>";
 
 		// Get the decision made by the CAC 
-		$q = "SELECT status FROM app_review WHERE uid=".$_SESSION['applicantID']." AND reviewerRole='cac'";
+		$q = "SELECT status FROM app_review WHERE uid=".$_SESSION['applicantID']." AND reviewer=8";
 		$result = mysqli_query($conn, $q);
 		$row = $result->fetch_assoc();
 
