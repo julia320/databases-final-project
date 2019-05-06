@@ -266,6 +266,20 @@
             $nextItem = true;
         }
 
+        // UPLOAD TRANSCRIPT
+        if (in_array("App", $typeArray)) {
+            $trPrompt = "Upload Transcript";
+            $trAction = "transcript_upload.php";
+        }
+        else {
+            $nextItem = false;
+        }
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $trAction . "\"><input type=\"submit\" value=\"" . $trPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
         // MATRICULATE STUDENTS
         if (in_array("admin", $typeArray) || in_array("secr", $typeArray)) {
             $matPrompt = "Matriculate Students";
