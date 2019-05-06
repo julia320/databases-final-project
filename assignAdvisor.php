@@ -59,19 +59,30 @@
                 //echo $_POST["uid"] . "hey";
 
                 // get the recommended advisor
-                $aQuery = "UPDATE user SET advisor = $_POST[advChange] WHERE uid = '$_GET[uid]'";
-                $aResult = mysqli_query($mysqli, $aQuery);
+                
               
-                $query = "SELECT * FROM user WHERE uid = $_POST[advChange] AND type = 'adv' OR type = 'inst,adv'";
+                $query = "SELECT * FROM user WHERE uid = '$_POST[advChange]'";
                 $result = mysqli_query($mysqli, $query);
-                if($aResult && $result->num_rows > 0)
+                if($result)
                 {
-                    echo "Advisor " . $_POST["advChange"] . " assigned to " . $_GET['uid'];
+                    while($row = $result->fetch_assoc()) 
+                    {
+                        if($row["type"] == 'adv' || $row["type"] == 'inst,adv')
+                        {
+                            $aQuery = "UPDATE user SET advisor = '$_POST[advChange]' WHERE uid = '$_GET[uid]'";
+                            $aResult = mysqli_query($mysqli, $aQuery);
+                            if($aResult)
+                            {
+                                echo "Advisor " . $_POST["advChange"] . " assigned to " . $_GET['uid'];
+                            }
+                        }
+                        else
+                        {	
+                            echo "Error: The entered uid is not associated with an advisor.";
+                        } 
+                    }
                 }
-                else
-                {	
-					echo "Error: The entered uid is not associated with an advisor.";
-                }     
+                    
                 break;
             
         }
@@ -145,49 +156,7 @@
             }
         }
         
-
-        // get the recommended advisor
-        $q = "SELECT app_review.advisor FROM app_review, user WHERE type IN ('MS, PHD')";
-        $result = mysqli_query($mysqli, $q);
-        $row = $result->fetch_assoc();
-        if ($result->num_rows > 0)
-        {
-            ?>
-            </tbody>
-            <table style="width:100%">
-        <thead>
-            <tr>
-                <td>ID</td>
-                <td>NAME</td>
-                <td>MAJOR</td>
-                <td>PROGRAM</td>
-                <td>RECOMMENDED ADVISOR</td>
-            </tr>
-        </thead>
-    <tbody>
-<?php
-        while($row = $result->fetch_assoc()) 
-            {
-                $advisor = $row["advisor"];
-                
-?>   
-				    <tr>
-                        <td><?php echo $row["uid"] ; ?></td>
-                        <td><?php echo $row["lname"] . ', ' . $row["fname"] ; ?></td>
-                        <td><?php echo $row["major"] ; ?></td>
-                        <td><?php echo $row["program"] ; ?></td>
-                        <td><?php echo $row["app_review.advisor"] ; ?></td>
-                    
-                    </tr>
-<?php
-            }
-        }
-            //echo "Recommended advisor based on application: ".$row['advisor']."<br/>";
-        
-?>
-        
-
-<?php 
+ 
     } 
 ?>
     <br>
