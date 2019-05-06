@@ -190,7 +190,7 @@
 
       <?php
       echo '<form id="mainform" method="post" action="application_form_review.php">
-	        <div class="bottomCentered"> <input type="submit" name="submit" value="Back"> </div>
+	        <div class="bottomCentered"> <input type="button" value="Back" onclick="history.back()"> </div>
 	        </form>';
       ?>
 
