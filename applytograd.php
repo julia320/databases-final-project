@@ -12,7 +12,7 @@
     <link rel = "stylesheet" type="text/css" href="style.css"/>
 
     <style type = "text/css">
-      body{
+      /* body{
         background-color: grey;
       }
       div.title{
@@ -95,14 +95,16 @@
       form{
         width: 350px;
         float: left;
-      }
+      } */
 
 
     </style>
   </head>
     <body class="gray-bg">
-
-    <div class="title">Graduation Application</div>
+    <form class="menu-button" action="menu.php">
+      <input type="submit" value="Menu" formaction="menu.php">
+    </form>
+    <h2>Graduation Application</h2><hr>
   <?php
 
 	$server = "localhost";
@@ -442,11 +444,10 @@ if(mysqli_num_rows($result) == 0)
   $result = mysqli_query($conn, $query);
           ?>
           <form class = "GraduateForm"action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
-                  <input type="submit" name="Graduate" value="Apply to Graduate">
                   <input type="radio" name="MSselect"> MS
                   <input type="radio" name="PhDselect"> PhD
                   <input type="text" name="uidCheck" placeholder="Enter uid" required>
-
+                  <input type="submit" name="Graduate" value="Apply to Graduate">
           </form>
 
 
@@ -454,9 +455,9 @@ if(mysqli_num_rows($result) == 0)
 
     <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
     <div class="signout">
-      <input type="submit" name="signout" value="Logout" formaction="logout.php">
+      <!-- <input type="submit" name="signout" value="Logout" formaction="logout.php"> -->
     </div>
-    <input type="submit" name="backBttn" value="Back" formaction="menu.php">
+    <!-- <input type="submit" name="backBttn" value="Back" formaction="menu.php"> -->
 </form>
 
 
