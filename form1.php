@@ -225,7 +225,7 @@
             $testR = mysqli_query($conn,$test);
             if ($testR->num_rows > 9 && $testR->num_rows < 13) 
             {
-			        header("Location: mainPage.php ");
+			        header("Location: menu.php ");
 		  	      die();
             }
             //ERROR OTHER WISE
@@ -505,7 +505,7 @@
     <div id="left_col">
 <?php
 //CHANGED TO ARGV SQL
-          $query = "SELECT * FROM course where semester='spring' and year=2019";
+          $query = "SELECT * FROM course WHERE semester = 'Spring' AND year = 2019";
           $result = mysqli_query($conn, $query);
           echo "Available Courses: <br/><br/>";
           echo "<table>";
