@@ -223,16 +223,16 @@ INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password
 INSERT INTO user (fname, lname, uid, street, city, state, zip, phone, email, password, active, type) VALUES
   ("Eric", "Clapton", 77777777, "North Carolina Ave", "Washington", "DC", 20052, "4567890123", "eclapton@gwu.edu", "123456", "yes", "alum"),
   ("Kurt", "Cobain", 34567890, "California Ave", "Washington", "DC", 20052, "4567890123", "kcobain@gwu.edu", "123456", "yes", "alum"),
+  ("Ella", "Fitzgerald", 23456789, "Louisiana Ave", "Washington", "DC", 20052, "4567890123", "efitz@gwu.edu", "123456", "yes", "PHD");
 
-  ("Billie", "Holiday", 88888888, "South Dakota Ave", "Washington", "DC", 20052, "4567890123", "bholiday@gwu.edu", "123456", "yes", "MS"),
-  ("Diana", "Krall", 99999999, "Texas Ave", "Washington", "DC", 20052, "4567890123", "dkrall@gwu.edu", "123456", "yes", "MS"),
-  ("Ella", "Fitzgerald", 23456789, "Louisiana Ave", "Washington", "DC", 20052, "4567890123", "efitz@gwu.edu", "123456", "yes", "PHD"),
-  ("Eva", "Cassidy", 87654321, "Nevade Ave", "Washington", "DC", 20052, "4567890123", "ecassidy@gwu.edu", "123456", "yes", "MS"),
-  ("Jimi", "Hendrix", 45678901, "Kentucky Ave", "Washington", "DC", 20052, "4567890123", "jhendrix@gwu.edu", "123456", "yes", "MS"),
-
-  ("Paul", "McCartney", 55555555, "Georgia Ave", "Washington", "DC", 20052, "4567890123", "pmccartney@gwu.edu", "123456", "yes", "MS"),
-  ("George", "Harrison", 66666666, "Michigan Ave", "Washington", "DC", 20052, "4567890123", "gharrison@gwu.edu", "123456", "yes", "MS"),
-  ("Stevie", "Nicks", 12345678, "Vermont Ave", "Washington", "DC", 20052, "4567890123", "snicks@gwu.edu", "123456", "yes", "PHD");
+INSERT INTO user (fname, lname, uid, street, city, state, zip, phone, email, password, active, type, hold) VALUES
+  ("Billie", "Holiday", 88888888, "South Dakota Ave", "Washington", "DC", 20052, "4567890123", "bholiday@gwu.edu", "123456", "yes", "MS", "no"),
+  ("Paul", "McCartney", 55555555, "Georgia Ave", "Washington", "DC", 20052, "4567890123", "pmccartney@gwu.edu", "123456", "yes", "MS", "no"),
+  ("Jimi", "Hendrix", 45678901, "Kentucky Ave", "Washington", "DC", 20052, "4567890123", "jhendrix@gwu.edu", "123456", "yes", "MS", "no"),
+  ("George", "Harrison", 66666666, "Michigan Ave", "Washington", "DC", 20052, "4567890123", "gharrison@gwu.edu", "123456", "yes", "MS", "no"),
+  ("Stevie", "Nicks", 12345678, "Vermont Ave", "Washington", "DC", 20052, "4567890123", "snicks@gwu.edu", "123456", "yes", "PHD", "no"),
+  ("Eva", "Cassidy", 87654321, "Nevade Ave", "Washington", "DC", 20052, "4567890123", "ecassidy@gwu.edu", "123456", "yes", "MS", "no"),
+  ("Diana", "Krall", 99999999, "Texas Ave", "Washington", "DC", 20052, "4567890123", "dkrall@gwu.edu", "123456", "yes", "MS", "no");
 
 INSERT INTO user (fname, lname, uid, ssn, street, city, state, zip, phone, email, password, active, type) VALUES
   ("John", "Lennon", 55551111, 111111111, "Florida Ave", "Washington", "DC", 20052, "4567890123", "jlennon@gwu.edu", "123456", "yes", "App"),
@@ -263,16 +263,16 @@ INSERT INTO academic_info VALUES
   (00001234, "2017/01/07", "MS", "Cyber Security", "none", "FA", "2017", 1, 1, NULL), #Louis Armstrong
   (00001235, "2016/12/05", "MS", "Quantum Computing", "built a quantum computer", "FA", "2017", 1, 1, NULL), #Aretha Franklin
   (00001236, "2016/11/29", "PHD", "Cybersecurity", "government internship", "FA", "2017", 1, 1, NULL), #Carlos Santana
-  (87654321, "2014/01/01", "MS", "Computers", "Computing things", "FA", "2014", 1,1, NULL),
-  (23456789, "2014/01/01", "PHD", "Computers", "Computing things", "FA", "2014", 1,1, NULL),
-  (66666666, "2014/01/01", "MS", "Computers", "Computing things", "SP", "2015", 1,1, NULL),
-  (45678901, "2000/01/01", "MS", "Computers", "Computing things", "SP", "2008", 1,1, NULL),
-  (88888888, "2000/01/01", "MS", "Computers", "Computing things", "SP", "2008", 1,1, NULL),
-  (99999999, "2000/01/01", "MS", "Computers", "Computing things", "FA", "2008", 1,1, NULL),
-  (55555555, "2000/01/01", "MS", "Computers", "Computing things", "FA", "2009", 1,1, NULL),
-  (12345678, "2000/01/01", "PHD", "Computers", "Computing things", "SP", "2008", 1,1, NULL),
-  (11, "2000/01/01", "MS", "Computers", "Computing things", "FA", "2017", 1,1, NULL),
-  (10, "2000/01/01", "PHD", "Computers", "Computing things", "FA", "2017", 1,1, NULL);
+  (87654321, "2014/01/01", "MS", "Computers", "Computing things", "FA", "2017", 1,1, NULL),
+  (23456789, "2014/01/01", "PHD", "Computers", "Computing things", "FA", "2019", 1,1, NULL),
+  (66666666, "2014/01/01", "MS", "Computers", "Computing things", "FA", "2016", 1,1, NULL),
+  (45678901, "2000/01/01", "MS", "Computers", "Computing things", "SP", "2017", 1,1, NULL),
+  (88888888, "2000/01/01", "MS", "Computers", "Computing things", "SP", "2018", 1,1, NULL),
+  (99999999, "2000/01/01", "MS", "Computers", "Computing things", "FA", "2019", 1,1, NULL),
+  (55555555, "2000/01/01", "MS", "Computers", "Computing things", "FA", "2017", 1,1, NULL),
+  (12345678, "2000/01/01", "PHD", "Computers", "Computing things", "FA", "2017", 1,1, NULL),
+  (11, "2000/01/01", "MS", "Computers", "Computing things", "SP", "2017", 1,1, NULL),
+  (10, "2000/01/01", "PHD", "Computers", "Computing things", "SP", "2017", 1,1, NULL);
 
 INSERT INTO rec_letter VALUES
   ("Professor", "Man", "prof@gwu.edu", "George Washington University", 55551111, 1, "This is John Lennon's recommendation"),
