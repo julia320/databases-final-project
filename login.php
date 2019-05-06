@@ -157,9 +157,11 @@
 	            $row = mysqli_query($conn, $query)->fetch_assoc();
 	            $_SESSION['uid'] = $row['max'] + 1;
 
+				$query = "INSERT INTO thesis_status VALUES ('$_SESSION[uid]', NULL)";
+				$result = mysqli_query($conn, $query);
 	            // add info to the database
 	            $query = "INSERT INTO user (type, fname, lname, ssn, street, city, state, zip, password, email, active) VALUES ('App', '".$_POST['fname']."', '".$_POST['lname']."', '".$_POST['ssn']."', '".$_POST['street']."', '".$_POST['city']."', '".$_POST['state']."', '".$_POST['zip']."', '".$_POST['password']."', '".$_POST['email']."', 'yes')";
-	            	
+	            
 	            if (mysqli_query($conn, $query)) {
 					$_SESSION['type'] = 'App';
 					$_SESSION['errS'] = "";
