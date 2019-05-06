@@ -67,7 +67,7 @@
                 {
                     while($row = $result->fetch_assoc()) 
                     {
-                        if($row["type"] == 'adv' || $row["type"] == 'inst,adv')
+                        if($row["type"] == 'adv' || $row["type"] == 'inst,adv,rev' || $row["type"] == 'adv,inst')
                         {
                             $aQuery = "UPDATE user SET advisor = '$_POST[advChange]' WHERE uid = '$_GET[uid]'";
                             $aResult = mysqli_query($mysqli, $aQuery);
