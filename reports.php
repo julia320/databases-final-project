@@ -29,6 +29,13 @@ if (!$connection) {
 //"back to menu" button
 echo "<div style=\"display: inline-block;\" class=\"menu-button\">";
 echo "<form action=\"menu.php\"><input type=\"submit\" value=\"Menu\"/></form></div>";
+
+echo  "<br />";
+echo "You must select one button from the top row and one from the bottom" . "<br />";
+echo "*For Program, enter MS or PHD" . "<br />";
+echo "*For Semester, enter FA or SP" . "<br />";
+echo "***If Alumni & Semester are selected, enter Fall or Spring" . "<br />";
+echo "*For Year, enter a 4-digit year" . "<br /><br />";
 ?>
 <form class = "search"action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
 <input type="text" name="search" placeholder="">
