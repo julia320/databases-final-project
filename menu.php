@@ -405,11 +405,6 @@
         //COURSE CATALOG (ADS)
         $catPrompt = "View Course Catalog";
         $catAction = "catalog.php";
-        // if (in_array( "MS" || in_array( "PHD") {
-        //     $catPrompt = "Apply to Graduate";
-        // } else {
-        //     $nextItem = false;
-        // }
 
         if ($nextItem) {
             echo "<div class=\"main-menu\"><form action=\"" . $catAction . "\"><input type=\"submit\" value=\"" . $catPrompt . "\"/></form></div>";
