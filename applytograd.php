@@ -130,7 +130,12 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
     }
   }
 
-
+$query = "SELECT * FROM transcript WHERE uid = '$_SESSION[uid]'";
+$result = mysqli_query($conn, $query);
+if(mysqli_num_rows($result) == 0)
+{
+  header("Location: menu.php");
+}
 
 
   if($_POST['Graduate']){
@@ -161,7 +166,8 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
               then CHECK COUNT grade WHERE grade = B, should be <= 2
 
         */
-        if (!empty($_POST["MSselect"])){
+        if (!empty($_POST["MSselect"]))
+        {
           //echo "You are a masters student <br/>";
 
           /*$query = "SELECT SUM(sc.credit) as credits FROM student_courses AS sc WHERE sc.u_id = 11111111";
@@ -488,30 +494,46 @@ if($_POST['signout']){
 
 
 <?php
-    $query = "SELECT * FROM transcript t, course c WHERE uid = '$_SESSION[uid]' AND c.crn = t.crn";
-    // Prepare a select statement
-    $totalCredit = 0;
-    $totalNumGrade = 0;
-    $weightedGpa = 0;
-    $_SESSION['numgrade'] = 0;
-    $result = mysqli_query($conn, $query);
-    if ($result->num_rows > 0) 
-    {
-        //read all product data
-        // output data of each row
-        while($row = $result->fetch_assoc()) 
-        {
-          //$totalCredit = $totalCredit+ $row["credit"];
-          if($row["grade"]!= "IP")
-          {
-            $totalCredit = $totalCredit + $row["credits"];
-             //	echo  $totalCredit;
-            $totalNumGrade = $totalNumGrade + $row["numgrade"];
-            $weightedGpa = $weightedGpa + $row["credits"] * $row["numgrade"] ;
-            $_SESSION['numgrade'] = $weightedGpa/$totalCredit;
+    $sum = 0;
+    $final_sum = 0;
+    $query2 = "select t.grade, c.credits from course c, transcript t where '".$_SESSION['uid']."'=t.uid AND t.crn=c.crn;";
+    $credit_sum = "select sum(c.credits) from course c, transcript t where '".$_SESSION['uid']."'=t.uid AND t.crn=c.crn;";
+    $result2 = mysqli_query($conn, $query2);
+    $result_sum = mysqli_query($conn, $credit_sum);
+    $final_sum = mysqli_fetch_assoc($result_sum)["sum(c.credits)"];
+     if (mysqli_num_rows($result2) > 0) {
+       while($row = mysqli_fetch_assoc($result2)){
+          if($row["grade"] == "A"){
+            $sum += (4.0 * $row["credits"]);
+          }
+          if($row["grade"] == "A-"){
+            $sum += (3.7 * $row["credits"]);
+          }
+          if($row["grade"] == "B+"){
+            $sum += (3.3 * $row["credits"]);
+          }
+          if($row["grade"] == "B"){
+            $sum += (3.0 * $row["credits"]);
+          }
+          if($row["grade"] == "B-"){
+            $sum += (2.7 * $row["credits"]);
+          }
+          if($row["grade"] == "C+"){
+            $sum += (2.3 * $row["credits"]);
+          }
+          if($row["grade"] == "C"){
+            $sum += (2.0 * $row["credits"]);
+          }
+          if($row["grade"] == "F"){
+            $sum += (0 * $row["credits"]);
+          }
+          if($row["grade"] == "IP"){
+            $sum += 0;
           }
         }
-    }
+        $_SESSION["numgrade"] = ($sum/$final_sum);
+        //echo "GPA: " .$gpa;
+      }
 
 
 
