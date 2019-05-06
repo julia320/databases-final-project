@@ -25,7 +25,7 @@
         // Connect to database
         $servername = "localhost";
         $username = "ARGv";
-        $password = "CSCI2541_sp19";
+        $password = "CSCI22541_sp19";
         $dbname = "ARGv";
         $conn = mysqli_connect($servername, $username, $password, $dbname);
         // Check connection
@@ -36,7 +36,7 @@
         }
 
         // Search database for courses that match with input uid
-        $query = "select C.credits, C.courseno, C.crn, C.dept FROM course C, form1 F where '".$_SESSION['studuid']."'=T.uid AND F.crn=C.crn;";
+        $query = "select C.credits, C.courseno, C.crn, C.dept FROM course C, form1 F where '".$_SESSION['studuid']."'=F.uid AND F.crn=C.crn;";
         $result = mysqli_query($conn, $query);
         if (mysqli_num_rows($result) > 0) 
         {
