@@ -273,8 +273,8 @@ INSERT INTO prior_degrees VALUES
   (3.9, 2017, "GWU", "Computer Science", 00001236, "BS"); #Carlos Santana
 
 INSERT INTO app_review (uid, reviewer, status) VALUES
-  (55551111, 7, 5), (55551111, 9, 5), # John Lennon: no reviews
-  (66661111, 7, 4), (66661111, 9, 4), # Ringo Starr: incomplete, missing letters
+  (55551111, 7, 5), (55551111, 8, 5), # John Lennon: no reviews
+  (66661111, 7, 4), (66661111, 8, 4), # Ringo Starr: incomplete, missing letters
   (87654321, 8, 7),
   (23456789, 8, 7),
   (66666666, 8, 7),
@@ -289,24 +289,24 @@ INSERT INTO app_review (uid, reviewer, status) VALUES
 INSERT INTO app_review VALUES
   # Louis Armstrong: rejected
   (00001234, 7, "not special", NULL, "D", 2, NULL, 8, "2017/05/01"), 
-  (00001234, 9, "weak transcript", NULL, "D", 1, NULL, 8, "2017/05/01"),
+  (00001234, 8, "weak transcript", NULL, "D", 1, NULL, 8, "2017/05/01"),
   # Aretha Franklin: admitted but did not matriculate
   (00001235, 7, "strong rec letter", "none", NULL, 4, "Parmer", 6, "2017/05/02"),
-  (00001235, 9, "good grades", "none", NULL, 4, "Parmer", 6, "2017/05/03"),
+  (00001235, 8, "good grades", "none", NULL, 4, "Parmer", 6, "2017/05/03"),
   # Carlos Santana: admitted but did not matriculate
   (00001236, 7, "good experience", "none", NULL, 4, "Narahari", 6, "2017/04/19"),
-  (00001236, 9, "strong application", "none", NULL, 4, "Parmer", 6, "2017/04/27");
+  (00001236, 8, "strong application", "none", NULL, 4, "Parmer", 6, "2017/04/27");
 
 INSERT INTO rec_review VALUES
   # Louis Armstrong
   (1234, 7, 3, 1, 1, 2),
-  (1234, 9, 2, 1, 1, 2),
+  (1234, 8, 2, 1, 1, 2),
   # Aretha Franklin
   (1235, 7, 5, 0, 1, 3),
-  (1235, 9, 4, 0, 1, 3),
+  (1235, 8, 4, 0, 1, 3),
   #Carlos Santana
   (1236, 7, 4, 1, 1, 4),
-  (1236, 9, 5, 0, 1, 4);
+  (1236, 8, 5, 0, 1, 4);
 
 
 # Advising/Registration Inserts
