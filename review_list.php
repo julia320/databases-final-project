@@ -49,5 +49,10 @@
 			</form>";
 		}
 	}
+
+	// home button
+	echo "<form action='home.php' method='post'>
+			<input type='submit' name='home' value='Back'>
+		</form>";
 	?>
 </body>

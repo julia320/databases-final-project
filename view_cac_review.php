@@ -11,11 +11,18 @@
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
   }
+ 
 
-  ////////////////////////////////////////////////////
-  //RETRIEVE INFORMATION
-  ////////////////////////////////////////////////////
-  // get the applicant the GS wants to update
+  /* Get the review we want to look at */
+  $reviewers = mysqli_query($conn, "SELECT * FROM user WHERE type LIKE '%cac%'");
+  $row = $reviewers->fetch_assoc();
+  $reviewer = $row['uid'];
+  $name = $row['fname']." ".$row['lname'];
+
+  if (!$reviewer)
+    echo "Error: Review not found</br>";
+
+  // Get the student whose reviews we are looking at 
   $applicants = mysqli_query($conn, "SELECT * FROM user WHERE type='App'");
   while ($row = $applicants->fetch_assoc()) {
     if (isset($_POST[$row['uid']])) {
@@ -25,11 +32,31 @@
       $name = $fname." ".$lname;
     }
   }
- 
-  if (!$_SESSION['applicantID'])
+  if (!$_SESSION['applicantID']) // should be set from before
     echo "Error: Applicant not found</br>";
 
+  // Get applicant's name
+  $applicant = mysqli_query($conn, "SELECT * FROM user WHERE uid=".$_SESSION['applicantID']);
+  $applicant = $applicant->fetch_assoc();
+  $appname = $applicant['fname']." ".$applicant['lname'];
 
+  /* Review Info */
+  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE uid=".$_SESSION['applicantID']." AND reviewer=".$reviewer;
+  $result = mysqli_query($conn, $sql) or die ("************* retrieve app review SQL FAILED *************");
+  $value = mysqli_fetch_object($result);
+  $comments = $value->comments;
+  $deficiency = $value->deficiency;
+  $action = $value->rating;
+  $advisor = $value->advisor;
+  // if not set, then the CAC hasn't made a review
+  if (!$action) {
+    $_SESSION['error'] = "<p style='color:red; text-align:center;'>The CAC has not yet reviewed this application</p>";
+    header("Location: home.php");
+    die();
+  }
+
+
+  /* Application Info */
   $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* ACADEMIC INFO SQL FAILED *************");
   $value = mysqli_fetch_object($result);
@@ -49,49 +76,15 @@
   $subject = $value->subject;
   $toefl = $value->toefl;
   $advYear = $value->advYear;
-
-  $sql = "SELECT institution FROM rec_letter WHERE uid = " .$_SESSION['applicantID'];
-  $result = mysqli_query($conn, $sql) or die ("************* REC LETTER SQL FAILED *************");
-  $value = mysqli_fetch_object($result);
-  $university = $value->institution;
-
-  //Review info:
-  $sql = "SELECT rating, generic, credible FROM rec_review WHERE reviewerRole = 'cac' AND uid = " .$_SESSION['applicantID'];
-  $result = mysqli_query($conn, $sql) or die ("************* retrieve rec review SQL FAILED *************");
-  $value = mysqli_fetch_object($result);
-  $rating = $value->rating;
-  $generic = $value->generic;
-  $credible = $value->credible;
-  if($generic == 1){
-    $generic = "Yes";
-  } else {
-    $generic = "No";
-  }
-  if($credible == 1){
-    $credible = "Yes";
-  } else {
-    $credible = "No";
-  }
-
-  $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE reviewerRole = 'cac' AND uid = " .$_SESSION['applicantID'];
-  $result = mysqli_query($conn, $sql) or die ("************* retrieve app review SQL FAILED *************");
-  $value = mysqli_fetch_object($result);
-  $comments = $value->comments;
-  $deficiency = $value->deficiency;
-  $action = $value->rating;
-  $advisor = $value->advisor;
-  /////////////////////////////////////////////////////////////
   
 ?>
 
 <html>
   
-  <title>
-    CAC Review
-  </title>
-  <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
-    <link rel = "stylesheet" type="text/css" href="style.css"/> 
+  <title>Faculty Review</title>
+  <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+  <link rel = "stylesheet" type="text/css" href="style.css"/> 
   
   <style>
     .field {
@@ -110,14 +103,15 @@
       text-align: left;
     }
   </style>
-  
-  <h1> CAC Review </h1>
 
   <body>
+
+    <h1><?php echo $name;?>'s Review of <?php echo $appname;?></h1>
+
     <!-- General info -->
     <h2> Applicant Information </h2>
-    <b>Name: </b> <u> <?php echo $fname.", ".$lname; ?> </u> <br><br>
-    <b>Student Number: </b> <u> <?php echo $studentNumber; ?> </u> <br><br>
+    <b>Name: </b> <u> <?php echo $appname; ?> </u> <br><br>
+    <b>Student Number: </b> <u> <?php echo $_SESSION['applicantID']; ?> </u> <br><br>
 
     <!-- Academic Info -->
     <b>Semester and Year of Application: </b> <u> <?php echo $semester." ".$year; ?> </u> <br><br>
@@ -139,7 +133,7 @@
     <h3>Prior Degrees </h3> 
     <?php
       //display prior degree info in a table format
-      $sql = "SELECT * FROM prior_degrees WHERE uid= " .$_SESSION['id'];
+      $sql = "SELECT * FROM prior_degrees WHERE uid= " .$_SESSION['uid'];
       $result = mysqli_query($conn, $sql);
       if (mysqli_num_rows($result) > 0){
         echo "<table style=width:40%>";
@@ -168,33 +162,56 @@
     <b>Experience: </b> <u> <?php echo $experience; ?> </u> <br><br>
     <hr>
 
+
     <h2> Faculty Review </h2>
 
+    <?php
+    /* Show recommendations with reviews */
+    $query = "SELECT * FROM rec_letter WHERE uid = " .$_SESSION['applicantID'];
+    $result = mysqli_query($conn, $query) or die ("************* REC LETTER SQL FAILED *************");
+    while ($value = $result->fetch_assoc()) {
+      echo "<h3>Recommendation ".($i+1)."</h3>";
+      echo "<b>From:</b> ".$value['fname']." ".$value['lname'].", ".$value['institution'];
+      echo"<br/><b>Recommendation: </b>\"".$value['recommendation']."\"<br/>";
+      $recid = $value['recID'];
+
+      $sql2 = "SELECT rating, generic, credible FROM rec_review WHERE uid=".$_SESSION['applicantID']." AND reviewer=".$reviewer." AND recID=".$recid;
+      $result = mysqli_query($conn, $sql2) or die ("************ retrieve rec review SQL FAILED ************");
+      $value = mysqli_fetch_object($result);
+      $rating = $value->rating;
+      $generic = $value->generic;
+      $credible = $value->credible;
+      if($generic == 1){
+        $generic = "Yes";
+      } else {
+        $generic = "No";
+      }
+      if($credible == 1){
+        $credible = "Yes";
+      } else {
+        $credible = "No";
+      }
+      echo "<b>Faculty rating:</b> <u>".$rating."</u><br>
+        <b>Generic:</b> <u>".$generic."</u><br>
+        <b>credible:</b> <u>".$credible."</u><br><br>";
+    }// end recommendations
+    ?>
+
+    <h3>Faculty Reviewer Action </h3>
+    <b>Recommended Action: </b> <u> <?php echo $action; ?> </u> <br>
+    (1=Reject, 2=Borderline admit, 3=Admit without aid, 4=Admit with aid)<br>
+    <b>Recommended Deficiency Courses: </b> <u> <?php echo $dificiency; ?> </u> <br>
+    <b>Recommended Advisor: </b> <u> <?php echo $advisor; ?> </u> <br>
+    <b>Faculty Reviewer Comments: </b> <br>
+    <textarea rows="4" cols="50"><?php echo $comments; ?> </textarea>
     
-      <h3>Recommendation Letter </h3>
-      <b>From: </b> <u> <?php echo $university; ?> </u> <br>
-      <b>Faculty rating: </b> <u> <?php echo $rating; ?> </u> <br>
-      <b>Generic: </b> <u> <?php echo $generic; ?> </u> <br>
-      <b>credible: </b> <u> <?php echo $credible; ?> </u> <br><br>
 
-      <h3>Faculty Reviewer Action </h3>
-      <b>Recommended Action: </b> <u> <?php echo $action; ?> </u> <br>
-      (1=Reject, 2=Borderline admit, 3=Admit without aid, 4=Admit with aid)<br>
-      <b>Recommended Deficiency Courses: </b> <u> <?php echo $dificiency; ?> </u> <br>
-      <b>Recommended Advisor: </b> <u> <?php echo $advisor; ?> </u> <br>
-      <b>Faculty Reviewer Comments: </b> <br>
-      <textarea rows="4" cols="50"><?php echo $comments; ?> </textarea>
-
-      <?php
-        if($_SESSION['type'] == 'secr'){
-          echo '<form id="mainform" method="post" action="home.php">
-                  <div class="bottomCentered"> <input type="submit" name="submit" value="Return"> </div>
-                </form>';
-        }
-      ?>
-    
-
-
+    <?php
+    // home button
+    echo "<form action='home.php' method='post'>
+        <input type='submit' name='home' value='Back'>
+      </form>";
+    ?>
 
   </body>
 </html>

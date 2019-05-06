@@ -224,6 +224,8 @@
 					echo "<p style='text-align:center; color:red;'>There are currently no applications matching that UID.</p>";
 			}
 			
+			echo $_SESSION['error'];
+			$_SESSION['error'] = "";
 
 			// Show the rest of the completed applications
 			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status>1 AND type='App' AND user.uid=app_review.uid");
@@ -272,11 +274,11 @@
 
 				echo "<tr><td>".$row['fname']."</td><td>".$row['lname']."</td>
                 		<td><form align='center' action='add_documents.php' method='post'>
-							<input type='submit' name='".$row['uid']."' value='Check documents'></form></td>
-						<td><form align='center' action='view_faculty_review.php' method='post'>
-							<input type='submit' name='".$row['uid']."' value='View review'></form></td>
+							<input type='submit' name='".$row['uid']."' value='Manage documents'></form></td>
+						<td><form align='center' action='review_list.php' method='post'>
+							<input type='submit' name='".$row['uid']."' value='Faculty reviews'></form></td>
 						<td><form align='center' action='view_cac_review.php' method='post'>
-							<input type='submit' name='".$row['uid']."' value='View CAC review'></form></td>
+							<input type='submit' name='".$row['uid']."' value='CAC review'></form></td>
 						<td><form align='center' action='final_decision.php' method='post'>
 							<input type='submit' name='".$row['uid']."' value='Update decision'></form></td>
 		            </tr>";
