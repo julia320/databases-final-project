@@ -213,7 +213,7 @@ INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password
   ("Gabe", "Parmer", "Virignia Ave", "Washington", "DC", 20052, "4567890123", "gparmer@gwu.edu", "123456", "adv,inst"),
   ("Tim", "Wood", "Maryland Ave", "Washington", "DC", 20052, "4567890123", "wood@gwu.edu", "123456", "rev,inst"),
   ("Rachelle", "Heller", "New York Ave", "Washington", "DC", 20052, "4567890123", "heller@gwu.edu", "123456", "rev"),
-  ("John", "Smith", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "cac,rev,inst"),
+  ("John", "Smith", "Pennsylvania Ave", "Washington", "DC", 20052, "4567890123", "jsmith@gwu.edu", "123456", "cac,inst"),
   ("Pablo", "Frank", "Virignia Ave", "Washington", "DC", 20052, "4567890123", "pfrank@gwu.edu", "123456", "inst");
 
 INSERT INTO user (fname, lname, street, city, state, zip, phone, email, password, active, type, hold, advisor) VALUES
