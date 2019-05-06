@@ -18,9 +18,9 @@
 
     //Connect to database
     $servername = "localhost";
-    $username = "ARGv";
-    $password = "CSCI2541_sp19";
-    $dbname = "ARGv";
+    $username = "markeilblow";
+    $password = "Mercedes01123!!";
+    $dbname = "markeilblow";
     $connection = mysqli_connect($servername, $username, $password, $dbname);
     
     if (!$connection) 
@@ -37,12 +37,11 @@
 <!DOCTYPE html>
 <html>
 <?php
-   // require_once('config.php');
 	
 	$server = "localhost";
-	$username = "markeilblow";
-	$password = "Mercedes01123!!";
-	$servername = "markeilblow";
+	$username = "ARGv";
+	$password = "CSCI2541_sp19";
+	$servername = "ARGv";
 	$mysqli = mysqli_connect($server, $username, $password, $servername);
     
     if($mysqli->connect_error) 
@@ -91,6 +90,17 @@
                 if($result)
                 {
                     echo $_GET["uid"] . " has been cleared and is now an alumni.";
+                    $query = "SELECT * FROM user WHERE uid = $uid";
+                    $result = mysqli_query($connection, $query);
+                    while($row = $result->fetch_assoc()) 
+                    {
+    
+                        $msg = "Congragulations, ". $row["fname"] . "! You are now a graduate of the " . $row["grad_status"] . " program! You are now an alumni. Your uid and password remain unchanged. You can now only view your transcript, edit your profile, and make a donation. Thank you for your hard work and attending our university!";
+                        
+                        $msg = wordwrap($msg, 45, false);
+                        mail($row["email"],"Congrats, Grad!",nl2br($msg));
+                    }
+                    
                 }
                 else
                 {
@@ -148,7 +158,7 @@
                     <!-- this is the line that is used to read each line of the student id. Reading directly the value of student_courses .-->
                         <tr>
                             <td>
-                                <form class="example" action="GradSecretary.php?action=clear&uid=<?php echo $row['uid']; ?>" method="post"  >
+                                <form class="example" action="cleartograd.php?action=clear&uid=<?php echo $row['uid']; ?>" method="post"  >
                                     <button class="clear_To_Graduate">
 										ClearToGraduate
                                     </button>
@@ -230,7 +240,7 @@
                     <!-- this is the line that is used to read each line of the student id. Reading directly the value of student_courses .-->
                     <tr>
                         <td>
-                            <form class="example" action="GradSecretary.php?action=clear&uid=<?php echo $row['uid']; ?>" method="post"  >
+                            <form class="example" action="cleartograd.php?action=clear&uid=<?php echo $row['uid']; ?>" method="post"  >
                                 <button class="clear_To_Graduate">
                                     ClearToGraduate
                                 </button>
