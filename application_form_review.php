@@ -43,6 +43,7 @@
   $status = $value->status;
 
   
+  /* Get general application info */
   $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* ACADEMIC INFO SQL FAILED *************");
   $value = mysqli_fetch_object($result);
@@ -52,6 +53,7 @@
   $semester = $value->semester;
   $year = $value->year;
 
+  /* Get test score info (GRE) */
   $sql = "SELECT verbal, quant, year, advScore, subject, toefl, advYear FROM gre WHERE uid= " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* GRE SQL FAILED *************");
   $value = mysqli_fetch_object($result);
@@ -63,10 +65,18 @@
   $toefl = $value->toefl;
   $advYear = $value->advYear;
 
-  $sql = "SELECT institution FROM rec_letter WHERE uid = " .$_SESSION['applicantID'];
+
+  /* Get recommendations info */
+  $i = 0;
+  $sql = "SELECT * FROM rec_letter WHERE uid = " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* REC LETTER SQL FAILED *************");
-  $value = mysqli_fetch_object($result);
-  $university = $value->institution;
+  while ($value = $result->fetch_assoc()) {
+    $recs[$i] = "Recommendation ".($i+1)."<br/>";
+    $recs[$i] .= "<b>From:</b> ".$value['fname']." ".$value['lname'].", ".$value['institution'];
+    $recs[$i] .= "<br/><b>Recommendation: </b>\"".$value['recommendation']."\"<br/>";
+    $recids[$i] = $value['recID'];
+    $i++;
+  }
 
 
   // View other reviews
@@ -103,19 +113,6 @@
       // Get the date
       $date = date("Y/m/d");
 
-      // set up foreign key reference between rec_letter and rec_review
-      $recID;
-      $sql = "SELECT recID FROM rec_letter WHERE uid = " . $_SESSION['applicantID'];
-      $result = mysqli_query($conn, $sql) or die ("************* GET recID FAILED*************");
-      if (mysqli_num_rows($result) != 0){
-        $value = mysqli_fetch_object($result);
-        $recID = $value->recID;
-      }
-      else{
-        echo "<p style='color:red;'>Error: This applicant does not have a recommendation letter</p>";
-      }
-
-
       // Update final decision IF the reviewer is the CAC
       if (in_array("cac", $_SESSION['types'])) {
         // Calculate status
@@ -140,9 +137,29 @@
       $sql = "INSERT INTO app_review (uid, reviewer, comments, deficiency, rating, advisor, status, dated) VALUES (".$_SESSION['applicantID'].", ".$_SESSION['uid'].", '".$_POST['comments']."', '".$_POST['defCourse']."', ".$_POST['rating'].", '".$_POST['advisor']."', ".$status.", '".$date."') ON DUPLICATE KEY UPDATE comments='".$_POST['comments']."', deficiency='".$_POST['defCourse']."', rating=".$_POST['rating'].", advisor='".$_POST['advisor']."', status=".$status.", dated='".$date."'";
       $result = mysqli_query($conn, $sql) or die ("Insert into app_review failed: ".mysqli_error($conn));
 
+
       /* Load rec review info into database */
-      $sql = "INSERT INTO rec_review VALUES(".$_SESSION['applicantID'].", ".$_SESSION['uid'].", ".$_POST['recRating'].", ".$_POST['generic'].", ".$_POST['credible'].", ".$recID.") ON DUPLICATE KEY UPDATE rating=".$_POST['recRating'].", generic=".$_POST['generic'].", credible=".$_POST['credible'];
+      // set up foreign key reference between rec_letter and rec_review
+      /*$recID;
+      $sql = "SELECT recID FROM rec_letter WHERE uid = " . $_SESSION['applicantID'];
+      $result = mysqli_query($conn, $sql) or die ("************* GET recID FAILED*************");
+      if (mysqli_num_rows($result) != 0){
+        $value = mysqli_fetch_object($result);
+        $recID = $value->recID;
+      }
+      else{
+        echo "<p style='color:red;'>Error: This applicant does not have a recommendation letter</p>";
+      }*/
+
+      $sql = "INSERT INTO rec_review VALUES(".$_SESSION['applicantID'].", ".$_SESSION['uid'].", ".$_POST['recRating'].", ".$_POST['generic'].", ".$_POST['credible'].", ".$recID[0].") ON DUPLICATE KEY UPDATE rating=".$_POST['recRating'].", generic=".$_POST['generic'].", credible=".$_POST['credible'];
+
       $result = mysqli_query($conn, $sql) or die ("Insert into rec_review failed: ".mysqli_error($conn));
+
+      if ($recs[1]) {
+        $sql = "INSERT INTO rec_review VALUES(".$_SESSION['applicantID'].", ".$_SESSION['uid'].", ".$_POST['recRating1'].", ".$_POST['generic1'].", ".$_POST['credible1'].", ".$recID[1].") ON DUPLICATE KEY UPDATE rating=".$_POST['recRating'].", generic=".$_POST['generic'].", credible=".$_POST['credible'];
+
+        $result = mysqli_query($conn, $sql) or die ("Insert into rec_review failed: ".mysqli_error($conn));
+      }
 
 
       // if reject, require reason
@@ -239,21 +256,54 @@
     <br/><hr>
 
     <h2>Review Form:</h2>
-    <h3>Recommendation Letter </h3>
-    <b>From: </b> <u> <?php echo $university; ?> </u> <br>
+    <h3>Recommendation Letters</h3>
     <form id="mainform" method="post">
+      
+      <?php echo $recs[0]; ?>
       Rating: &nbsp;&nbsp;&nbsp;&nbsp; 
-      1<input type="radio" name="recRating" value=1 > &nbsp;&nbsp;&nbsp;&nbsp;
-      2<input type="radio" name="recRating" value=2 > &nbsp;&nbsp;&nbsp;&nbsp;
-      3<input type="radio" name="recRating" value=3 > &nbsp;&nbsp;&nbsp;&nbsp;
-      4<input type="radio" name="recRating" value=4 > &nbsp;&nbsp;&nbsp;&nbsp;
-      5<input type="radio" name="recRating" value=5 > <br>
+      1<input type='radio' name='recRating' value=1 > &nbsp;&nbsp;&nbsp;&nbsp;
+      2<input type='radio' name='recRating' value=2 > &nbsp;&nbsp;&nbsp;&nbsp;
+      3<input type='radio' name='recRating' value=3 > &nbsp;&nbsp;&nbsp;&nbsp;
+      4<input type='radio' name='recRating' value=4 > &nbsp;&nbsp;&nbsp;&nbsp;
+      5<input type='radio' name='recRating' value=5 > <br>
       Generic: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-      Yes<input type="radio" name="generic" value=true> &nbsp;&nbsp;&nbsp;&nbsp;
-      No<input type="radio" name="generic" value=false> <br>
+      Yes<input type='radio' name='generic' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+      No<input type='radio' name='generic' value=false> <br>
       Credible: &nbsp;&nbsp;&nbsp;&nbsp; 
-      Yes<input type="radio" name="credible" value=true> &nbsp;&nbsp;&nbsp;&nbsp;
-      No<input type="radio" name="credible" value=false>
+      Yes<input type='radio' name='credible' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+      No<input type='radio' name='credible' value=false><br>
+
+      <?php if ($recs[1]) { 
+        echo $recs[1]; ?>
+        Rating: &nbsp;&nbsp;&nbsp;&nbsp; 
+        1<input type='radio' name='recRating1' value=1 > &nbsp;&nbsp;&nbsp;&nbsp;
+        2<input type='radio' name='recRating1' value=2 > &nbsp;&nbsp;&nbsp;&nbsp;
+        3<input type='radio' name='recRating1' value=3 > &nbsp;&nbsp;&nbsp;&nbsp;
+        4<input type='radio' name='recRating1' value=4 > &nbsp;&nbsp;&nbsp;&nbsp;
+        5<input type='radio' name='recRating1' value=5 > <br>
+        Generic: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        Yes<input type='radio' name='generic1' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+        No<input type='radio' name='generic1' value=false> <br>
+        Credible: &nbsp;&nbsp;&nbsp;&nbsp; 
+        Yes<input type='radio' name='credible1' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+        No<input type='radio' name='credible1' value=false><br>
+      <?php}?>
+
+      <?php if ($recs[2]) { 
+        echo $recs[2]; ?>
+        Rating: &nbsp;&nbsp;&nbsp;&nbsp; 
+        1<input type='radio' name='recRating2' value=1 > &nbsp;&nbsp;&nbsp;&nbsp;
+        2<input type='radio' name='recRating2' value=2 > &nbsp;&nbsp;&nbsp;&nbsp;
+        3<input type='radio' name='recRating2' value=3 > &nbsp;&nbsp;&nbsp;&nbsp;
+        4<input type='radio' name='recRating2' value=4 > &nbsp;&nbsp;&nbsp;&nbsp;
+        5<input type='radio' name='recRating2' value=5 > <br>
+        Generic: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        Yes<input type='radio' name='generic2' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+        No<input type='radio' name='generic2' value=false> <br>
+        Credible: &nbsp;&nbsp;&nbsp;&nbsp; 
+        Yes<input type='radio' name='credible2' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+        No<input type='radio' name='credible2' value=false><br>
+      <?php}?>
 
       <h3> Grad Admissions Commitee Review Rating </h3>
 
