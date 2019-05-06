@@ -7,10 +7,6 @@ session_start();
 ?>
 
 <style>
-    html {
-        font-family:arial;
-        font-size: 18px;
-    }
     td {
         border: 1px solid #726E6D;
         padding: 15px;
@@ -83,7 +79,7 @@ session_start();
 
             <tbody>
                 <?php
-                $sql = "SELECT name,credits,dept,courseno, crn, prereq1, prereq2 FROM course";
+                $sql = "SELECT name,credits,dept,courseno, crn, prereq1, prereq2 FROM course where semester='spring' and year='2019'";
                 // Prepare a select statement
                 $result = $mysqli->query($sql);
                 //read all product data
