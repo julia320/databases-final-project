@@ -25,7 +25,7 @@
         // Connect to database
         $servername = "localhost";
         $username = "ARGv";
-        $password = "CSCI22541_sp19";
+        $password = "CSCI2541_sp19";
         $dbname = "ARGv";
         $conn = mysqli_connect($servername, $username, $password, $dbname);
         // Check connection
