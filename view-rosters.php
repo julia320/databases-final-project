@@ -19,6 +19,7 @@
         <?php
             session_start();
             $dept = $_POST['coursedept'];
+            $_SESSION['redir'] = "view-rosters.php";
 
             //Ensure user is logged in
             $loggedin = $_SESSION['loggedin'];
@@ -28,7 +29,7 @@
             }
 
             //send to menu page if they don't have sufficient permissions
-            if(!($_SESSION['type']=="secr" || $_SESSION['type']=="admin")) {
+            if(!(in_array("secr", $_SESSION['types']) || in_array("admin", $_SESSION['types']))) {
                 header("Location: menu.php");
                 die();
             }
@@ -71,10 +72,12 @@
 
             //Search box
             echo "<div style=\"text-align: center;\">";
-            echo "<form method=\"post\" action=\"add-drop.php\"><input type=\"text\" name=\"search\" placeholder=\"Search for course by name...\"/><input type=\"submit\" value=\"Search\"/>";
+            echo "<form method=\"post\" action=\"view-rosters.php\"><input type=\"text\" name=\"search\" placeholder=\"Search for course by name...\"/><input type=\"submit\" value=\"Search\"/>";
             echo '<input type="hidden" value="'.$dept.'" name="coursedept">';
             echo "</form></div>";
             echo "<br><br>";
+
+            $search = $_POST['search'];
 
             //Display all courses or the search results
             if (is_null($search)) {
@@ -112,7 +115,7 @@
 
                 } else {
                     //If nothing came back from the query, there was a problem
-                    die("Bad query: ".mysqli_error());
+                    die("QUERY ERROR");
                 }
             } else {
                 //There WERE search terms, so display same info as above but for only the relevant courses

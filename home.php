@@ -34,14 +34,13 @@
 
         // connect to the database
 		$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");
-
 		
 		//"back to menu" button
 		echo "<div style=\"display: inline-block;\" class=\"menu-button\">";
 		echo "<form action=\"menu.php\"><input type=\"submit\" value=\"Menu\"/></form></div>";
 
         // if user is an applicant, show their status
-        if ($_SESSION['type'] == "App") {
+        if (in_array("App", $_SESSION['types'])) {
 
         	// page header info
         	echo "<div ><h2 style='text-align: center;'>Applicant Home Page</h2>
@@ -109,6 +108,9 @@
 				if ($row['status'] == 7) {
 					echo "<p style='text-align: center;'>You have also been selected for financial aid, please speak to our office about that.</p>";
 				}
+
+				// Matriculation
+				echo "<p style='text-align: center;'>NOTE: In order to accept your spot, you must send in a $50 deposit by mail. Once this deposit has been received, you will be able to register for classes.</p>";
 			}
 
 			// if they were rejected
@@ -118,43 +120,61 @@
 			}
 
 			else 
-				echo "Error: we could not find any information for this user</p><br/>";
+				echo "Error: we were unable to find your information</p><br/>";
 
 		}// end-applicant view
 
 
 		// if the user is a reviewer, show them the list of applicants
-		else if ($_SESSION['type'] == "rev" || $_SESSION['type'] == "cac") {
+		else if (in_array("rev", $_SESSION['types']) || in_array("cac", $_SESSION['types'])) {
 
 			// page header info
         	echo "<h2 style='text-align: center;'>Reviewer Home Page</h2>
         		<h4 style='text-align: center;'>View completed applications and review them here</h4>";
 
-        	// search bar for reviewer to find applicants
+        	// search bar for the reviewer to find applicants (NAME)
 			echo "<form align='center' method='post' action='home.php'>
-				<input name='search' type='text'>
-				<input name='appSearch' type='submit' value='Search for applicant'>
+					<input name='search' type='text'>
+					<input name='nameSearch' type='submit' value='Search by name'>
+				</form><br>";
+
+			// search bar for the reviewer to find applicants (UID)
+			echo "<form align='center' method='post' action='home.php'>
+					<input name='search' type='text'>
+					<input name='uidSearch' type='submit' value='Search by UID'>
 				</form></br></br>";
 
-			// get all the applicants who match search and have a finished application
-			if (isset($_POST['appSearch'])) {
-				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status=5 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+
+			// results from name search
+			if (isset($_POST['nameSearch'])) {
+				$searchResult = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE type='App' AND status=5 AND user.uid=app_review.uid AND (fname LIKE '%".$_POST['search']."%' OR lname LIKE '%".$_POST['search']."%')");
+
+				// display results
+				if ($searchResult->num_rows > 0) 
+					reviewTable($searchResult);
+				else 
+					echo "<p style='text-align:center; color:red;'>There are no finished applications with that name.</p>";
 			}
 
-			// get all the applicants whose application is complete
-			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status=5 AND user.uid=app_review.uid");
+			// results from UID search
+			if (isset($_POST['uidSearch'])) {
+				$searchResult = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status=5 AND user.uid=app_review.uid AND user.uid=".$_POST['search']);
 
+				// display results
+				if ($searchResult->num_rows > 0) 
+					reviewTable($searchResult);
+				else 
+					echo "<p style='text-align:center; color:red;'>There are no finished applications matching that UID.</p>";
+			}
 
-			// Show completed apps that match the search
-			if ($resultSearch->num_rows > 0) 
-				reviewTable($resultSearch);
-			else if (isset($_POST['appSearch']))
-				echo "<p style='text-align:center; color:red;'>There are no finished applications with that name.</p>";
+			// get all the rest of the applicants whose application is complete
+			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status=5 AND type='App' AND user.uid=app_review.uid");
 
-			// Show the rest of the completed applications
 			if ($resultAll->num_rows > 0) {
 				// show all other applicants
 				echo "</table><br/>&nbsp<br/>&nbsp<br/> <h3 style='text-align:center;'>All Applicants:</h3>";
+				echo $_SESSION['error'];
+				$_SESSION['error'] = "";
 				reviewTable($resultAll);
 			}
 			else 
@@ -162,36 +182,54 @@
 
 		}// end-reviewer view
 
-
-
+		
 		// if the user is a Grad Secretary, let them search for applicants, mark docs as received 
-		else if ($_SESSION['type'] == "secr" || $_SESSION['type'] == "admin") {
+		else if (in_array("secr", $_SESSION['types']) || in_array("admin", $_SESSION['types'])) {
 
 			// header information
 			echo "<h2 style='text-align: center;'>Graduate Secretary Home Page</h2>
 			<h4 style='text-align: center;'>When an applicant's documents have been received, mark them as such here</h4>";
 
-			// search bar for the secretary to find applicants
+			// search bar for the secretary to find applicants (NAME)
 			echo "<form align='center' method='post' action='home.php'>
-				<input name='search' type='text'>
-				<input name='submit' type='submit' value='Search for applicant'>
+					<input name='search' type='text'>
+					<input name='nameSearch' type='submit' value='Search by name'>
+				</form><br>";
+
+			// search bar for the secretary to find applicants (UID)
+			echo "<form align='center' method='post' action='home.php'>
+					<input name='search' type='text'>
+					<input name='uidSearch' type='submit' value='Search by UID'>
 				</form></br></br>";
 
-			// get all the applicants who match search and have submitted an application
-			if (isset($_POST['submit'])) {
-				$resultSearch = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+			// results from name search
+			if (isset($_POST['nameSearch'])) {
+				$searchResult = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND type='App' AND user.uid=app_review.uid AND (fname LIKE '".$_POST['search']."' OR lname LIKE '".$_POST['search']."')");
+
+				// Show completed apps that match the search
+				if ($searchResult->num_rows > 0) 
+					secrTable($searchResult);
+				else 
+					echo "<p style='text-align:center; color:red;'>There are currently no applications under that name.</p>";
+			}
+
+			// results from UID search
+			if (isset($_POST['uidSearch'])) {
+				$searchResult = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname, status FROM user, app_review WHERE type='App' AND status>1 AND type='App' AND user.uid=app_review.uid AND user.uid=".$_POST['search']);
+
+				// Show completed apps that match the search
+				if ($searchResult->num_rows > 0) 
+					secrTable($searchResult);
+				else 
+					echo "<p style='text-align:center; color:red;'>There are currently no applications matching that UID.</p>";
 			}
 			
-			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status>1 AND user.uid=app_review.uid");
-			
-
-			// Show completed apps that match the search
-			if ($resultSearch->num_rows > 0) 
-				secrTable($resultSearch);
-			else if (isset($_POST['submit']))
-				echo "<p style='text-align:center; color:red;'>There are currently no applications under that name.</p>";			
+			echo $_SESSION['error'];
+			$_SESSION['error'] = "";
 
 			// Show the rest of the completed applications
+			$resultAll = mysqli_query($conn, "SELECT DISTINCT user.uid, fname, lname FROM user, app_review WHERE status>1 AND type='App' AND user.uid=app_review.uid");
+	
 			if ($resultAll->num_rows > 0) {
 				// show all other applicants
 				echo "</table><br/>&nbsp<br/>&nbsp<br/> <h3 style='text-align:center;'>All Applicants:</h3>";
@@ -214,14 +252,8 @@
 			for ($i=0; $i < $results->num_rows; $i++) {
 				$row = $results->fetch_assoc();
 
-				// button will go to a different place based on role
-				if ($_SESSION['type'] == "rev")
-					$action = "application_form_review.php";
-				else 
-					$action = "application_form_review_CAC.php";
-
-				$button = "<form action='".$action."' method='post'>
-		    						<input type='submit' name='".$row['uid']."' value='Review Application'>
+				$button = "<form action='application_form_review.php' method='post'>
+		    					<input type='submit' name='".$row['uid']."' value='Review Application'>
 						  	</form>";
 
 				echo "<tr><td>".$row['fname']."</td><td>".$row['lname']."</td><td>".$button."</td></tr>";
@@ -242,11 +274,11 @@
 
 				echo "<tr><td>".$row['fname']."</td><td>".$row['lname']."</td>
                 		<td><form align='center' action='add_documents.php' method='post'>
-							<input type='submit' name='".$row['uid']."' value='Check documents'></form></td>
-						<td><form align='center' action='view_faculty_review.php' method='post'>
-							<input type='submit' name='".$row['uid']."' value='View review'></form></td>
+							<input type='submit' name='".$row['uid']."' value='Manage documents'></form></td>
+						<td><form align='center' action='review_list.php' method='post'>
+							<input type='submit' name='".$row['uid']."' value='Faculty reviews'></form></td>
 						<td><form align='center' action='view_cac_review.php' method='post'>
-							<input type='submit' name='".$row['uid']."' value='View CAC review'></form></td>
+							<input type='submit' name='".$row['uid']."' value='CAC review'></form></td>
 						<td><form align='center' action='final_decision.php' method='post'>
 							<input type='submit' name='".$row['uid']."' value='Update decision'></form></td>
 		            </tr>";

@@ -105,7 +105,7 @@
             $P1 = mysqli_fetch_assoc($preRes1)['prereq1'];
 	        $P1Dept = substr($P1, 0, 4);
             $P1Num = substr($P1, 5, 4);
-            $findIfP1isFulfilled = "select c.crn from course as c, transcript as t where c.crn = t.crn and uid = " . $_SESSION['studuid'] . " and c.dept = '" . $P1Dept . "' and c.courseno =" . $P1Num . " and not t.grade = 'IP'";
+            $findIfP1isFulfilled = "select c.crn from course as c, transcript as t where c.crn = t.crn and uid = " . $_SESSION['studuid'] . " and c.dept = '" . $P1Dept . "' and c.courseno =" . $P1Num . " and not (t.grade = 'IP' or t.grade='F')";
             if (!(mysqli_num_rows(mysqli_query($connection, $findIfP1isFulfilled)) > 0)) {
                 $canAdd = false;
                 $P1Err = "You haven't fulfilled the first prerequisite: " . $P1Dept . " " . $P1Num . ".<br>";
@@ -118,11 +118,25 @@
             $P2 = mysqli_fetch_assoc($preRes2)['prereq2'];
 	        $P2Dept = substr($P2, 0, 4);
             $P2Num = substr($P2, 5, 4);
-            $findIfP2isFulfilled = "select c.crn from course as c, transcript as t where c.crn = t.crn and uid = " . $_SESSION['studuid'] . " and c.dept = '" . $P2Dept . "' and c.courseno =" . $P2Num . " and not t.grade = 'IP'";
+            $findIfP2isFulfilled = "select c.crn from course as c, transcript as t where c.crn = t.crn and uid = " . $_SESSION['studuid'] . " and c.dept = '" . $P2Dept . "' and c.courseno =" . $P2Num . " and not (t.grade = 'IP' or t.grade='F')";
             if (!(mysqli_num_rows(mysqli_query($connection, $findIfP2isFulfilled)) > 0)) {
                 $canAdd = false;
                 $P2Err = "You haven't fulfilled the second prerequisite: " . $P2Dept . " " . $P2Num . ".<br>";
             }
+        }
+
+        //check that student hasn't already taken the course
+        $getCourseDept = 'select dept from course where crn='.$courseToAdd;
+        $getCourseNum = 'select courseno from course where crn='.$courseToAdd;
+        $courseDept = mysqli_fetch_assoc(mysqli_query($connection, $getCourseDept))['dept'];
+        $courseNum = mysqli_fetch_assoc(mysqli_query($connection, $getCourseNum))['courseno'];
+        $getAlreadyTaken = 'select t.crn from transcript t, course c where t.uid='.$_SESSION['studuid'].' and c.crn=t.crn and c.courseno='.$courseNum.' and c.dept="'.$courseDept.'" and not t.grade="F"';
+        $wasItTaken = mysqli_query($connection, $getAlreadyTaken);
+        // echo $getAlreadyTaken;
+        // die();
+        if (mysqli_num_rows($wasItTaken) > 0) {
+            $alreadyTaken = "Sorry. Under current university policy, you can't take a course more than once if you passed.";
+            $canAdd = false;
         }
 
         //not all prereqs were fulfilled
@@ -130,6 +144,7 @@
             //don't let user add course
             echo $P1Err;
             echo $P2Err;
+            echo $alreadyTaken;
             echo "<br><br>";
             echo "<form action=\"add-drop.php\" class=\"menu-button\">";
             echo "<input type=\"submit\" value=\"Return to Add/Drop Page\"/>";

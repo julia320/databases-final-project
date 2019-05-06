@@ -11,11 +11,8 @@
     die("Connection failed: " . mysqli_connect_error());
   }
 
-  
 
-  ////////////////////////////////////////////////////
-  //RETRIEVE INFORMATION
-  ////////////////////////////////////////////////////
+  /* RETRIEVE INFORMATION */
   // get the applicant the GS wants to update
   $applicants = mysqli_query($conn, "SELECT * FROM user WHERE type='App'");
   while ($row = $applicants->fetch_assoc()) {
@@ -30,17 +27,23 @@
     echo "Error: Applicant not found</br>";
 
 
-  //IF THIS STUDENT HAS ALREADY BEEN REVIEWED, TELL THE USER to go back
-  $sql = "SELECT rating FROM app_review WHERE reviewerRole = 'rev' AND uid = " .$_SESSION['applicantID'];
-  $result = mysqli_query($conn, $sql); //or die ("************* INITIAL TEST SQL FAILED *************");
+  /* IF THIS STUDENT HAS ALREADY BEEN REVIEWED BY THIS REVIEWER, DON'T ALLOW ANOTHER */
+  $q = "SELECT status, rating FROM app_review WHERE reviewer=".$_SESSION['uid']." AND uid=".$_SESSION['applicantID'];
+  $result = mysqli_query($conn, $q);
   $value = mysqli_fetch_object($result);
   if ($value->rating != NULL){
-    die('<h2> This student has already been reviewed <h2> <br><br>
-        <form id="mainform" method="post" action="home.php">
-        <input type="submit" name="submit" value="Back to Home">');
+    $_SESSION['error'] = "<p style='color:red; text-align:center;'>You have already reviewed this student.</p><br/>";
+    header("Location: home.php");
+    die();
   }
 
+  $q = "SELECT status, rating FROM app_review WHERE uid=".$_SESSION['applicantID'];
+  $result = mysqli_query($conn, $q);
+  $value = mysqli_fetch_object($result);
+  $status = $value->status;
+
   
+  /* Get general application info */
   $sql = "SELECT degreeType, AOI, experience, semester, year FROM academic_info WHERE uid= " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* ACADEMIC INFO SQL FAILED *************");
   $value = mysqli_fetch_object($result);
@@ -50,6 +53,7 @@
   $semester = $value->semester;
   $year = $value->year;
 
+  /* Get test score info (GRE) */
   $sql = "SELECT verbal, quant, year, advScore, subject, toefl, advYear FROM gre WHERE uid= " .$_SESSION['applicantID'];
   $result = mysqli_query($conn, $sql) or die ("************* GRE SQL FAILED *************");
   $value = mysqli_fetch_object($result);
@@ -61,18 +65,43 @@
   $toefl = $value->toefl;
   $advYear = $value->advYear;
 
-  $sql = "SELECT institution FROM rec_letter WHERE uid = " .$_SESSION['applicantID'];
-  $result = mysqli_query($conn, $sql) or die ("************* REC LETTER SQL FAILED *************");
-  $value = mysqli_fetch_object($result);
-  $university = $value->institution;
-  /////////////////////////////////////////////////////////////
 
+  /* Get recommendations info */
+  $i = 0;
+  $sql = "SELECT * FROM rec_letter WHERE uid = " .$_SESSION['applicantID'];
+  $result = mysqli_query($conn, $sql) or die ("************* REC LETTER SQL FAILED *************");
+  while ($value = $result->fetch_assoc()) {
+    $recs[$i] = "<h3>Recommendation ".($i+1)."</h3>";
+    $recs[$i] .= "<b>From:</b> ".$value['fname']." ".$value['lname'].", ".$value['institution'];
+    $recs[$i] .= "<br/><b>Recommendation: </b>\"".$value['recommendation']."\"<br/>";
+    $recids[$i] = $value['recID'];
+    $i++;
+  }
+
+  //print_r($recs);
+
+
+  // View other reviews
+  $view = "<br/>";
+  $q = "SELECT user.uid, lname, reviewer, rating FROM user, app_review WHERE user.uid=reviewer AND app_review.uid=".$_SESSION['applicantID'];
+  $reviews = mysqli_query($conn, $q) or die ("Error: line 120");
+  while ($row = $reviews->fetch_assoc()) {
+    // if a review has been made, show the button
+    if ($row['rating'] != NULL) {
+      $view .= "<form action='view_faculty_review.php' method='post'>
+            <input type='submit' name=".$row['uid']." value=\"View ".$row['lname']."'s Review\">
+            </form>";
+    }
+  }
+
+
+  /* Validation and SQL inserts/updates */
   $somethingEmpty = "";
   $greenlight = 1;;
   if (isset($_POST['submit'])){
 
-    if(empty($_POST["rating"]) || empty($_POST["generic"]) || empty($_POST["credible"]) || empty($_POST["action"]) || empty($_POST["advisor"])){
-      if ($_POST["action"] == 1 && !empty($_POST["rating"]) && !empty($_POST["generic"]) && !empty($_POST["credible"])){
+    if(empty($_POST["recRating"]) || empty($_POST["generic"]) || empty($_POST["credible"]) || empty($_POST["rating"]) || empty($_POST["advisor"])){
+      if ($_POST["rating"] == 1 && !empty($_POST["recRating"]) && !empty($_POST["generic"]) && !empty($_POST["credible"])){
 
       }
       else{
@@ -83,63 +112,52 @@
     
     if ($greenlight == 1){
 
-      $rating = $_POST["rating"];
-      $generic = $_POST["generic"];
-      $credible = $_POST["credible"];
-      $action = $_POST["action"];
-      $advisor;
-      if (empty($_POST["advisor"]))
-        $advisor = "NA";
-      else
-        $advisor = $_POST["advisor"];
-      
+      // Get the date
+      $date = date("Y/m/d");
 
-      //set up foreign key reference between rec_letter and rec_review
-      $recID;
-      $sql = "SELECT recID FROM rec_letter WHERE uid = " . $_SESSION['applicantID'];
-      $result = mysqli_query($conn, $sql) or die ("************* GET recID FAILED*************");
-      if (mysqli_num_rows($result) != 0){
-        $value = mysqli_fetch_object($result);
-        $recID = $value->recID;
-      }
-      else{
-        die("Cannot Review: This applicant does not have a recommendation letter");
-      }
-      //set up foreign key reference between rec_review and app_review
-      $sql = "SELECT reviewID FROM app_review WHERE uid = ".$_SESSION['applicantID']." AND reviewerRole = 'rev'";
-      $result = mysqli_query($conn, $sql) or die ("************* GET reviewID FAILED*************");
-      if (mysqli_num_rows($result) != 0){
-        $value = mysqli_fetch_object($result);
-        $reviewID = $value->reviewID;
-      }
-      else{
-        die("Cannot Review: This applicant has not been initialized properly int the database");
+      // Update final decision IF the reviewer is the CAC
+      if (in_array("cac", $_SESSION['types'])) {
+        // Calculate status
+        $action = $_POST['rating'];
+        if ($action == 1) {
+          $status = 8;
+        }
+        if ($action == 2 || $action == 3) {
+          $status = 6;
+        }
+        if ($action == 4) {
+          $status = 7;
+        }
+
+        // Update all instances of the applicant's reviews
+        mysqli_query($conn, "UPDATE app_review SET status=".$status." WHERE uid=".$_SESSION['applicantID']);
       }
 
-      //load general review info into datase
-      $sql = "UPDATE app_review SET reviewerRole = '" .$_SESSION['type']. "', rating = " .$action.", advisor = '" .$advisor. "', status = 3 WHERE reviewID = " .$reviewID. "";;
-      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO app_review SQL FAILED *************");
 
-      //load rec review info into database
-      $sql = "INSERT INTO rec_review VALUES(" .$reviewID. ", '" .$_SESSION['type']. "', " .$rating.", " .$generic. ", " .$credible. ", " . $_SESSION['applicantID'].", ". $recID . ")";
-      $result = mysqli_query($conn, $sql) or die ("************* INSERT INTO rec_review SQL FAILED *************");
-      
-      //check if defiency is empty. If not, update app review
-      if (!empty($_POST["defCourse"])){
-        $sql = "UPDATE app_review SET deficiency = '" . $_POST["defCourse"]. "' WHERE uid = " .$_SESSION['applicantID']. " AND reviewID = " .$reviewID . "";
-        $result = mysqli_query($conn, $sql) or die ("************* UPDATE app_review WITH dificiency SQL FAILED *************");
+      /* Load general review info into datase */
+      // these are such ugly queries, I'm so sorry
+      $sql = "INSERT INTO app_review (uid, reviewer, comments, deficiency, rating, advisor, status, dated) VALUES (".$_SESSION['applicantID'].", ".$_SESSION['uid'].", '".$_POST['comments']."', '".$_POST['defCourse']."', ".$_POST['rating'].", '".$_POST['advisor']."', ".$status.", '".$date."') ON DUPLICATE KEY UPDATE comments='".$_POST['comments']."', deficiency='".$_POST['defCourse']."', rating=".$_POST['rating'].", advisor='".$_POST['advisor']."', status=".$status.", dated='".$date."'";
+      $result = mysqli_query($conn, $sql) or die ("Insert into app_review failed: ".mysqli_error($conn));
+
+      // first recommendation
+      $sql = "INSERT INTO rec_review VALUES (".$_SESSION['applicantID'].", ".$_SESSION['uid'].", ".$_POST['recRating'].", ".$_POST['generic'].", ".$_POST['credible'].", ".$recids[0].") ON DUPLICATE KEY UPDATE rating=".$_POST['recRating'].", generic=".$_POST['generic'].", credible=".$_POST['credible'];
+      $result = mysqli_query($conn, $sql) or die ("Insert into rec_review failed: ".mysqli_error($conn));
+
+      // second recommendation, if exists
+      if ($recs[1]) {
+        $sql1 = "INSERT INTO rec_review VALUES (".$_SESSION['applicantID'].", ".$_SESSION['uid'].", ".$_POST['recRating1'].", ".$_POST['generic1'].", ".$_POST['credible1'].", ".$recids[1].") ON DUPLICATE KEY UPDATE rating=".$_POST['recRating1'].", generic=".$_POST['generic1'].", credible=".$_POST['credible1'];
+        $result = mysqli_query($conn, $sql1) or die ("Insert into rec_review 2 failed: ".mysqli_error($conn));
       }
 
-      //if comments is not empty, update app review
-      if (!empty($_POST["comments"])){
-        $sql = "UPDATE app_review SET comments = '" . $_POST["comments"]. "' WHERE uid = " .$_SESSION['applicantID']. " AND reviewID = " .$reviewID . "";
-        $result = mysqli_query($conn, $sql) or die ("************* UPDATE app_review WITH comments SQL FAILED *************");
-
+      // third recommendation, if exists
+      if ($recs[2]) {
+        $sql2 = "INSERT INTO rec_review VALUES (".$_SESSION['applicantID'].", ".$_SESSION['uid'].", ".$_POST['recRating2'].", ".$_POST['generic2'].", ".$_POST['credible2'].", ".$recids[2].") ON DUPLICATE KEY UPDATE rating=".$_POST['recRating2'].", generic=".$_POST['generic2'].", credible=".$_POST['credible2'];
+        $result = mysqli_query($conn, $sql2) or die ("Insert into rec_review 2 failed: ".mysqli_error($conn));
       }
 
-      //if reject, require reason, and load reason into database
-      if ($_POST["action"] == 1){
-        $_SESSION['reviewID'] = $reviewID;
+
+      // if reject, require reason
+      if ($_POST["rating"] == 1){
         header("Location:reason_for_reject.php"); 
         exit;
       }
@@ -153,8 +171,8 @@
 <html>
   
   <title>Review Form</title>
-  <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/> 
   
   <style>
@@ -184,7 +202,7 @@
     <b>Applying for Degree: </b> <u> <?php echo $degreeType; ?> </u> <br>
     <hr>
 
-    <h3>Summary of Credentials </h3>
+    <h2>Application</h2>
     <b>GRE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Verbal: </b>
     <u> <?php echo $verbal; ?> </u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Quantitative: </b>
     <u> <?php echo $quant; ?> </u><br>
@@ -205,7 +223,6 @@
         echo "<tr>";
         echo "<th>Degree</th>";
         echo "<th>GPA </th>";
-        //Add Major
         echo "<th>Year</th>";
         echo "<th>University</th>";
         echo "<th>Major</th>";
@@ -225,31 +242,69 @@
       }
     ?>
 
+    <br/>
     <b>Areas of Interest: </b> <u> <?php echo $aoi; ?> </u> <br>
     <b>Experience: </b> <u> <?php echo $experience; ?> </u> <br><br>
 
-    <h3>Recommendation Letter </h3>
-    <b>From: </b> <u> <?php echo $university; ?> </u> <br>
+    <?php echo $view; ?>
+    <br/><hr>
+
+    <h2>Review Form:</h2>
+    <h3>Recommendation Letters</h3>
     <form id="mainform" method="post">
+      
+      <?php echo $recs[0]; ?>
       Rating: &nbsp;&nbsp;&nbsp;&nbsp; 
-      1<input type="radio" name="rating" value=1 > &nbsp;&nbsp;&nbsp;&nbsp;
-      2<input type="radio" name="rating" value=2 > &nbsp;&nbsp;&nbsp;&nbsp;
-      3<input type="radio" name="rating" value=3 > &nbsp;&nbsp;&nbsp;&nbsp;
-      4<input type="radio" name="rating" value=4 > &nbsp;&nbsp;&nbsp;&nbsp;
-      5<input type="radio" name="rating" value=5 > <br>
+      1<input type='radio' name='recRating' value=1 > &nbsp;&nbsp;&nbsp;&nbsp;
+      2<input type='radio' name='recRating' value=2 > &nbsp;&nbsp;&nbsp;&nbsp;
+      3<input type='radio' name='recRating' value=3 > &nbsp;&nbsp;&nbsp;&nbsp;
+      4<input type='radio' name='recRating' value=4 > &nbsp;&nbsp;&nbsp;&nbsp;
+      5<input type='radio' name='recRating' value=5 > <br>
       Generic: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-      Yes<input type="radio" name="generic" value=true> &nbsp;&nbsp;&nbsp;&nbsp;
-      No<input type="radio" name="generic" value=false> <br>
+      Yes<input type='radio' name='generic' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+      No<input type='radio' name='generic' value=false> <br>
       Credible: &nbsp;&nbsp;&nbsp;&nbsp; 
-      Yes<input type="radio" name="credible" value=true> &nbsp;&nbsp;&nbsp;&nbsp;
-      No<input type="radio" name="credible" value=false> <hr>
+      Yes<input type='radio' name='credible' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+      No<input type='radio' name='credible' value=false><br>
+
+      <?php if ($recs[1]) { 
+        echo $recs[1]; ?>
+        Rating: &nbsp;&nbsp;&nbsp;&nbsp; 
+        1<input type='radio' name='recRating1' value=1 > &nbsp;&nbsp;&nbsp;&nbsp;
+        2<input type='radio' name='recRating1' value=2 > &nbsp;&nbsp;&nbsp;&nbsp;
+        3<input type='radio' name='recRating1' value=3 > &nbsp;&nbsp;&nbsp;&nbsp;
+        4<input type='radio' name='recRating1' value=4 > &nbsp;&nbsp;&nbsp;&nbsp;
+        5<input type='radio' name='recRating1' value=5 > <br>
+        Generic: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        Yes<input type='radio' name='generic1' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+        No<input type='radio' name='generic1' value=false> <br>
+        Credible: &nbsp;&nbsp;&nbsp;&nbsp; 
+        Yes<input type='radio' name='credible1' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+        No<input type='radio' name='credible1' value=false><br>
+      <?php } ?>
+
+      <?php if ($recs[2]) { 
+        echo $recs[2]; ?>
+        Rating: &nbsp;&nbsp;&nbsp;&nbsp; 
+        1<input type='radio' name='recRating2' value=1 > &nbsp;&nbsp;&nbsp;&nbsp;
+        2<input type='radio' name='recRating2' value=2 > &nbsp;&nbsp;&nbsp;&nbsp;
+        3<input type='radio' name='recRating2' value=3 > &nbsp;&nbsp;&nbsp;&nbsp;
+        4<input type='radio' name='recRating2' value=4 > &nbsp;&nbsp;&nbsp;&nbsp;
+        5<input type='radio' name='recRating2' value=5 > <br>
+        Generic: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        Yes<input type='radio' name='generic2' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+        No<input type='radio' name='generic2' value=false> <br>
+        Credible: &nbsp;&nbsp;&nbsp;&nbsp; 
+        Yes<input type='radio' name='credible2' value=true> &nbsp;&nbsp;&nbsp;&nbsp;
+        No<input type='radio' name='credible2' value=false><br>
+      <?php } ?>
 
       <h3> Grad Admissions Commitee Review Rating </h3>
 
-      1. <input type="radio" name="action" value=1 > Reject <br>
-      2. <input type="radio" name="action" value=2 > Borderline Admit <br>
-      3. <input type="radio" name="action" value=3 > Admit without Aid <br>
-      4. <input type="radio" name="action" value=4 > Admit with aid <br>
+      1. <input type="radio" name="rating" value=1 > Reject <br>
+      2. <input type="radio" name="rating" value=2 > Borderline Admit <br>
+      3. <input type="radio" name="rating" value=3 > Admit without Aid <br>
+      4. <input type="radio" name="rating" value=4 > Admit with aid <br>
       
       <b>Deficiency Courses if Any: </b><input type="text" name="defCourse"><br>
       <b>Recommended Advisor: </b><input type="text" name="advisor"><br>

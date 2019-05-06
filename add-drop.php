@@ -29,7 +29,7 @@
             }
 
             //send to menu page if they don't have sufficient permissions
-            if(($_SESSION['type']=="secr") || $_SESSION['type']=="inst") {
+            if(!(in_array("MS", $_SESSION['types']) || in_array("PHD", $_SESSION['types']) || in_array("admin", $_SESSION['types']))) {
                 header("Location: menu.php");
                 die();
             }

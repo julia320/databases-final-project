@@ -15,14 +15,14 @@
 	foreach ($queries as $q) {
 		$result = mysqli_query($conn, $q);
 		if (!result)
-			die ("Query failed: ".mysqli_error());
+			echo "Query failed: ".mysqli_error($conn);
 	}
 
 	// close the file
 	fclose($file);
 
 
-	// refresh page
+	// go back to original page
 	header("Location: login.php");
     die();
 ?>

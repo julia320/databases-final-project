@@ -27,7 +27,7 @@
         }
 
         //send to menu page if they don't have sufficient permissions
-        if(!($_SESSION['type']=="inst")) {
+        if(!in_array("inst", $_SESSION['types'])) {
           header("Location: menu.php");
           die();
         }
@@ -60,8 +60,8 @@
 
         }
         else {
-          $missErr = "No courses associated with UID: ".$uid."";
-          echo $missErr;
+          echo "<div style=\"text-align: center;\" class=\"gray-text\">";
+          echo "You aren't currently teaching any courses.</div>";
         }
 
       ?>

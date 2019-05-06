@@ -60,8 +60,8 @@
   <title>
     Application Info
   </title>
-  <!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/>
   
   <style>
@@ -81,10 +81,15 @@
       text-align: left;
     }
   </style>
-  
-  <h1> Applicant Information </h1>
 
   <body>
+
+    <form class="menu-button" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+        <input type="submit" value="Menu" formaction="menu.php">
+    </form>
+
+    <h1> Applicant Information </h1>
+
     <b>Name: </b> <u> <?php echo $name; ?> </u> <br><br>
     <b>Student Number: </b> <u> <?php echo $_SESSION['applicantID']; ?> </u> <br><br>
     <b>Semester and Year of Application: </b> <u> <?php echo $semester." ".$year; ?> </u> <br><br>

@@ -27,7 +27,7 @@
             }
 
             //send to menu page if they don't have sufficient permissions
-            if($_SESSION['type']=="MS" || $_SESSION['type']=="PHD") {
+            if(!(in_array("secr", $_SESSION['types']) || in_array("admin", $_SESSION['types']) || in_array("adv", $_SESSION['types']))) {
                 header("Location: menu.php");
                 die();
             }
@@ -37,7 +37,10 @@
 
             //no UID search
             if(empty($_POST["uid"])) {
-                $query = "select fname, lname, uid, email, type from user where type = 'MS' or type = 'PHD'";
+                $query = "select fname, lname, uid, email, type from user where (type = 'MS' or type = 'PHD')";
+                if(in_array("adv", $_SESSION['types'])) {
+                    $query = $query." and advisor=".$_SESSION['uid'];
+                }
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
                     echo "<table>";
@@ -68,6 +71,9 @@
             //A specific UID was searched
             } else {
                 $query = "select fname, lname, uid, email, type from user where (type = 'MS' or type = 'PHD') and uid=".$_POST["uid"];
+                if(in_array("adv", $_SESSION['types'])) {
+                    $query = $query." and advisor=".$_SESSION['uid'];
+                }
                 $result = mysqli_query($connection, $query);
                 if (mysqli_num_rows($result) > 0) {
                     echo "<table>";

@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Karla');
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin');
 
 :root {
-  --main-color: #b33e99;
-  --main-font: 'Karla', sans-serif;
+  --main-color: #422dbb;
+  --main-font: 'Libre Franklin', sans-serif;
 }
 
 * {

@@ -20,11 +20,11 @@
   -->
       <?php
         session_start();
-        // // Send to login page if user is not logged in
-        // if(!$_SESSION['loggedin']) {
-        //     header("Location: login.php");
-        //     die();
-        // }
+        // Send to login page if user is not logged in
+        if(!$_SESSION['loggedin']) {
+            header("Location: login.php");
+            die();
+        }
 
         // Connect to database
         $conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");

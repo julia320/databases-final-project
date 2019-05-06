@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <head>
     <title>Received Documents</title>
-	<!-- <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />-->
+	<link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/> 
 </head>
 
@@ -10,10 +10,14 @@
 
 	<?php session_start(); 
 		// if they aren't the GS, redirect them
-		if ($_SESSION['type'] != 'secr') {
+		if (!in_array("secr", $_SESSION['types'])) {
         	header("Location: home.php");
         	die();
-    	}
+		}
+		
+		//"back to menu" button
+		echo "<div style=\"display: inline-block;\" class=\"menu-button\">";
+		echo "<form action=\"home.php\"><input type=\"submit\" value=\"Back\"/></form></div>";
 
     	// get the applicant the GS wants to update
     	$conn = mysqli_connect("localhost", "ARGv", "CSCI2541_sp19", "ARGv");

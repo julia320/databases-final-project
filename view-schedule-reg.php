@@ -26,7 +26,7 @@
         }
 
         //send to menu page if they don't have sufficient permissions
-        if(($_SESSION['type']=="secr")) {
+        if(!(in_array("MS", $_SESSION['types']) || in_array("PHD", $_SESSION['types']))) {
           header("Location: menu.php");
           die();
         }
@@ -47,7 +47,7 @@
 
         if (mysqli_num_rows($result) > 0) {
               echo "<table>";
-              echo "<thead><tr><th>Credits</th><th>Name</th><th>Course Number</th><th>Day</th><th>Time</th><th>Instructor</th><th>CRN</th><th>Location</th></tr></thead>";
+              echo "<thead><tr><th>Credits</th><th>Name</th><th>Course Number</th><th>Day</th><th>Time</th><th>CRN</th><th>Location</th></tr></thead>";
 
               while ($row = mysqli_fetch_assoc($result)) {
                   echo "<tr>";
@@ -57,7 +57,7 @@
                   echo "<td>" . $row["courseno"] . "</td>";
                   echo "<td>" . $row["day"] . "</td>";
                   echo "<td>" . $row["tme"] . "</td>";
-                  echo "<td>" . $row["instructor"] . "</td>";
+                  // echo "<td>" . $row["instructor"] . "</td>";
                   echo "<td>" . $row["crn"] . "</td>";
                   echo "<td>" . $row["location"] . "</td>";
 
