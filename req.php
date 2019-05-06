@@ -124,11 +124,11 @@
       }
       else 
       {
-  ?>
-        <span class="err">
-          That is not a course option
-        </span>
-  <?php
+
+        
+        echo "Error: " . $query . "<br/>" . mysqli_error($conn);
+        
+  
       }
       $query = "INSERT INTO requirements (program, GPA, NumCredits, Thesis, CScredits, nonCScourses, Blower, suspensionCount) VALUES ('$_POST[pChange]', '$_POST[gChange]', '$_POST[crChange]', '$_POST[thChange]', '$_POST[csChange]', '$_POST[nocsChange]', '$_POST[blowChange]','$_POST[suspChange]')";
       $result = mysqli_query($conn, $query);
@@ -536,3 +536,4 @@
 ?>
 </body>
 </html>
+
