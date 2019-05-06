@@ -60,8 +60,8 @@
 
         }
         else {
-          $missErr = "No courses associated with UID: ".$uid."";
-          echo $missErr;
+          echo "<div style=\"text-align: center;\" class=\"gray-text\">";
+          echo "You aren't currently teaching any courses.</div>";
         }
 
       ?>
