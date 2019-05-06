@@ -62,13 +62,6 @@
     }
 
 
-    if ($dataReady) {
-    	$sql = "UPDATE rec_letter SET recommendation = '".$rec."' WHERE uid=".$uid." AND recID=".$recID; 
-    	$result = mysqli_query($conn, $sql) or die ("Update query failed: ".mysqli_error($conn));
-    	die("<br><h2> Recommendation Letter Sent. Please Exit This Page </h2>");
-    }
-
-
     // Update status based on what they already have
     $result = mysqli_query($conn, "SELECT transcript FROM academic_info WHERE uid=".$uid);
     if (!$result) 
@@ -77,14 +70,23 @@
     $transcript = $row['transcript'];
 
     // if they have the transcript, then it is now complete
-    if ($transcript == 1)
-      $query = "UPDATE app_review SET status=5 WHERE uid=".$uid;
+    if ($row['transcript'] == 1) {
+      mysqli_query($conn, "UPDATE app_review SET status=5 WHERE uid=".$uid) or die ("Update status failed: ".mysqli_error($conn));
+    }
     // if transcript is missing, status is now 3
-    else
-      $query = "UPDATE app_review SET status=3 WHERE uid=".$uid;
+    else {
+      mysqli_query($conn, "UPDATE app_review SET status=3 WHERE uid=".$uid) or die ("Update status failed: ".mysqli_error($conn));
+    }
 
-    mysqli_query($conn, $query) or die ("Update status failed: ".mysqli_error($conn));
+    // put the result itself in if statement instead of queries 
     mysqli_query($conn, "UPDATE academic_info SET recletter=1 WHERE uid=".$uid);
+
+
+    if ($dataReady) {
+      $sql = "UPDATE rec_letter SET recommendation = '".$rec."' WHERE uid=".$uid." AND recID=".$recID; 
+      $result = mysqli_query($conn, $sql) or die ("Update query failed: ".mysqli_error($conn));
+      die("<br><h2> Recommendation Letter Sent. Please Exit This Page </h2>");
+    }
   }
 ?>
 

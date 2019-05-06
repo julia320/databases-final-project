@@ -41,7 +41,6 @@
 		if ($_FILES['transcript']['size'] > 1000000)
         	die("<p style='color:red;'>Exceeded filesize limit.</p>");
 
-		
 		// use prepared statement to escape quotes, etc in the file
 		$query = mysqli_prepare($conn, "UPDATE academic_info SET transcript_doc=?");
 		mysqli_stmt_bind_param($query, "s", $contents);
@@ -54,15 +53,17 @@
 	    if (!$result) echo "Error retrieving application info: ".mysqli_error();
 	    $row = $result->fetch_assoc();
 	    $rec = $row['recletter'];
+	    echo "rec is".$rec;
 
 	    // Mark transcript as received
 		mysqli_query($conn, "UPDATE academic_info SET transcript=1 WHERE uid=".$_SESSION['uid']);
 
 		// if they have the letter, then it is now complete
-	    if ($recletter == 1)
+	    if ($rec == 1) 
 	      mysqli_query($conn, "UPDATE app_review SET status=5 WHERE uid=".$_SESSION['uid']) or die ("Update status failed: ".mysqli_error($conn));
+	  
 	    // if letter is missing, status is now 4
-	    else
+	    else 
 	      mysqli_query($conn, "UPDATE app_review SET status=4 WHERE uid=".$_SESSION['uid']) or die ("Update status failed: ".mysqli_error($conn));
 
 		echo "<p>File uploaded sucessfully! You may now return to the home page to check your status.</p>";
