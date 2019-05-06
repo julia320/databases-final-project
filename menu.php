@@ -308,7 +308,7 @@
             $nextItem = true;
         }
 
-        //REPORTS
+         //REPORTS
         $reportPrompt = "";
         $reportAction = "";
         if (in_array("secr", $typeArray) ) {
@@ -324,10 +324,26 @@
             $nextItem = true;
         }
 
+        //CLEAR FOR GRADUATION
+        $gradPrompt = "";
+        $gradAction = "";
+        if (in_array("secr", $typeArray)) {
+            $gradAction = "cleartograd.php";
+            $gradPrompt = "Clear for Graduation";
+        } else {
+            $nextItem = false;
+        }
+
+        if ($nextItem) {
+            echo "<div class=\"main-menu\"><form action=\"" . $gradAction . "\"><input type=\"submit\" value=\"" . $gradPrompt . "\"/></form></div>";
+        } else {
+            $nextItem = true;
+        }
+
         //DONATE
         $donPrompt = "";
-        $donAction = "Alumni.php";
-        if (in_array("admin", $typeArray) || in_array("alum", $typeArray)) {
+        $donAction = "donate.php";
+        if (in_array("alum", $typeArray)) {
             $donPrompt = "Donate";
         } else {
             $nextItem = false;
