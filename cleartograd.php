@@ -18,9 +18,9 @@
 
     //Connect to database
     $servername = "localhost";
-    $username = "markeilblow";
-    $password = "Mercedes01123!!";
-    $dbname = "markeilblow";
+    $username = "ARGv";
+    $password = "CSCI2541_sp19";
+    $dbname = "ARGv";
     $connection = mysqli_connect($servername, $username, $password, $dbname);
     
     if (!$connection) 
