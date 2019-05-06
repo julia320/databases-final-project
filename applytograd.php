@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
     session_start();
-
+  
  ?>
 <html lang="en" dir="ltr">
   <head>
@@ -105,10 +105,10 @@
     <div class="title">Graduation Application</div>
   <?php
 
-        $server = "localhost";
-        $username = "ARGv";
-        $password = "CSCI2541_sp19";
-        $servername = "ARGv";
+	$server = "localhost";
+	$username = "ARGv";
+	$password = "CSCI2541_sp19";
+	$servername = "ARGv";
   $conn = mysqli_connect($server, $username, $password, $servername);
 
   if($mysqli->connect_error) {
@@ -124,7 +124,7 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
           form.GraduateForm{
             display: none;
           }
-
+          
         </style>
       <?php
     }
@@ -158,7 +158,7 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
               then check student courses for CSCI 6212, CSCI 6221, CSCI 6461
               then check GPA >= 3.0 and total Credits >= 30
               then COUNT courses NOT in CSCI, COUNT > 2
-              then CHECK COUNT lettergrade WHERE lettergrade = B, should be <= 2
+              then CHECK COUNT grade WHERE grade = B, should be <= 2
 
         */
         if (!empty($_POST["MSselect"])){
@@ -169,7 +169,7 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
           $row = mysqli_fetch_assoc($result);*/
           $query = "SELECT * FROM requirements WHERE program = 'MS'";
           $result = mysqli_query($conn, $query);
-                while ($row = mysqli_fetch_assoc($result)){
+          	while ($row = mysqli_fetch_assoc($result)){
 
             if($_SESSION["credits"] < $row["NumCredits"]){
               $creditErr = "You don't have enough credits";
@@ -208,7 +208,7 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
             </style>
             <?php
 
-            $query = "UPDATE user SET active = 'susp' WHERE u_id = '$_SESSION[uid]'";
+            $query = "UPDATE user SET active = 'susp' WHERE uid = '$_SESSION[uid]'";
             $result = mysqli_query($conn, $query);
             ?>
               <div class="suspension"> <?php echo $suspension; ?>  </div>
@@ -259,10 +259,11 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
             </style>
             <div class="Congrats"> Application Complete, your application is now under review</div>
             <?php
-            $query = "UPDATE user SET grad_status = 'ready' WHERE uid = '$_SESSION[uid]'";
+            $query = "UPDATE user SET grad_status = 'MS' WHERE uid = '$_SESSION[uid]'";
             $result = mysqli_query($conn, $query);
             $row = mysqli_fetch_assoc($result);
             $_SESSION["MSgranted"] = 'yes';
+            $_SESSION["grad_status"] = 'MS';
 
 
           }
@@ -280,7 +281,7 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
                   $query = "SELECT SUM (sc.credit), AVG(numgrade) FROM form1 f, student_courses sc, students s
                         WHERE f.uid = s.uid AND f.uid = sc.uid AND f.crn = sc.crn AND f.semYear = sc.semYear;"
                   then check if COUNT credits >= 30 in CSCI Department
-                  then check COUNT lettergrade should be <= 1 WHERE lettergrade = B
+                  then check COUNT grade should be <= 1 WHERE grade = B
                   then check if passed defense
               */
               if (!empty($_POST["PhDselect"])){
@@ -293,7 +294,7 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
 
                 $query = "SELECT * FROM requirements WHERE program = 'PhD'";
                 $result = mysqli_query($conn, $query);
-                        while ($row = mysqli_fetch_assoc($result)){
+                	while ($row = mysqli_fetch_assoc($result)){
                   if($_SESSION["credits"] < $row["NumCredits"]){
                     $creditErr = "You don't have enough credits";
                   }
@@ -323,7 +324,6 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
                   div.courseHistory{
                     display: none;
                   }
-
 
                   div.suspension{
                     top: 200px;
@@ -382,21 +382,17 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
                   <div class="Congrats"> Application Complete, your application is now under review</div>
                   <?php
                   if(!empty($_POST["PhDselect"]) && !empty($_POST["MSselect"]) && $_SESSION["MSgranted"] == 'yes'){
-                    $query = "UPDATE students SET grad_status = 'read' WHERE uid = '$_SESSION[uid]'";
+                    $query = "UPDATE user SET grad_status = 'MS/PhD' WHERE uid = '$_SESSION[uid]'";
                     $result = mysqli_query($conn, $query);
                     $row = mysqli_fetch_assoc($result);
+                    $_SESSION["grad_status"] = 'MS/PhD';
 
                   }
                   else{
-                  $query = "UPDATE user SET grad_status = 'ready' WHERE uid = '$_SESSION[uid]'";
-                    $result = mysqli_query($conn, $query);
-                    $row = mysqli_fetch_assoc($result);
-
-                  }
-                  else{
-                  $query = "UPDATE user SET grad_status = 'ready' WHERE uid = '$_SESSION[uid]'";
+                  $query = "UPDATE user SET grad_status = 'PhD' WHERE uid = '$_SESSION[uid]'";
                   $result = mysqli_query($conn, $query);
                   $row = mysqli_fetch_assoc($result);
+                  $_SESSION["grad_status"] = 'PhD';
                 }
 
                 }
@@ -425,7 +421,7 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
               then check GPA >= 3.0 and total Credits >= 30
               $query = Use INNER JOIN to match form1 and student_courses, this is to make sure student stayed consistant with schedule
               then COUNT courses NOT in CSCI, COUNT > 2
-              then CHECK COUNT lettergrade WHERE lettergrade = B, should be <= 2
+              then CHECK COUNT grade WHERE grade = B, should be <= 2
 
         */
 
@@ -436,25 +432,19 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
 
   ?>
  <?php
-  $query = "SELECT * FROM students WHERE u_id = '$_SESSION[uid]'";
+  $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR type = 'PHD'";
   $result = mysqli_query($conn, $query);
-    while ($row = mysqli_fetch_assoc($result)){
-        if($row["grad_status"] == NULL){
           ?>
           <form class = "GraduateForm"action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
                   <input type="submit" name="Graduate" value="Apply to Graduate">
                   <input type="radio" name="MSselect"> MS
                   <input type="radio" name="PhDselect"> PhD
-                  <input type="text" name="uidCheck" placeholder="Enter u_id" required>
+                  <input type="text" name="uidCheck" placeholder="Enter uid" required>
 
           </form>
 
-          <?php
 
-        }
-    }
-
-   ?>
+  
 
     <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
     <div class="signout">
@@ -468,20 +458,10 @@ $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]' AND type = 'MS' OR typ
 
   <?php
 
-  $query = "SELECT DISTINCT * FROM form1 f, student_courses s WHERE f.crn = s.crn and f.u_id = s.u_id AND s.u_id =  '$_SESSION[uid]'";
-
-  $result = mysqli_query($conn, $query);
-  while ($row = mysqli_fetch_assoc($result)){
-    ?>
-      <div class="courseHistory">
-          <span> <?php  echo "Course: " . $row["title"] . " Department: " . $row["dept"] . " Credits: " . $row["credit"] . "<br/ >"; ?></span>
-      </div>
-
-      <?php
-  }
+ 
 
 
-   
+
 if($_POST['signout']){
   session_unset();
   session_destroy();
@@ -494,40 +474,46 @@ if($_POST['signout']){
 <br>
 <ul class = "Report">
 <?php
-  $query = "SELECT SUM(s.credit) as credits FROM form1 f, student_courses s WHERE f.crn = s.crn and f.u_id = s.u_id AND s.u_id =  '$_SESSION[uid]' AND s.lettergrade NOT IN('IP')";
+  $query = "SELECT SUM(c.credits) as credits FROM transcript t, course c WHERE t.crn = c.crn AND t.uid =  '$_SESSION[uid]' AND t.grade NOT IN('IP')";
   $result = mysqli_query($conn, $query);
-  while($row = mysqli_fetch_assoc($result)){
-  $_SESSION["credits"] = $row["credits"];
+  while($row = mysqli_fetch_assoc($result))
+  {
+    $_SESSION["credits"] = $row["credits"];
 }
   ?>
 
 
-<li class="credits"> Total Credits: <?php echo $_SESSION["credits"]; ?></li>
+<li class="credit"> Total Credits: <?php echo $_SESSION["credits"]; ?></li>
 <span class = "err"> <?php echo $creditErr; ?> </span>
 
 
 <?php
-$query = "SELECT title, crn,lettergrade,numgrade,credit,semYear,dept FROM student_courses WHERE u_id = '$_SESSION[uid]'";
+    $query = "SELECT * FROM transcript t, course c WHERE uid = '$_SESSION[uid]' AND c.crn = t.crn";
     // Prepare a select statement
     $totalCredit = 0;
     $totalNumGrade = 0;
     $weightedGpa = 0;
     $_SESSION['numgrade'] = 0;
     $result = mysqli_query($conn, $query);
-    if ($result->num_rows > 0) {
+    if ($result->num_rows > 0) 
+    {
         //read all product data
         // output data of each row
-        while($row = $result->fetch_assoc()) {
-//$totalCredit = $totalCredit+ $row["credit"];
-if($row["lettergrade"]!= "IP"){
-$totalCredit = $totalCredit + $row["credit"];
-             // echo  $totalCredit;
-      $totalNumGrade = $totalNumGrade + $row["numgrade"];
-$weightedGpa = $weightedGpa + $row["credit"] * $row["numgrade"] ;
-$_SESSION['numgrade'] = $weightedGpa/$totalCredit;
-      }
+        while($row = $result->fetch_assoc()) 
+        {
+          //$totalCredit = $totalCredit+ $row["credit"];
+          if($row["grade"]!= "IP")
+          {
+            $totalCredit = $totalCredit + $row["credits"];
+             //	echo  $totalCredit;
+            $totalNumGrade = $totalNumGrade + $row["numgrade"];
+            $weightedGpa = $weightedGpa + $row["credits"] * $row["numgrade"] ;
+            $_SESSION['numgrade'] = $weightedGpa/$totalCredit;
+          }
+        }
     }
-}
+
+
 
 
 ?>
@@ -539,10 +525,10 @@ $_SESSION['numgrade'] = $weightedGpa/$totalCredit;
 
 
 
- $query = "SELECT COUNT(s.crn) as count FROM form1 f, student_courses s WHERE s.u_id = f.u_id AND f.crn = s.crn AND s.u_id = '$_SESSION[uid]' AND s.dept NOT IN (SELECT dept FROM student_courses sc WHERE u_id = '$_SESSION[uid]' AND sc.dept = 'csci')
- AND s.lettergrade NOT IN('IP') AND s.numgrade > 0";
+ $query = "SELECT COUNT(c.crn) as count FROM transcript t, course c WHERE t.crn = c.crn AND t.uid = '$_SESSION[uid]' AND c.dept != 'CSCI' AND t.grade != 'IP' AND t.numgrade > 0";
  $result = mysqli_query($conn, $query);
-while($row = mysqli_fetch_assoc($result)){
+while($row = mysqli_fetch_assoc($result))
+{
  $_SESSION['count'] = $row['count'];
 }
 
@@ -552,7 +538,7 @@ while($row = mysqli_fetch_assoc($result)){
  <span class = "err"> <?php echo $numCourseErr; ?> </span>
 
 <?php
- $query = "SELECT COUNT(s.lettergrade) as lettercount FROM form1 f, student_courses s WHERE s.u_id = f.u_id AND s.crn = f.crn AND s.u_id = '$_SESSION[uid]' AND numgrade < 3.0 AND lettergrade NOT IN('IP')";
+ $query = "SELECT COUNT(t.grade) as lettercount FROM transcript t WHERE t.uid = '$_SESSION[uid]' AND grade NOT IN('IP', 'A', 'B')";
  $result = mysqli_query($conn, $query);
 while($row = mysqli_fetch_assoc($result)){
  $_SESSION['lettercount'] = $row['lettercount'];
@@ -564,13 +550,13 @@ while($row = mysqli_fetch_assoc($result)){
    <span class = "err"> <?php echo $BlowerErr; ?> </span>
 
 <?php
-$query = "SELECT COUNT(*) as MStaken FROM student_courses sc, corereq cr WHERE sc.crn = cr.crn AND sc.dept = cr.dept AND cr.program = 'MS' AND u_id = '$_SESSION[uid]' AND lettergrade NOT IN('IP') AND numgrade > 0.0";
+$query = "SELECT COUNT(*) as MStaken FROM transcript t, corereq cr, course c WHERE t.crn = c.crn AND c.courseno = cr.courseno AND cr.program = 'MS' AND t.uid = '$_SESSION[uid]' AND grade NOT IN('IP') AND numgrade > 0.0";
 $result = mysqli_query($conn, $query);
 while($row = mysqli_fetch_assoc($result)){
 $_SESSION['MStaken'] = $row['MStaken'];
 }
 
-$query = "SELECT COUNT(*) as PhDtaken FROM student_courses sc, corereq cr WHERE sc.crn = cr.crn AND sc.dept = cr.dept AND cr.program = 'PhD' AND u_id = '$_SESSION[uid]' AND lettergrade NOT IN('IP') AND numgrade > 0.0";
+$query = "SELECT COUNT(*) as PhDtaken FROM transcript t, corereq cr, course c WHERE t.crn = c.crn AND c.courseno = cr.courseno AND cr.program = 'PhD' AND t.uid = '$_SESSION[uid]' AND grade NOT IN('IP') AND numgrade > 0.0";
 $result = mysqli_query($conn, $query);
 while($row = mysqli_fetch_assoc($result)){
 $_SESSION['PhDtaken'] = $row['PhDtaken'];
@@ -602,7 +588,7 @@ if($_SESSION['MStaken'] < $_SESSION['MScount']){
 else{
   $_SESSION['MSreq'] = 'complete';
 }
-
+//echo $_SESSION['MStaken'] . $_SESSION['MScount'];
 if($_SESSION['PhDtaken'] < $_SESSION['PhDcount']){
     $_SESSION['PhDreq'] = 'incomplete';
 }
@@ -610,6 +596,7 @@ else{
   $_SESSION['PhDreq'] = 'complete';
 }
 }
+
       ?>
       <br>
       <li class ="requiredCourses"> Masters Course Check: <?php echo $_SESSION['MSreq']; ?></li>
@@ -617,6 +604,9 @@ else{
       <br>
       <li class ="requiredCourses"> PhD Course Check <?php echo $_SESSION['PhDreq']; ?></li>
       <span class = "err"><?php echo $PhDreqErr; ?></span>
+      <?php
+
+
 
 //check if thesis is yes or no
 $query = "SELECT Thesis FROM requirements WHERE program = 'MS'";
@@ -638,7 +628,7 @@ while($row = mysqli_fetch_assoc($result)){
 
 }
 
-$query = "SELECT status FROM thesis_status WHERE u_id = '$_SESSION[uid]'";
+$query = "SELECT status FROM thesis_status WHERE uid = '$_SESSION[uid]'";
 $result = mysqli_query($conn, $query);
 $_SESSION["thesis"] = 'NA';
 while($row = mysqli_fetch_assoc($result)){
@@ -669,3 +659,4 @@ if (($result->num_rows) > 0){
 
    ?>
 </html>
+
