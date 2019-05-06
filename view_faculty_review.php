@@ -53,29 +53,7 @@
   $toefl = $value->toefl;
   $advYear = $value->advYear;
 
-  $sql = "SELECT institution FROM rec_letter WHERE uid = " .$_SESSION['applicantID'];
-  $result = mysqli_query($conn, $sql) or die ("************* REC LETTER SQL FAILED *************");
-  $value = mysqli_fetch_object($result);
-  $university = $value->institution;
-
-  // Review info:
-  $sql = "SELECT rating, generic, credible FROM rec_review WHERE uid=".$_SESSION['applicantID']." AND reviewer=".$reviewer;
-  $result = mysqli_query($conn, $sql) or die ("************* retrieve rec review SQL FAILED *************");
-  $value = mysqli_fetch_object($result);
-  $rating = $value->rating;
-  $generic = $value->generic;
-  $credible = $value->credible;
-  if($generic == 1){
-    $generic = "Yes";
-  } else {
-    $generic = "No";
-  }
-  if($credible == 1){
-    $credible = "Yes";
-  } else {
-    $credible = "No";
-  }
-
+  
   $sql = "SELECT comments, deficiency, rating, advisor FROM app_review WHERE uid=".$_SESSION['applicantID']." AND reviewer=".$reviewer;
   $result = mysqli_query($conn, $sql) or die ("************* retrieve app review SQL FAILED *************");
   $value = mysqli_fetch_object($result);
@@ -172,27 +150,52 @@
 
     <h2> Faculty Review </h2>
 
-    
-      <h3>Recommendation Letter </h3>
-      <b>From: </b> <u> <?php echo $university; ?> </u> <br>
-      <b>Faculty rating: </b> <u> <?php echo $rating; ?> </u> <br>
-      <b>Generic: </b> <u> <?php echo $generic; ?> </u> <br>
-      <b>credible: </b> <u> <?php echo $credible; ?> </u> <br><br>
+    <?php
+    /* Show recommendations with reviews */
+    $query = "SELECT * FROM rec_letter WHERE uid = " .$_SESSION['applicantID'];
+    $result = mysqli_query($conn, $query) or die ("************* REC LETTER SQL FAILED *************");
+    while ($value = $result->fetch_assoc()) {
+      echo "<h3>Recommendation ".($i+1)."</h3>";
+      echo "<b>From:</b> ".$value['fname']." ".$value['lname'].", ".$value['institution'];
+      echo"<br/><b>Recommendation: </b>\"".$value['recommendation']."\"<br/>";
+      $recid = $value['recID'];
 
-      <h3>Faculty Reviewer Action </h3>
-      <b>Recommended Action: </b> <u> <?php echo $action; ?> </u> <br>
-      (1=Reject, 2=Borderline admit, 3=Admit without aid, 4=Admit with aid)<br>
-      <b>Recommended Deficiency Courses: </b> <u> <?php echo $dificiency; ?> </u> <br>
-      <b>Recommended Advisor: </b> <u> <?php echo $advisor; ?> </u> <br>
-      <b>Faculty Reviewer Comments: </b> <br>
-      <textarea rows="4" cols="50"><?php echo $comments; ?> </textarea>
-    	
+      $sql2 = "SELECT rating, generic, credible FROM rec_review WHERE uid=".$_SESSION['applicantID']." AND reviewer=".$reviewer." AND recID=".$recid;
+      $result = mysqli_query($conn, $sql2) or die ("************ retrieve rec review SQL FAILED ************");
+      $value = mysqli_fetch_object($result);
+      $rating = $value->rating;
+      $generic = $value->generic;
+      $credible = $value->credible;
+      if($generic == 1){
+        $generic = "Yes";
+      } else {
+        $generic = "No";
+      }
+      if($credible == 1){
+        $credible = "Yes";
+      } else {
+        $credible = "No";
+      }
+      echo "<b>Faculty rating:</b> <u>".$rating."</u><br>
+        <b>Generic:</b> <u>".$generic."</u><br>
+        <b>credible:</b> <u>".$credible."</u><br><br>";
+    }// end recommendations
+    ?>
 
-      <?php
-      echo '<form id="mainform" method="post" action="application_form_review.php">
-	        <div class="bottomCentered"> <input type="button" value="Back" onclick="history.back()"> </div>
-	        </form>';
-      ?>
+    <h3>Faculty Reviewer Action </h3>
+    <b>Recommended Action: </b> <u> <?php echo $action; ?> </u> <br>
+    (1=Reject, 2=Borderline admit, 3=Admit without aid, 4=Admit with aid)<br>
+    <b>Recommended Deficiency Courses: </b> <u> <?php echo $dificiency; ?> </u> <br>
+    <b>Recommended Advisor: </b> <u> <?php echo $advisor; ?> </u> <br>
+    <b>Faculty Reviewer Comments: </b> <br>
+    <textarea rows="4" cols="50"><?php echo $comments; ?> </textarea>
+  	
+
+    <?php
+    echo '<form id="mainform" method="post" action="application_form_review.php">
+        <div class="bottomCentered"> <input type="button" value="Back" onclick="history.back()"> </div>
+        </form>';
+    ?>
 
   </body>
 </html>
