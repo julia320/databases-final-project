@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <title>Donation Page</title>
     <style type = "text/css">
-        body{
+        /* body{
           background-color: grey;
         }
         div.alumni-info{
@@ -49,7 +49,7 @@
 
         div.student-info{
           float:left;
-        }
+        } */
 
     </style>
   </head>
@@ -67,7 +67,11 @@
 
   ?>
 
-  <div class="title">Make a Donation</div>
+  <form class="menu-button" action="menu.php">
+    <input type="submit" value="Menu" formaction="menu.php">
+  </form>
+
+  <h2>Make a Donation</h2><hr>
 
   <?php
 
@@ -75,12 +79,13 @@
     {
      die("Connection failed: " . mysqli_connect_error());
    }
+   echo '<div style="text-align: center;">';
 
    $query = "SELECT * FROM user WHERE uid = '$_SESSION[uid]'";
    $result = mysqli_query($conn, $query);
    while($row = $result->fetch_assoc()) 
    {
-    echo $row["fname"] . ", you have now donated a total of $" . $row["donation"] . "<br /><br />";
+    echo $row["fname"] . ", you have now donated a total of $" . $row["donation"] . ".<br /><br />";
     echo "Thank you for helping to keep the university afloat! <br/><br/>";
    }
    
@@ -110,10 +115,11 @@
         $amount = $_POST['donateAmount'];
         $query = "UPDATE user SET donation = donation + $amount WHERE uid = '$_SESSION[uid]'";
         $result = mysqli_query($conn, $query);
-        echo "Thank you for your donation";
+        echo "Thank you for your donation.";
         header("Location: donate.php");
       }
 
+      echo '</div>';
 
 
    ?>
