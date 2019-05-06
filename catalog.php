@@ -43,7 +43,7 @@ session_start();
 
 <!-- This code is the main page and provides the dropdown button and search button -->
 <head>
-    <title>The Advisor</title>
+    <title>Course Catalog</title>
     <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
     <link rel = "stylesheet" type="text/css" href="style.css"/>
@@ -56,9 +56,11 @@ session_start();
         die("Connection failed: " . mysqli_connect_error());
     ?>
 
+    <form class="menu-button" action="menu.php">
+            <input type="submit" value="Menu" formaction="menu.php">
+        </form>
 
-    <div class="title">Course Catalog</div>
-    </br></br>
+    <h2>Course Catalog</h2><hr>
 
     <!-- This is where i have the main table declaration-->
     <table style="width:100%">
