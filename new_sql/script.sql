@@ -183,7 +183,7 @@ CREATE TABLE rec_review (
   generic boolean, 
   credible boolean,
   recID int,
-  PRIMARY KEY (uid, reviewer),
+  PRIMARY KEY (uid, reviewer, recID),
   FOREIGN KEY (uid) REFERENCES user(uid),
   FOREIGN KEY (reviewer) REFERENCES user(uid),
   FOREIGN KEY (recID) REFERENCES rec_letter(recID)
