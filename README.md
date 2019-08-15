@@ -5,4 +5,4 @@ that system with two other groups who had done the registration and advising sys
 
 Link to website: http://gwupyterhub.seas.gwu.edu/~sp19DBp2-ARGv/ARGv/login.php
 
-### FYI, The server this is hosted on may eventually be taken down but I don't know when
+### FYI, the server this is hosted on may eventually be taken down and you must be on the GW network to access it
